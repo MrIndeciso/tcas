@@ -1,6 +1,6 @@
-OBJS	= parser.o rpn_parser.o test.o
-SOURCE	= parser.c rpn_parser.c test.c
-HEADER	= parser.h rpn_parser.h ../types/tokenizer_structs.h ../types/parser_structs.h ../types/parser_enums.h
+OBJS	= parser.o rpn_parser.o test.o util.o ../xml/xml.o
+SOURCE	= parser.c rpn_parser.c test.c util.c ../xml/xml.c
+HEADER	= parser.h rpn_parser.h util.h ../xml/xml.h ../types/tokenizer_structs.h ../types/parser_structs.h ../types/parser_enums.h
 OUT	= test
 CC	 = gcc
 FLAGS	 = -g -c -Wall

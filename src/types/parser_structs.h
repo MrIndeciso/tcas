@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 #include "parser_enums.h"
+#include "tokenizer_structs.h"
 
 struct graph_node {
 	struct token token;

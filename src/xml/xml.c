@@ -96,7 +96,10 @@ void inline_tag(struct xml *xml, char *name, char *value, int attribute_count, .
 
 	lf_indent(xml);
 
-	fprintf(xml->xml_file, "<%s>%s</%s>", text, value, name);
+	if (value != NULL)
+		fprintf(xml->xml_file, "<%s>%s</%s>", text, value, name);
+	else
+		fprintf(xml->xml_file, "<%s/>", text);
 
 	free(text);
 }
