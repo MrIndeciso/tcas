@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#include "tokenizer_structs.h"
+#include "../types/tokenizer_structs.h"
 
 void tokenize(size_t len, char *expr, size_t *count, struct token *tkn);
 

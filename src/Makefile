@@ -1,6 +1,6 @@
 OBJS	= tcas.o test.o
 SOURCE	= tcas.c test.c
-HEADER	= tcas.h tcas_structs.h tcas_enums.h
+HEADER	= tcas.h types/tcas_structs.h types/tcas_enums.h
 OUT	= test
 CC	 = gcc
 FLAGS	 = -g -c -Wall

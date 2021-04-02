@@ -1,6 +1,6 @@
 OBJS	= test.o tokenizer.o
 SOURCE	= test.c tokenizer.c
-HEADER	= tokenizer.h tokenizer_structs.h
+HEADER	= tokenizer.h ../types/tokenizer_structs.h
 OUT	= test
 CC	 = gcc
 FLAGS	 = -g -c -Wall

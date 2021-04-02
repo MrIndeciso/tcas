@@ -1,0 +1,10 @@
+#ifndef PARSER_ENUMS_H
+#define PARSER_ENUMS_H
+
+enum PARSER_MODE {
+	MODE_STANDARD,
+	MODE_RPN,
+	MODE_CUSTOM_RPN
+};
+
+#endif
