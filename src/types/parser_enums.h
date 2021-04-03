@@ -7,4 +7,24 @@ enum PARSER_MODE {
 	MODE_CUSTOM_RPN
 };
 
+enum LINKED_TYPE {
+	OPERATOR,
+	VALUE
+};
+
+enum OPERATOR_TYPE {
+	PLUS,
+	MINUS,
+	TIMES,
+	OBELUS,
+	SQRT,
+	SIN,
+	COS,
+	TAN,
+	POWER,
+	ROOT,
+	LOG,
+	LN,
+};
+
 #endif

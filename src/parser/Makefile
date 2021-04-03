@@ -21,3 +21,4 @@ test.o: test.c
 
 clean:
 	rm -f $(OBJS) $(OUT)
+	rm -f *.xml

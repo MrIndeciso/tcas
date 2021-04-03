@@ -6,10 +6,12 @@
 #include "util.h"
 
 int test1();
+int test2();
 
 int main() {
 	int return_value = 0;
 	return_value += test1();
+	return_value += test2();
 	return return_value;
 }
 
@@ -48,5 +50,11 @@ int test1() {
 
 	export_graph_to_xml("test1.xml", &head);
 
+	//recursive_graph_free(&head); Cannot free as I didn't malloc it
+
+	return 0;
+}
+
+int test2() {
 	return 0;
 }
