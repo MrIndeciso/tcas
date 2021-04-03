@@ -12,6 +12,7 @@ int test1();
 int test2();
 int test3();
 int test4();
+int test5();
 
 int main() {
 	int return_value = 0;
@@ -19,6 +20,7 @@ int main() {
 	return_value += test2();
 	return_value += test3();
 	return_value += test4();
+	return_value += test5();
 	return return_value;
 }
 
@@ -90,6 +92,8 @@ int test3() {
 
 	export_adv_graph_to_xml("test3.xml", head);
 
+	recursive_adv_graph_free(head);
+
 	printf("Test3 passed!\n");
 
 	return 0;
@@ -109,7 +113,30 @@ int test4() {
 
 	export_adv_graph_to_xml("test4.xml", head);
 
+	recursive_adv_graph_free(head);
+
 	printf("Test4 passed!\n");
+
+	return 0;
+}
+
+int test5() {
+	char *expr = "* log - / sqrt sin cos tan ^ root ln 8 10 275 98 + 7 4 / * 28 9 - 15 log 22 + 13 9";
+	size_t len = strlen(expr), count;
+
+	tokenize(len, expr, &count, NULL);
+
+	struct token *tkn = malloc(count * sizeof(struct token));
+
+	tokenize(len, expr, &count, tkn);
+
+	struct graph_link *head = rpn_parse(count, tkn);
+
+	export_adv_graph_to_xml("test5.xml", head);
+
+	recursive_adv_graph_free(head);
+
+	printf("Test5 passed!\n");
 
 	return 0;
 }

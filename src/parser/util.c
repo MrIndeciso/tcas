@@ -16,6 +16,22 @@ void recursive_graph_free(struct graph_node *head) {
 	free(head);
 }
 
+void recursive_adv_graph_free(struct graph_link *link) {
+	assert(link != NULL);
+
+	if (link->type == OPERATOR) {
+		for (int i = 0; i < link->ptr->op->children_count; i++)
+			recursive_adv_graph_free(link->ptr->op->children[i]);
+
+		free(link->ptr->op);
+	} else {
+		free(link->ptr->value);
+	}
+
+	free(link->ptr);
+	free(link);
+}
+
 void export_graph_to_xml(char *filename, struct graph_node *head) {
 	struct xml *xml = open_xml(filename);
 	
