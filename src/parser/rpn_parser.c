@@ -1,34 +1,50 @@
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "rpn_parser.h"
+#include "rpn_defs.h"
 
-static struct graph_node* tokens_to_basic_graph(size_t size, struct token *tkn);
+static int pointer_pos = 0;
 
-struct graph_node* rpn_parse(size_t len, struct token *tkn) {
-	struct graph_node *basic_graph = tokens_to_basic_graph(len, tkn);
+static struct graph_link* parse_token(struct token *tkn);
+
+struct graph_link* rpn_parse(size_t len, struct token *tkn) {
+	pointer_pos = 0;
+	return parse_token(tkn);
 }
 
-static struct graph_node* tokens_to_basic_graph(size_t size, struct token *tkn) {
-	struct graph_node *head = malloc(sizeof(struct graph_node));
-	head->token = tkn[0];
-	head->children_count = 1;
-	head->children = malloc(sizeof(struct graph_node*));
+static struct graph_link* parse_token(struct token *tkn) {
+	struct graph_link *link = malloc(sizeof(struct graph_link));
+	link->ptr = malloc(sizeof(union graph_linked_ptr));
 
-	struct graph_node *node = malloc(sizeof(struct graph_node));
-	
-	head->children[0] = node;
+	printf("--%d\n", pointer_pos);
 
-	for (int i = 1; i < size; i++) {
-		node->token = tkn[i];
-		node->children_count = 1;
-		node->children = malloc(sizeof(struct graph_node*));
-		struct graph_node *next = malloc(sizeof(struct graph_node));
-		node->children[0] = next;
+	printf("%s\n", tkn[pointer_pos].token);
 
-		node = next;
+	printf("%d", op_from_token(tkn[pointer_pos].token));
+
+	if (op_from_token(tkn[pointer_pos].token) != UNKNOWN) {
+		printf("Not unknown!\n");
+
+		link->type = OPERATOR;
+		link->ptr->op = malloc(sizeof(struct graph_operator));
+		link->ptr->op->type = op_from_token(tkn[pointer_pos].token);
+		link->ptr->op->children_count = op_arg_count(link->ptr->op->type);
+		link->ptr->op->children = malloc(link->ptr->op->children_count * sizeof(struct graph_link*));
+		for (int i = 0; i < link->ptr->op->children_count; i++) {
+			pointer_pos++;
+			link->ptr->op->children[i] = parse_token(tkn);
+		}
+	} else {
+		printf("Unknown!\n");
+
+		link->type = VALUE;
+		link->ptr->value = malloc(sizeof(struct graph_value));
+		strcpy(link->ptr->value->content, tkn[pointer_pos].token);
 	}
 
-	return head;
+	return link;
 }
 
 

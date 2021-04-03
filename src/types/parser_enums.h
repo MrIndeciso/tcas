@@ -16,7 +16,7 @@ enum OPERATOR_TYPE {
 	PLUS,
 	MINUS,
 	TIMES,
-	OBELUS,
+	DIVIDE,
 	SQRT,
 	SIN,
 	COS,
@@ -25,6 +25,7 @@ enum OPERATOR_TYPE {
 	ROOT,
 	LOG,
 	LN,
+	UNKNOWN
 };
 
 #endif

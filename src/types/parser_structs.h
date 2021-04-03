@@ -25,13 +25,13 @@ union graph_linked_ptr {
 
 struct graph_link {
 	enum LINKED_TYPE type;
-	union graph_linked_ptr ptr;
+	union graph_linked_ptr *ptr;
 };
 
 struct graph_operator {
 	enum OPERATOR_TYPE type;
 	size_t children_count;
-	struct graph_link *children;
+	struct graph_link **children;
 };
 
 struct graph_value {
