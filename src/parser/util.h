@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef PARSER_UTIL_H
+#define PARSER_UTIL_H
 
 #include "../types/parser_structs.h"
 #include "../xml/xml.h"
