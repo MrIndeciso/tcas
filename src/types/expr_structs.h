@@ -8,40 +8,40 @@
 #include "parser_enums.h"
 
 enum VAL_TYPE {
-	INT,
-	RATIONAL,
-	FLOAT,
+    INT,
+    RATIONAL,
+    FLOAT,
 };
 
 struct expr_tree_head {
-	struct expr_tree_link *head;
+    struct expr_tree_link *head;
 };
 
 struct expr_tree_op {
-	enum OPERATOR_TYPE type;
-	size_t arg_count;
-	struct expr_tree_link **args;
+    enum OPERATOR_TYPE type;
+    size_t arg_count;
+    struct expr_tree_link **args;
 };
 
 struct expr_tree_val {
-	enum VAL_TYPE type;
-	union expr_tree_val_ref *val;
+    enum VAL_TYPE type;
+    union expr_tree_val_ref *val;
 };
 
 struct expr_tree_link {
-	enum LINKED_TYPE type;
-	union expr_tree_ptr *ptr;
+    enum LINKED_TYPE type;
+    union expr_tree_ptr *ptr;
 };
 
 union expr_tree_ptr {
-	struct expr_tree_val *val;
-	struct expr_tree_op *op;
+    struct expr_tree_val *val;
+    struct expr_tree_op *op;
 };
 
 union expr_tree_val_ref {
-	mpz_t int_val;
-	mpq_t rational_val;
-	mpf_t fp_val;
+    mpz_t int_val;
+    mpq_t rational_val;
+    mpf_t fp_val;
 };
 
 

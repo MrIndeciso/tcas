@@ -6,8 +6,8 @@
 #define TOKEN_MAX_LENGTH 64
 
 struct token {
-	size_t len;
-	char token[TOKEN_MAX_LENGTH];
+    size_t len;
+    char token[TOKEN_MAX_LENGTH];
 };
 
 #endif

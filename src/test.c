@@ -3,5 +3,8 @@
 #include "tcas.h"
 
 int main() {
-	return 0;
+
+    printf("Test\n");
+
+    return 0;
 }

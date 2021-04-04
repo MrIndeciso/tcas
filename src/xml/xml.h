@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 struct xml {
-	FILE *xml_file;
-	int indent_num;
+    FILE *xml_file;
+    int indent_num;
 };
 
 struct xml* open_xml(const char *filename);

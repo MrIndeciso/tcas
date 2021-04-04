@@ -8,78 +8,78 @@ static void export_node(struct xml *xml, struct graph_node *node);
 static void export_link(struct xml *xml, struct graph_link *link);
 
 void recursive_graph_free(struct graph_node *head) {
-	assert(head != NULL);
+    assert(head != NULL);
 
-	for (int i = 0; i < head->children_count; i++)
-		recursive_graph_free(head->children[i]);
+    for (int i = 0; i < head->children_count; i++)
+        recursive_graph_free(head->children[i]);
 
-	free(head);
+    free(head);
 }
 
 void recursive_adv_graph_free(struct graph_link *link) {
-	assert(link != NULL);
+    assert(link != NULL);
 
-	if (link->type == OPERATOR) {
-		for (int i = 0; i < link->ptr->op->children_count; i++)
-			recursive_adv_graph_free(link->ptr->op->children[i]);
+    if (link->type == OPERATOR) {
+        for (int i = 0; i < link->ptr->op->children_count; i++)
+            recursive_adv_graph_free(link->ptr->op->children[i]);
 
-		free(link->ptr->op);
-	} else {
-		free(link->ptr->value);
-	}
+        free(link->ptr->op);
+    } else {
+        free(link->ptr->value);
+    }
 
-	free(link->ptr);
-	free(link);
+    free(link->ptr);
+    free(link);
 }
 
 void export_graph_to_xml(char *filename, struct graph_node *head) {
-	struct xml *xml = open_xml(filename);
-	
-	export_node(xml, head);
+    struct xml *xml = open_xml(filename);
 
-	close_xml(xml);
+    export_node(xml, head);
+
+    close_xml(xml);
 }
 
 static void export_node(struct xml *xml, struct graph_node *node) {
-	if (node->children_count > 0) {
-		char *buffer = malloc(32);
-		snprintf(buffer, 32, "%d", (int) node->children_count);
+    if (node->children_count > 0) {
+        char *buffer = malloc(32);
+        snprintf(buffer, 32, "%d", (int) node->children_count);
 
-		open_tag(xml, "node", 4, "token", node->token.token, "childrenCount", buffer);
+        open_tag(xml, "node", 4, "token", node->token.token, "childrenCount", buffer);
 
-		free(buffer);
+        free(buffer);
 
-		for (int i = 0; i < node->children_count; i++)
-			export_node(xml, node->children[i]);
+        for (int i = 0; i < node->children_count; i++)
+            export_node(xml, node->children[i]);
 
-		close_tag(xml, "node");
-	} else {
-		inline_tag(xml, "node", NULL, 2, "token", node->token.token);
-	}
+        close_tag(xml, "node");
+    } else {
+        inline_tag(xml, "node", NULL, 2, "token", node->token.token);
+    }
 }
 
 void export_adv_graph_to_xml(char *filename, struct graph_link *head) {
-	struct xml *xml = open_xml(filename);
+    struct xml *xml = open_xml(filename);
 
-	export_link(xml, head);
+    export_link(xml, head);
 
-	close_xml(xml);
+    close_xml(xml);
 }
 
 static void export_link(struct xml *xml, struct graph_link *link) {
-	if (link->type == VALUE) {
-		inline_tag(xml, "value", link->ptr->value->content, 0);
-	} else {
-		char *buffer = malloc(32);
-		snprintf(buffer, 32, "%d", (int) link->ptr->op->children_count);
+    if (link->type == VALUE) {
+        inline_tag(xml, "value", link->ptr->value->content, 0);
+    } else {
+        char *buffer = malloc(32);
+        snprintf(buffer, 32, "%d", (int) link->ptr->op->children_count);
 
-		open_tag(xml, "operator", 4, "type", op_value_from_type[link->ptr->op->type], "children_count", buffer);
+        open_tag(xml, "operator", 4, "type", op_value_from_type[link->ptr->op->type], "children_count", buffer);
 
-		free(buffer);
+        free(buffer);
 
-		for (int i = 0; i < link->ptr->op->children_count; i++)
-			export_link(xml, link->ptr->op->children[i]);
+        for (int i = 0; i < link->ptr->op->children_count; i++)
+            export_link(xml, link->ptr->op->children[i]);
 
-		close_tag(xml, "operator");
-	}
+        close_tag(xml, "operator");
+    }
 }

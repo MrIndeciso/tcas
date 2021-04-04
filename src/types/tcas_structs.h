@@ -5,7 +5,7 @@
 #include "tcas_enums.h"
 
 typedef struct {
-	PARSER_TYPE type;
+    PARSER_TYPE type;
 } TCAS_SETTINGS;
 
 
