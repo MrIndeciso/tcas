@@ -7,6 +7,7 @@
 #include "math.h"
 #include "debug_util.h"
 #include "util.h"
+#include "mem_util.h"
 #include "translator_util.h"
 
 TCAS_OP_RESULT evaluate_simple_expr(size_t len, char *expr, TCAS_SETTINGS *settings) {
@@ -30,6 +31,8 @@ TCAS_OP_RESULT evaluate_simple_expr(size_t len, char *expr, TCAS_SETTINGS *setti
     struct expr_tree_link *res = math_eval_op(expr_head->head);
 
     print_val(res->ptr->val);
+
+    free_tree_link(res);
 
     return SUCCESS;
 }

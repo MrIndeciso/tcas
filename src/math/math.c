@@ -9,8 +9,15 @@
 struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
     assert(link != NULL);
 
-    for (size_t i = 0; i < link->ptr->op->arg_count; i++)
+    for (size_t i = 0; i < link->ptr->op->arg_count; i++) {
+        struct expr_tree_link *arg = link->ptr->op->args[i];
+
+        if (arg->type == OPERATOR) {
+            link->ptr->op->args[i] = math_eval_op(arg);
+        }
+
         assert(link->ptr->op->args[i]->type == VALUE);
+    }
 
     struct expr_tree_val *result = NULL;
 
