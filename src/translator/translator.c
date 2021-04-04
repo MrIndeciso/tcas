@@ -31,8 +31,7 @@ static struct expr_tree_link* parse(struct graph_link *glink) {
         link->ptr->val = malloc(sizeof(struct expr_tree_val));
         link->ptr->val->val = malloc(sizeof(union expr_tree_val_ref));
         link->ptr->val->type = INT;
-        mpz_init(link->ptr->val->val->int_val);
-        mpz_set_str(link->ptr->val->val->int_val, glink->ptr->value->content, 10);
+        mpz_init_set_str(link->ptr->val->val->int_val, glink->ptr->value->content, 10);
     }
 
     return link;

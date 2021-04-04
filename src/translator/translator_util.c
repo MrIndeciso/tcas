@@ -39,7 +39,7 @@ static void export_tree_link(struct xml *xml, struct expr_tree_link *link) {
 
         free(buffer);
 
-        for (int i = 0; i < link->ptr->op->arg_count; i++)
+        for (size_t i = 0; i < link->ptr->op->arg_count; i++)
             export_tree_link(xml, link->ptr->op->args[i]);
 
         close_tag(xml, "operator");
