@@ -10,8 +10,7 @@
 #include "mem_util.h"
 #include "translator_util.h"
 
-TCAS_OP_RESULT evaluate_simple_expr(size_t len, char *expr, TCAS_SETTINGS *settings) {
-
+struct expr_tree_val* evaluate_simple_expr(size_t len, char *expr, struct TCAS_SETTINGS settings) {
     size_t count;
 
     tokenize(len, expr, &count, NULL);
@@ -20,7 +19,7 @@ TCAS_OP_RESULT evaluate_simple_expr(size_t len, char *expr, TCAS_SETTINGS *setti
 
     tokenize(len, expr, &count, tkn);
 
-    struct graph_link *head = parse(count, tkn, settings->type);
+    struct graph_link *head = parse(count, tkn, settings.type);
 
     free(tkn);
 
@@ -30,9 +29,9 @@ TCAS_OP_RESULT evaluate_simple_expr(size_t len, char *expr, TCAS_SETTINGS *setti
 
     struct expr_tree_link *res = math_eval_op(expr_head->head);
 
-    print_val(res->ptr->val);
+    struct expr_tree_val *val = res->ptr->val;
 
-    free_tree_link(res);
+    free(res);
 
-    return SUCCESS;
+    return val;
 }

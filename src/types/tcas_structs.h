@@ -4,9 +4,9 @@
 #include "parser_enums.h"
 #include "tcas_enums.h"
 
-typedef struct {
+struct TCAS_SETTINGS {
     enum PARSER_MODE type;
-} TCAS_SETTINGS;
+};
 
 
 #endif

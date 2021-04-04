@@ -24,6 +24,7 @@ include_directories(
     src/util
     src/math/basic
     src/xml
+    src/test
 )
 
 set (SRCS
@@ -61,10 +62,20 @@ set (SRCS
     src/math/basic/plus.c
     src/tcas.c
     src/tcas.h
-    src/test.c
 )
 
+set (CLI_SRCS
+    src/tcas_cli.c
+)
 
-add_executable(${CMAKE_PROJECT_NAME} ${SRCS})
+set (TEST_SRCS
+    src/test.c
+    src/test/test_util.h
+    src/test/test_util.c
+)
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${GMP})
+add_executable(tcas_cli ${SRCS} ${CLI_SRCS})
+add_executable(test ${SRCS} ${TEST_SRCS})
+
+target_link_libraries(tcas_cli ${GMP})
+target_link_libraries(test ${GMP})

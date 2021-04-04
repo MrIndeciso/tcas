@@ -5,7 +5,8 @@
 
 #include "tcas_enums.h"
 #include "tcas_structs.h"
+#include "expr_structs.h"
 
-TCAS_OP_RESULT evaluate_simple_expr(size_t len, char *expr, TCAS_SETTINGS *settings);
+struct expr_tree_val* evaluate_simple_expr(size_t len, char *expr, struct TCAS_SETTINGS settings);
 
 #endif
