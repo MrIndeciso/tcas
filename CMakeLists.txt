@@ -20,6 +20,9 @@ include_directories(
     src/tokenizer
     src/translator
     src/types
+    src/math
+    src/util
+    src/math/basic
     src/xml
 )
 
@@ -48,8 +51,14 @@ set (SRCS
     src/types/tokenizer_structs.h
     src/xml/xml.c
     src/xml/xml.h
+    src/util/mem_util.h
+    src/util/mem_util.c
+    src/util/debug_util.h
+    src/util/debug_util.c
     src/math/math.h
     src/math/math.c
+    src/math/basic/plus.h
+    src/math/basic/plus.c
     src/tcas.c
     src/tcas.h
     src/test.c

@@ -7,31 +7,6 @@
 static void export_node(struct xml *xml, struct graph_node *node);
 static void export_link(struct xml *xml, struct graph_link *link);
 
-void recursive_graph_free(struct graph_node *head) {
-    assert(head != NULL);
-
-    for (size_t i = 0; i < head->children_count; i++)
-        recursive_graph_free(head->children[i]);
-
-    free(head);
-}
-
-void recursive_adv_graph_free(struct graph_link *link) {
-    assert(link != NULL);
-
-    if (link->type == OPERATOR) {
-        for (size_t i = 0; i < link->ptr->op->children_count; i++)
-            recursive_adv_graph_free(link->ptr->op->children[i]);
-
-        free(link->ptr->op);
-    } else {
-        free(link->ptr->value);
-    }
-
-    free(link->ptr);
-    free(link);
-}
-
 void export_graph_to_xml(char *filename, struct graph_node *head) {
     struct xml *xml = open_xml(filename);
 

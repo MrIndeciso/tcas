@@ -6,16 +6,7 @@
 #include "rpn_defs.h"
 #include "xml.h"
 
-static void free_tree_link(struct expr_tree_link *link);
 static void export_tree_link(struct xml *xml, struct expr_tree_link *link);
-
-void recursive_expr_tree_free(struct expr_tree_head *head) {
-    assert(head->head != NULL);
-
-    free_tree_link(head->head);
-
-    free(head);
-}
 
 void export_expr_tree_to_xml(char *filename, struct expr_tree_head *head) {
     struct xml *xml = open_xml(filename);
@@ -23,29 +14,6 @@ void export_expr_tree_to_xml(char *filename, struct expr_tree_head *head) {
     export_tree_link(xml, head->head);
 
     close_xml(xml);
-}
-
-static void free_tree_link(struct expr_tree_link *link) {
-    if (link->type == OPERATOR) {
-        for (int i = 0; i < link->ptr->op->arg_count; i++)
-            free_tree_link(link->ptr->op->args[i]);
-
-        free(link->ptr->op->args);
-        free(link->ptr->op);
-    } else {
-        if (link->ptr->val->type == INT) {
-            mpz_clear(link->ptr->val->val->int_val);
-        } else if (link->ptr->val->type == RATIONAL) {
-            mpq_clear(link->ptr->val->val->rational_val);
-        } else {
-            mpf_clear(link->ptr->val->val->fp_val);
-        }
-        free(link->ptr->val->val);
-        free(link->ptr->val);
-    }
-
-    free(link->ptr);
-    free(link);
 }
 
 static void export_tree_link(struct xml *xml, struct expr_tree_link *link) {

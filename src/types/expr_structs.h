@@ -8,9 +8,9 @@
 #include "parser_enums.h"
 
 enum VAL_TYPE {
-    INT,
-    RATIONAL,
-    FLOAT,
+    INT = 0b001,
+    RATIONAL = 0b010,
+    FLOAT = 0b100,
 };
 
 struct expr_tree_head {
