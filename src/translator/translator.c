@@ -25,7 +25,7 @@ static struct expr_tree_link* parse(struct graph_link *glink) {
         link->ptr->op->arg_count = glink->ptr->op->children_count;
         link->ptr->op->args = malloc(link->ptr->op->arg_count * sizeof(struct expr_tree_link*));
 
-        for (int i = 0; i < link->ptr->op->arg_count; i++)
+        for (size_t i = 0; i < link->ptr->op->arg_count; i++)
             link->ptr->op->args[i] = parse(glink->ptr->op->children[i]);
     } else {
         link->ptr->val = malloc(sizeof(struct expr_tree_val));

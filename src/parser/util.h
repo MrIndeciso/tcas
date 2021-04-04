@@ -1,8 +1,8 @@
 #ifndef PARSER_UTIL_H
 #define PARSER_UTIL_H
 
-#include "../types/parser_structs.h"
-#include "../xml/xml.h"
+#include "parser_structs.h"
+#include "xml.h"
 
 void recursive_graph_free(struct graph_node *head);
 

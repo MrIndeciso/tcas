@@ -3,8 +3,8 @@
 
 #include <stddef.h>
 
-#include "../types/tokenizer_structs.h"
-#include "../types/parser_structs.h"
+#include "tokenizer_structs.h"
+#include "parser_structs.h"
 
 struct graph_link* rpn_parse(size_t len, struct token *tkn);
 

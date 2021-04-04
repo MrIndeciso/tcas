@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "../types/parser_enums.h"
+#include "parser_enums.h"
 
 int op_arg_count(enum OPERATOR_TYPE type);
 

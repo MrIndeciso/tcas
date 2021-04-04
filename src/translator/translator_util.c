@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 #include "translator_util.h"
-#include "../parser/rpn_defs.h"
-#include "../xml/xml.h"
+#include "rpn_defs.h"
+#include "xml.h"
 
 static void free_tree_link(struct expr_tree_link *link);
 static void export_tree_link(struct xml *xml, struct expr_tree_link *link);

@@ -30,16 +30,12 @@ set (SRCS
     src/parser/rpn_defs.h
     src/parser/rpn_parser.c
     src/parser/rpn_parser.h
-    #src/parser/test.c
     src/parser/util.c
     src/parser/util.h
     src/reducer/reducer.c
     src/reducer/reducer.h
-    #src/reducer/test.c
-    #src/tokenizer/test.c
     src/tokenizer/tokenizer.c
     src/tokenizer/tokenizer.h
-    #src/translator/test.c
     src/translator/translator.c
     src/translator/translator.h
     src/translator/translator_util.c
@@ -50,9 +46,10 @@ set (SRCS
     src/types/tcas_enums.h
     src/types/tcas_structs.h
     src/types/tokenizer_structs.h
-    #src/xml/test.c
     src/xml/xml.c
     src/xml/xml.h
+    src/math/math.h
+    src/math/math.c
     src/tcas.c
     src/tcas.h
     src/test.c
