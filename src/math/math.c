@@ -5,6 +5,8 @@
 
 #include "math.h"
 #include "plus.h"
+#include "minus.h"
+#include "times.h"
 
 struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
     assert(link != NULL);
@@ -22,11 +24,17 @@ struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
     struct expr_tree_val *result = NULL;
 
     switch (link->ptr->op->type) {
-    case PLUS:
-        result = math_plus(link->ptr->op->args[0]->ptr->val, link->ptr->op->args[1]->ptr->val);
-        break;
-    default:
-        break;
+        case PLUS:
+            result = math_plus(link->ptr->op->args[0]->ptr->val, link->ptr->op->args[1]->ptr->val);
+            break;
+        case MINUS:
+            result = math_minus(link->ptr->op->args[0]->ptr->val, link->ptr->op->args[1]->ptr->val);
+            break;
+        case TIMES:
+            result = math_times(link->ptr->op->args[0]->ptr->val, link->ptr->op->args[1]->ptr->val);
+            break;
+        default:
+            break;
     }
 
     struct expr_tree_link *new_link = malloc(sizeof(struct expr_tree_link));

@@ -60,6 +60,10 @@ set (SRCS
     src/math/math.c
     src/math/basic/plus.h
     src/math/basic/plus.c
+    src/math/basic/minus.h
+    src/math/basic/minus.c
+    src/math/basic/times.h
+    src/math/basic/times.c
     src/tcas.c
     src/tcas.h
 )
@@ -72,6 +76,8 @@ set (TEST_SRCS
     src/test.c
     src/test/test_util.h
     src/test/test_util.c
+    src/test/basic_test.h
+    src/test/basic_test.c
 )
 
 add_executable(tcas_cli ${SRCS} ${CLI_SRCS})
