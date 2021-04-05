@@ -7,6 +7,7 @@
 #include "plus.h"
 #include "minus.h"
 #include "times.h"
+#include "divide.h"
 
 struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
     assert(link != NULL);
@@ -33,6 +34,8 @@ struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
         case TIMES:
             result = math_times(link->ptr->op->args[0]->ptr->val, link->ptr->op->args[1]->ptr->val);
             break;
+        case DIVIDE:
+            result = math_divide(link->ptr->op->args[0]->ptr->val, link->ptr->op->args[1]->ptr->val);
         default:
             break;
     }

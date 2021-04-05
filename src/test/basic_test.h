@@ -21,6 +21,13 @@ void test_times_3();
 void test_times_4();
 void test_times_5();
 
+void test_divide_1();
+void test_divide_2();
+void test_divide_3();
+void test_divide_4();
+void test_divide_5();
+
 void test_all_1();
+void test_all_2();
 
 #endif

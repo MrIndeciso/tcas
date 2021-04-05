@@ -1,11 +1,11 @@
 #include <gmp.h>
 #include <stdlib.h>
 
-#include "minus.h"
+#include "divide.h"
 #include "mem_util.h"
 #include "type_util.h"
 
-struct expr_tree_val* math_minus(struct expr_tree_val *op1, struct expr_tree_val *op2) {
+struct expr_tree_val* math_divide(struct expr_tree_val *op1, struct expr_tree_val *op2) {
     enum VAL_TYPE types = op1->type | op2->type;
 
     struct expr_tree_val *val = malloc(sizeof(struct expr_tree_val));
@@ -19,12 +19,19 @@ struct expr_tree_val* math_minus(struct expr_tree_val *op1, struct expr_tree_val
         val->type = RATIONAL;
         val->val = malloc(sizeof(union expr_tree_val_ref));
         mpq_init(val->val->rational_val);
-        mpq_sub(val->val->rational_val, op1->val->rational_val, op2->val->rational_val);
+        mpq_div(val->val->rational_val, op1->val->rational_val, op2->val->rational_val);
     } else { //All ints
-        val->type = INT;
+        val->type = RATIONAL;
         val->val = malloc(sizeof(union expr_tree_val_ref));
-        mpz_init(val->val->int_val);
-        mpz_sub(val->val->int_val, op1->val->int_val, op2->val->int_val);
+        mpq_init(val->val->rational_val);
+
+        if (mpz_sgn(op2->val->int_val) == -1) {
+            mpz_abs(op2->val->int_val, op2->val->int_val);
+            mpz_neg(op1->val->int_val, op1->val->int_val);
+        }
+
+        mpz_set(mpq_numref(val->val->rational_val), op1->val->int_val);
+        mpz_set(mpq_denref(val->val->rational_val), op2->val->int_val);
     }
 
     //free_tree_val(op1); Causes double-free down the line

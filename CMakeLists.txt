@@ -58,12 +58,16 @@ set (SRCS
     src/util/debug_util.c
     src/math/math.h
     src/math/math.c
+    src/math/type_util.h
+    src/math/type_util.c
     src/math/basic/plus.h
     src/math/basic/plus.c
     src/math/basic/minus.h
     src/math/basic/minus.c
     src/math/basic/times.h
     src/math/basic/times.c
+    src/math/basic/divide.h
+    src/math/basic/divide.c
     src/tcas.c
     src/tcas.h
 )
