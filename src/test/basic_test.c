@@ -34,8 +34,8 @@ void test_basic_ops() {
     test_divide_4();
     test_divide_5();
 
-    test_all_1();
-    test_all_2();
+    test_basic_all_1();
+    test_basic_all_2();
 }
 
 void test_plus_1() {
@@ -198,7 +198,7 @@ void test_divide_5() {
     free_tree_val(res);
 }
 
-void test_all_1() {
+void test_basic_all_1() {
     char *test = "* + - + 23 * 7 8 * 5 -27 52 * * 2 2 + 1 3";
     size_t len = strlen(test);
     struct expr_tree_val *res = evaluate_simple_expr(len, test, settings);
@@ -206,7 +206,7 @@ void test_all_1() {
     free_tree_val(res);
 }
 
-void test_all_2() {
+void test_basic_all_2() {
     char *test = "/ * + - + 23 * 7 8 * 5 -27 52 * * 2 2 + 1 3 + * 28 - 7 / 7 8 * 29 + 2 3";
     size_t len = strlen(test);
     struct expr_tree_val *res = evaluate_simple_expr(len, test, settings);

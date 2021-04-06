@@ -43,6 +43,10 @@ enum OPERATOR_TYPE op_from_token(char *token) {
         return ROOT;
     } else if (strcmp(token, "log") == 0) {
         return LOG;
+    } else if (strcmp(token, "log10") == 0) {
+        return LOG10;
+    } else if (strcmp(token, "log2") == 0) {
+        return LOG2;
     } else if (strcmp(token, "ln") == 0) {
         return LN;
     } else {
@@ -51,5 +55,5 @@ enum OPERATOR_TYPE op_from_token(char *token) {
 }
 
 char *op_value_from_type[] = {
-    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "^", "root", "log", "ln", "unknown"
+    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "^", "root", "log10", "log2", "log", "ln", "unknown"
 };

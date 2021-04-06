@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <gmp.h>
+#include <mpfr.h>
 
 #include "parser_enums.h"
 
@@ -41,7 +42,7 @@ union expr_tree_ptr {
 union expr_tree_val_ref {
     mpz_t int_val;
     mpq_t rational_val;
-    mpf_t fp_val;
+    mpfr_t fp_val;
 };
 
 

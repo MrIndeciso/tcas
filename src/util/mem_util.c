@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <gmp.h>
+#include <mpfr.h>
 #include <stdlib.h>
 
 #include "mem_util.h"
@@ -39,7 +40,7 @@ void recursive_expr_tree_free(struct expr_tree_head *head) {
 
 void free_tree_val(struct expr_tree_val *val) {
     if (val->type == FLOAT) {
-        mpf_clear(val->val->fp_val);
+        mpfr_clear(val->val->fp_val);
     } else if (val->type == RATIONAL) {
         mpq_clear(val->val->rational_val);
     } else {
@@ -59,15 +60,7 @@ void free_tree_link(struct expr_tree_link *link) {
         free(link->ptr->op->args);
         free(link->ptr->op);
     } else {
-        if (link->ptr->val->type == INT) {
-            mpz_clear(link->ptr->val->val->int_val);
-        } else if (link->ptr->val->type == RATIONAL) {
-            mpq_clear(link->ptr->val->val->rational_val);
-        } else {
-            mpf_clear(link->ptr->val->val->fp_val);
-        }
-        free(link->ptr->val->val);
-        free(link->ptr->val);
+        free_tree_val(link->ptr->val);
     }
 
     free(link->ptr);

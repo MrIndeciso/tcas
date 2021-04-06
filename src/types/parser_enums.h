@@ -23,6 +23,8 @@ enum OPERATOR_TYPE {
     TAN,
     POWER,
     ROOT,
+    LOG10,
+    LOG2,
     LOG,
     LN,
     UNKNOWN

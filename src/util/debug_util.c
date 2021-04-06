@@ -1,4 +1,5 @@
 #include <gmp.h>
+#include <mpfr.h>
 
 #include "debug_util.h"
 
@@ -8,6 +9,6 @@ void print_val(struct expr_tree_val *val) {
     } else if (val->type == RATIONAL) {
         gmp_printf("Value: %Qx\n", val->val->rational_val);
     } else {
-        gmp_printf("Value: %Fe", val->val->fp_val);
+        mpfr_printf("Value: %Re\n", val->val->fp_val);
     }
 }

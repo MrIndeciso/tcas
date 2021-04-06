@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_library(GMP gmp)
+find_library(MPFR mpfr)
 
 include_directories(
     src
@@ -23,6 +24,7 @@ include_directories(
     src/math
     src/util
     src/math/basic
+    src/math/adv
     src/xml
     src/test
 )
@@ -68,6 +70,8 @@ set (SRCS
     src/math/basic/times.c
     src/math/basic/divide.h
     src/math/basic/divide.c
+    src/math/adv/log.h
+    src/math/adv/log.c
     src/tcas.c
     src/tcas.h
 )
@@ -82,10 +86,12 @@ set (TEST_SRCS
     src/test/test_util.c
     src/test/basic_test.h
     src/test/basic_test.c
+    src/test/adv_test.h
+    src/test/adv_test.c
 )
 
 add_executable(tcas_cli ${SRCS} ${CLI_SRCS})
 add_executable(test ${SRCS} ${TEST_SRCS})
 
-target_link_libraries(tcas_cli ${GMP})
-target_link_libraries(test ${GMP})
+target_link_libraries(tcas_cli ${GMP} ${MPFR})
+target_link_libraries(test ${GMP} ${MPFR})

@@ -1,6 +1,8 @@
 #ifndef TYPE_UTIL_H
 #define TYPE_UTIL_H
 
+#define MPFR_ROUNDING MPFR_RNDN
+
 #include "expr_structs.h"
 
 void make_rational(struct expr_tree_val *val);
