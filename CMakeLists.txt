@@ -72,6 +72,8 @@ set (SRCS
     src/math/basic/divide.c
     src/math/adv/log.h
     src/math/adv/log.c
+    src/math/adv/trig.h
+    src/math/adv/trig.c
     src/tcas.c
     src/tcas.h
 )
