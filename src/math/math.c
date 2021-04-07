@@ -57,6 +57,15 @@ struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
         case TAN:
             result = math_tan(link->ptr->op->args[0]->ptr->val);
             break;
+        case ARCSIN:
+            result = math_arcsin(link->ptr->op->args[0]->ptr->val);
+            break;
+        case ARCCOS:
+            result = math_arccos(link->ptr->op->args[0]->ptr->val);
+            break;
+        case ARCTAN:
+            result = math_arctan(link->ptr->op->args[0]->ptr->val);
+            break;
         default:
             assert(0);
             break;

@@ -36,6 +36,12 @@ enum OPERATOR_TYPE op_from_token(char *token) {
         return COS;
     } else if (strcmp(token, "tan") == 0) {
         return TAN;
+    } else if (strcmp(token, "arcsin") == 0) {
+        return ARCSIN;
+    } else if (strcmp(token, "arccos") == 0) {
+        return ARCCOS;
+    } else if (strcmp(token, "arctan") == 0) {
+        return ARCTAN;
     } else if (strcmp(token, "^") == 0 ||
                strcmp(token, "**") == 0) {
         return POWER;
@@ -55,5 +61,5 @@ enum OPERATOR_TYPE op_from_token(char *token) {
 }
 
 char *op_value_from_type[] = {
-    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "^", "root", "log10", "log2", "log", "ln", "unknown"
+    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "arcsin", "arccos", "arctan", "^", "root", "log10", "log2", "log", "ln", "unknown"
 };
