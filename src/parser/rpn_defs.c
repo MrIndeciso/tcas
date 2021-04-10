@@ -23,8 +23,7 @@ enum OPERATOR_TYPE op_from_token(char *token) {
         return PLUS;
     } else if (strcmp(token, "-") == 0) {
         return MINUS;
-    } else if (strcmp(token, "*") == 0 ||
-               strcmp(token, "x") == 0) {
+    } else if (strcmp(token, "*") == 0) {
         return TIMES;
     } else if (strcmp(token, "/") == 0) {
         return DIVIDE;

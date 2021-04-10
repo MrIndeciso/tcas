@@ -8,4 +8,6 @@ void export_graph_to_xml(char *filename, struct graph_node *head);
 
 void export_adv_graph_to_xml(char *filename, struct graph_link *head);
 
+int isNaN(char *num);
+
 #endif

@@ -21,6 +21,8 @@ struct expr_tree_val* evaluate_simple_expr(size_t len, char *expr, struct TCAS_S
 
     struct graph_link *head = parse(count, tkn, settings.type);
 
+    export_adv_graph_to_xml("graph.xml", head);
+
     free(tkn);
 
     struct expr_tree_head *expr_head = translate_graph(head);

@@ -9,7 +9,8 @@ enum PARSER_MODE {
 
 enum LINKED_TYPE {
     OPERATOR,
-    VALUE
+    VALUE,
+    SYMBOL
 };
 
 enum OPERATOR_TYPE {

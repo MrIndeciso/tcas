@@ -29,6 +29,10 @@ struct expr_tree_val {
     union expr_tree_val_ref *val;
 };
 
+struct expr_tree_sym {
+    char representation;
+};
+
 struct expr_tree_link {
     enum LINKED_TYPE type;
     union expr_tree_ptr *ptr;
@@ -37,6 +41,7 @@ struct expr_tree_link {
 union expr_tree_ptr {
     struct expr_tree_val *val;
     struct expr_tree_op *op;
+    struct expr_tree_sym *sym;
 };
 
 union expr_tree_val_ref {

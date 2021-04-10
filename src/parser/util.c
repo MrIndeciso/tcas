@@ -41,9 +41,19 @@ void export_adv_graph_to_xml(char *filename, struct graph_link *head) {
     close_xml(xml);
 }
 
+int isNaN(char *num) {
+    for (; *num != '\0'; num++) {
+        if (*num != '.' && (*num - 'A') > 0)
+            return 1;
+    }
+    return 0;
+}
+
 static void export_link(struct xml *xml, struct graph_link *link) {
     if (link->type == VALUE) {
         inline_tag(xml, "value", link->ptr->value->content, 0);
+    } else if (link->type == SYMBOL) {
+        inline_tag(xml, "symbol", &link->ptr->symbol->symbol, 0);
     } else {
         char *buffer = malloc(32);
         snprintf(buffer, 32, "%d", (int) link->ptr->op->children_count);

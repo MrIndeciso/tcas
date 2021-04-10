@@ -22,6 +22,8 @@ void recursive_adv_graph_free(struct graph_link *link) {
             recursive_adv_graph_free(link->ptr->op->children[i]);
 
         free(link->ptr->op);
+    } else if (link->type == SYMBOL) {
+        free(link->ptr->symbol);
     } else {
         free(link->ptr->value);
     }
@@ -59,6 +61,8 @@ void free_tree_link(struct expr_tree_link *link) {
 
         free(link->ptr->op->args);
         free(link->ptr->op);
+    } else if (link->type == SYMBOL) {
+        free(link->ptr->sym);
     } else {
         free_tree_val(link->ptr->val);
     }

@@ -10,7 +10,7 @@ static struct TCAS_SETTINGS settings = (struct TCAS_SETTINGS){.type = MODE_RPN};
 
 int main() {
 
-    char *test = "+ log2 2 log10 10";
+    char *test = "+ x y";
 
     size_t len = strlen(test);
     struct expr_tree_val *res = evaluate_simple_expr(len, test, settings);

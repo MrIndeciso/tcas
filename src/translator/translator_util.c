@@ -31,6 +31,8 @@ static void export_tree_link(struct xml *xml, struct expr_tree_link *link) {
             free(str);
             free(buffer);
         }
+    } else if (link->type == SYMBOL) {
+        inline_tag(xml, "symbol", &link->ptr->sym->representation, 0);
     } else {
         char *buffer = malloc(32);
         snprintf(buffer, 32, "%d", (int) link->ptr->op->arg_count);

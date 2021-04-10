@@ -21,6 +21,7 @@ struct graph_intermediate {
 union graph_linked_ptr {
     struct graph_operator *op;
     struct graph_value *value;
+    struct graph_symbol *symbol;
 };
 
 struct graph_link {
@@ -32,6 +33,10 @@ struct graph_operator {
     enum OPERATOR_TYPE type;
     size_t children_count;
     struct graph_link **children;
+};
+
+struct graph_symbol {
+    char symbol;
 };
 
 struct graph_value {

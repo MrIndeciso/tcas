@@ -21,7 +21,7 @@ struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
             link->ptr->op->args[i] = math_eval_op(arg);
         }
 
-        assert(link->ptr->op->args[i]->type == VALUE);
+        //assert(link->ptr->op->args[i]->type == VALUE);
     }
 
     struct expr_tree_val *result = NULL;

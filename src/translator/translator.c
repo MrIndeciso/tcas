@@ -27,6 +27,9 @@ static struct expr_tree_link* parse(struct graph_link *glink) {
 
         for (size_t i = 0; i < link->ptr->op->arg_count; i++)
             link->ptr->op->args[i] = parse(glink->ptr->op->children[i]);
+    } else if (glink->type == SYMBOL) {
+        link->ptr->sym = malloc(sizeof(struct expr_tree_sym));
+        link->ptr->sym->representation = glink->ptr->symbol->symbol;
     } else {
         link->ptr->val = malloc(sizeof(struct expr_tree_val));
         link->ptr->val->val = malloc(sizeof(union expr_tree_val_ref));

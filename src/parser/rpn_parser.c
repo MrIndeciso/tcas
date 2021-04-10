@@ -1,8 +1,11 @@
+#include "rpn_parser.h"
+
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "rpn_parser.h"
+#include "util.h"
 #include "rpn_defs.h"
 
 static int pointer_pos = 0;
@@ -28,6 +31,11 @@ static struct graph_link* parse_token(struct token *tkn) {
             pointer_pos++;
             link->ptr->op->children[i] = parse_token(tkn);
         }
+    } else if (isNaN(tkn[pointer_pos].token)) {
+        link->type = SYMBOL;
+        assert(tkn[pointer_pos].len == 1);
+        link->ptr->symbol = malloc(sizeof(struct graph_symbol));
+        link->ptr->symbol->symbol = tkn[pointer_pos].token[0];
     } else {
         link->type = VALUE;
         link->ptr->value = malloc(sizeof(struct graph_value));
