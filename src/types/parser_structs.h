@@ -36,7 +36,7 @@ struct graph_operator {
 };
 
 struct graph_symbol {
-    char symbol;
+    char symbol[2];
 };
 
 struct graph_value {

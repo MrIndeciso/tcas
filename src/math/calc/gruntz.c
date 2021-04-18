@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <mpfr.h>
 #include <stdlib.h>
 
 //http://www.cybertester.com/data/gruntz.pdf
@@ -44,5 +45,14 @@ void gruntz_rewrite_lim(struct expr_tree_link *link) {
     struct expr_tree_sym *sym = link->ptr->op->args[1]->ptr->sym;
     struct expr_tree_val *val = link->ptr->op->args[2]->ptr->val;
 
+    if (val->type == FLOAT) { //Could be infinity, pi, e or something else
+        if (mpfr_inf_p(val->val->fp_val)) {
+            if (mpfr_sgn(val->val->fp_val) > 0) { //Already calculating limit for +infinity, nothing needed to do
+                return;
+            } else { //Need to swap signs
+
+            }
+        }
+    }
 
 }

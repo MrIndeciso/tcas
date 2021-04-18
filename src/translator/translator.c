@@ -33,7 +33,17 @@ static struct expr_tree_link* parse(struct graph_link *glink) {
             link->ptr->op->args[i] = parse(glink->ptr->op->children[i]);
     } else if (glink->type == SYMBOL) {
         link->ptr->sym = malloc(sizeof(struct expr_tree_sym));
-        link->ptr->sym->representation = glink->ptr->symbol->symbol;
+        if (glink->ptr->symbol->symbol[0] == '+' || glink->ptr->symbol->symbol[0] == '-') {
+            if (glink->ptr->symbol->symbol[0] == '+') {
+                link->ptr->sym->sign = 1;
+            } else {
+                link->ptr->sym->sign = -1;
+            }
+            link->ptr->sym->representation = glink->ptr->symbol->symbol[1];
+        } else {
+            link->ptr->sym->sign = 1;
+            link->ptr->sym->representation = glink->ptr->symbol->symbol[0];
+        }
     } else {
         link->ptr->val = malloc(sizeof(struct expr_tree_val));
         link->ptr->val->val = malloc(sizeof(union expr_tree_val_ref));

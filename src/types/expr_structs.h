@@ -30,6 +30,7 @@ struct expr_tree_val {
 };
 
 struct expr_tree_sym {
+    char sign;
     char representation;
 };
 
