@@ -4,18 +4,17 @@
 
 int op_arg_count(enum OPERATOR_TYPE type) {
     switch(type) {
-    case PLUS:
-    case MINUS:
-    case TIMES:
-    case DIVIDE:
-    case POWER:
-    case LOG:
-    case LIM:
-        return 2;
-        break;
-    default:
-        return 1;
-        break;
+        case LIM:
+            return 3;
+        case PLUS:
+        case MINUS:
+        case TIMES:
+        case DIVIDE:
+        case POWER:
+        case LOG:
+            return 2;
+        default:
+            return 1;
     }
 }
 

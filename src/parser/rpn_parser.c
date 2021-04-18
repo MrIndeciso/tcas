@@ -32,10 +32,15 @@ static struct graph_link* parse_token(struct token *tkn) {
             link->ptr->op->children[i] = parse_token(tkn);
         }
     } else if (isNaN(tkn[pointer_pos].token)) {
-        link->type = SYMBOL;
-        assert(tkn[pointer_pos].len == 1);
-        link->ptr->symbol = malloc(sizeof(struct graph_symbol));
-        link->ptr->symbol->symbol = tkn[pointer_pos].token[0];
+        if (tkn[pointer_pos].len == 1) {
+            link->type = SYMBOL;
+            link->ptr->symbol = malloc(sizeof(struct graph_symbol));
+            link->ptr->symbol->symbol = tkn[pointer_pos].token[0];
+        } else {
+            link->type = VALUE;
+            link->ptr->value = malloc(sizeof(struct graph_value));
+            strncpy(link->ptr->value->content, tkn[pointer_pos].token, TOKEN_MAX_LENGTH);
+        }
     } else {
         link->type = VALUE;
         link->ptr->value = malloc(sizeof(struct graph_value));

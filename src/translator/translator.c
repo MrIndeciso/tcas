@@ -1,6 +1,10 @@
+#include <mpfr.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "translator.h"
+
+#include "type_util.h"
 
 static struct expr_tree_link* parse(struct graph_link *link);
 
@@ -33,8 +37,37 @@ static struct expr_tree_link* parse(struct graph_link *glink) {
     } else {
         link->ptr->val = malloc(sizeof(struct expr_tree_val));
         link->ptr->val->val = malloc(sizeof(union expr_tree_val_ref));
-        link->ptr->val->type = INT;
-        mpz_init_set_str(link->ptr->val->val->int_val, glink->ptr->value->content, 10);
+
+        if (strcmp(glink->ptr->value->content, "+infinity") == 0) {
+            link->ptr->val->type = FLOAT;
+            mpfr_init(link->ptr->val->val->fp_val);
+            mpfr_set_inf(link->ptr->val->val->fp_val, 1);
+        } else if (strcmp(glink->ptr->value->content, "-infinity") == 0) {
+            link->ptr->val->type = FLOAT;
+            mpfr_init(link->ptr->val->val->fp_val);
+            mpfr_set_inf(link->ptr->val->val->fp_val, -1);
+        } else if (strcmp(glink->ptr->value->content, "e") == 0) {
+            link->ptr->val->type = FLOAT;
+            mpfr_init(link->ptr->val->val->fp_val);
+            mpfr_const_euler(link->ptr->val->val->fp_val, MPFR_ROUNDING);
+        } else if (strcmp(glink->ptr->value->content, "-e") == 0) {
+            link->ptr->val->type = FLOAT;
+            mpfr_init(link->ptr->val->val->fp_val);
+            mpfr_const_euler(link->ptr->val->val->fp_val, MPFR_ROUNDING);
+            mpfr_neg(link->ptr->val->val->fp_val, link->ptr->val->val->fp_val, MPFR_ROUNDING);
+        } else if (strcmp(glink->ptr->value->content, "pi") == 0) {
+            link->ptr->val->type = FLOAT;
+            mpfr_init(link->ptr->val->val->fp_val);
+            mpfr_const_pi(link->ptr->val->val->fp_val, MPFR_ROUNDING);
+        } else if (strcmp(glink->ptr->value->content, "-pi") == 0) {
+            link->ptr->val->type = FLOAT;
+            mpfr_init(link->ptr->val->val->fp_val);
+            mpfr_const_pi(link->ptr->val->val->fp_val, MPFR_ROUNDING);
+            mpfr_neg(link->ptr->val->val->fp_val, link->ptr->val->val->fp_val, MPFR_ROUNDING);
+        } else {
+            link->ptr->val->type = INT;
+            mpz_init_set_str(link->ptr->val->val->int_val, glink->ptr->value->content, 10);
+        }
     }
 
     return link;

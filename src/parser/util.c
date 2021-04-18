@@ -43,6 +43,8 @@ void export_adv_graph_to_xml(char *filename, struct graph_link *head) {
 
 int isNaN(char *num) {
     for (; *num != '\0'; num++) {
+        if (*num == '+' || *num == '-')
+            continue;
         if (*num != '.' && (*num - 'A') > 0)
             return 1;
     }
