@@ -14,4 +14,6 @@ void free_tree_link(struct expr_tree_link *link);
 
 void free_tree_val(struct expr_tree_val *val);
 
+struct expr_tree_link* clone_link(struct expr_tree_link *master);
+
 #endif

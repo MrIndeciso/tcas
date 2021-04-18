@@ -70,3 +70,19 @@ void free_tree_link(struct expr_tree_link *link) {
     free(link->ptr);
     free(link);
 }
+
+struct expr_tree_link* clone_link(struct expr_tree_link *master) {
+
+}
+
+struct expr_tree_val* clone_tree_val(struct expr_tree_val *master) {
+
+}
+
+struct expr_tree_sym* clone_tree_sym(struct expr_tree_sym *master) {
+
+}
+
+struct expr_tree_op* clone_tree_op(struct expr_tree_op *master) {
+
+}
