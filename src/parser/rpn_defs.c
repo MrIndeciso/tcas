@@ -10,6 +10,7 @@ int op_arg_count(enum OPERATOR_TYPE type) {
     case DIVIDE:
     case POWER:
     case LOG:
+    case LIM:
         return 2;
         break;
     default:
@@ -54,11 +55,15 @@ enum OPERATOR_TYPE op_from_token(char *token) {
         return LOG2;
     } else if (strcmp(token, "ln") == 0) {
         return LN;
+    } else if (strcmp(token, "lim") == 0) {
+        return LIM;
+    } else if (strcmp(token, "exp") == 0) {
+        return EXP;
     } else {
         return UNKNOWN;
     }
 }
 
 char *op_value_from_type[] = {
-    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "arcsin", "arccos", "arctan", "^", "root", "log10", "log2", "log", "ln", "unknown"
+    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "arcsin", "arccos", "arctan", "^", "root", "log10", "log2", "log", "ln", "lim", "exp", "unknown"
 };

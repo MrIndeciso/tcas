@@ -1,18 +1,24 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "mem_util.h"
-
 #include "math.h"
+
+#include "mem_util.h"
 #include "plus.h"
 #include "minus.h"
 #include "times.h"
 #include "divide.h"
 #include "log.h"
 #include "trig.h"
+#include "power.h"
+#include "gruntz.h"
 
 struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
     assert(link != NULL);
+
+    if (link->ptr->op->type == LIM) {
+        return gruntz_eval(link);
+    }
 
     for (size_t i = 0; i < link->ptr->op->arg_count; i++) {
         struct expr_tree_link *arg = link->ptr->op->args[i];
@@ -65,6 +71,9 @@ struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
             break;
         case ARCTAN:
             result = math_arctan(link->ptr->op->args[0]->ptr->val);
+            break;
+        case EXP:
+            result = math_exp(link->ptr->op->args[0]->ptr->val);
             break;
         default:
             assert(0);

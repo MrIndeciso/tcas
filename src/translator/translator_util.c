@@ -32,7 +32,12 @@ static void export_tree_link(struct xml *xml, struct expr_tree_link *link) {
             free(buffer);
         }
     } else if (link->type == SYMBOL) {
-        inline_tag(xml, "symbol", &link->ptr->sym->representation, 0);
+        char *buffer = malloc(2);
+        snprintf(buffer, 2, "%c", link->ptr->sym->representation);
+
+        inline_tag(xml, "symbol", buffer, 0);
+
+        free(buffer);
     } else {
         char *buffer = malloc(32);
         snprintf(buffer, 32, "%d", (int) link->ptr->op->arg_count);

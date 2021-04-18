@@ -7,7 +7,7 @@
 #include "test_util.h"
 #include "tcas.h"
 
-static struct TCAS_SETTINGS settings = (struct TCAS_SETTINGS){.type = MODE_RPN};
+static struct TCAS_SETTINGS settings = (struct TCAS_SETTINGS){.type = MODE_PN};
 
 void test_basic_ops() {
     test_plus_1();

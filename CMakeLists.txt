@@ -21,10 +21,11 @@ include_directories(
     src/tokenizer
     src/translator
     src/types
-    src/math
     src/util
+    src/math
     src/math/basic
     src/math/adv
+    src/math/calc
     src/xml
     src/test
 )
@@ -58,6 +59,8 @@ set (SRCS
     src/util/mem_util.c
     src/util/debug_util.h
     src/util/debug_util.c
+    src/util/tree_util.h
+    src/util/tree_util.c
     src/math/math.h
     src/math/math.c
     src/math/type_util.h
@@ -74,6 +77,10 @@ set (SRCS
     src/math/adv/log.c
     src/math/adv/trig.h
     src/math/adv/trig.c
+    src/math/adv/power.h
+    src/math/adv/power.c
+    src/math/calc/gruntz.h
+    src/math/calc/gruntz.c
     src/tcas.c
     src/tcas.h
 )
@@ -90,6 +97,8 @@ set (TEST_SRCS
     src/test/basic_test.c
     src/test/adv_test.h
     src/test/adv_test.c
+    src/test/calc_test.h
+    src/test/calc_test.c
 )
 
 add_executable(tcas_cli ${SRCS} ${CLI_SRCS})

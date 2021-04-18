@@ -2,9 +2,7 @@
 #define PARSER_ENUMS_H
 
 enum PARSER_MODE {
-    MODE_STANDARD,
-    MODE_RPN,
-    MODE_CUSTOM_RPN
+    MODE_PN,
 };
 
 enum LINKED_TYPE {
@@ -31,6 +29,8 @@ enum OPERATOR_TYPE {
     LOG2,
     LOG,
     LN,
+    LIM,
+    EXP,
     UNKNOWN
 };
 

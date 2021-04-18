@@ -1,7 +1,7 @@
-#include "divide.h"
-
 #include <gmp.h>
 #include <stdlib.h>
+
+#include "divide.h"
 
 #include "mem_util.h"
 #include "type_util.h"

@@ -2,21 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "tcas.h"
+#include "calc_test.h"
+
 #include "mem_util.h"
-#include "debug_util.h"
+#include "test_util.h"
+#include "tcas.h"
 
 static struct TCAS_SETTINGS settings = (struct TCAS_SETTINGS){.type = MODE_PN};
 
-int main() {
+void test_calc_ops() {
+    test_lim_1();
+}
 
-    char *test = "/ exp 2 * exp 1 exp 1";
-
+void test_lim_1() {
+    char *test = "lim / sin x x 0";
     size_t len = strlen(test);
     struct expr_tree_val *res = evaluate_simple_expr(len, test, settings);
-    print_val(res);
-
+    result(mpfr_cmp_ui(res->val->fp_val, 1) == 0);
     free_tree_val(res);
-
-    return 0;
 }
