@@ -8,6 +8,10 @@ int compare_symbols(struct expr_tree_sym *sym1, struct expr_tree_sym *sym2) {
     return (sym1->representation - sym2->representation) + (sym1->sign - sym2->sign);
 }
 
+int compare_symbols_ignore_sign(struct expr_tree_sym *sym1, struct expr_tree_sym *sym2) {
+    return sym1->representation - sym2->representation;
+}
+
 int compare_vals(struct expr_tree_val *val1, struct expr_tree_val *val2) {
     if (val1->type != val2->type) {
         return 1;
@@ -49,6 +53,18 @@ int compare_links(struct expr_tree_link *link1, struct expr_tree_link *link2) {
         return compare_symbols(link1->ptr->sym, link2->ptr->sym);
     } else {
         return compare_vals(link1->ptr->val, link2->ptr->val);
+    }
+}
+
+void invert_symbol_signs(struct expr_tree_link *head, struct expr_tree_sym *sym) {
+    if (head->type == OPERATOR) {
+        for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
+            invert_symbol_signs(head->ptr->op->args[i], sym);
+        }
+    } else if (head->type == SYMBOL) {
+        if (compare_symbols_ignore_sign(head->ptr->sym, sym) == 0) {
+            head->ptr->sym->sign *= -1;
+        }
     }
 }
 

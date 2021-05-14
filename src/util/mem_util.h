@@ -16,4 +16,10 @@ void free_tree_val(struct expr_tree_val *val);
 
 struct expr_tree_link* clone_link(struct expr_tree_link *master);
 
+struct expr_tree_val* clone_tree_val(struct expr_tree_val *master);
+
+struct expr_tree_sym* clone_tree_sym(struct expr_tree_sym *sym);
+
+struct expr_tree_op* clone_tree_op(struct expr_tree_op *op);
+
 #endif

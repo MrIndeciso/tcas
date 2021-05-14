@@ -10,7 +10,7 @@ static struct TCAS_SETTINGS settings = (struct TCAS_SETTINGS){.type = MODE_PN};
 
 int main() {
 
-    char *test = "lim / sin x x -x -infinity";
+    char *test = "lim / sin / 1 x / 1 x +x 0";
 
     size_t len = strlen(test);
     struct expr_tree_val *res = evaluate_simple_expr(len, test, settings);
