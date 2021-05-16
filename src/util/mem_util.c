@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "mem_util.h"
+#include "type_util.h"
 
 void recursive_graph_free(struct graph_node *head) {
     assert(head != NULL);
@@ -72,17 +73,48 @@ void free_tree_link(struct expr_tree_link *link) {
 }
 
 struct expr_tree_link* clone_link(struct expr_tree_link *master) {
-
+    struct expr_tree_link *clone = malloc(sizeof(struct expr_tree_link));
+    clone->type = master->type;
+    clone->ptr = malloc(sizeof(union expr_tree_ptr));
+    if (clone->type == SYMBOL) {
+        clone->ptr->sym = clone_tree_sym(master->ptr->sym);
+    } else if (clone->type == OPERATOR) {
+        clone->ptr->op = clone_tree_op(master->ptr->op);
+    } else {
+        clone->ptr->val = clone_tree_val(master->ptr->val);
+    }
+    return clone;
 }
 
 struct expr_tree_val* clone_tree_val(struct expr_tree_val *master) {
-
+    struct expr_tree_val *clone = malloc(sizeof(struct expr_tree_val));
+    clone->type = master->type;
+    clone->val = malloc(sizeof(union expr_tree_val_ref));
+    if (clone->type == RATIONAL) {
+        mpq_init(clone->val->rational_val);
+        mpq_set(clone->val->rational_val, master->val->rational_val);
+    } else if (clone->type == INT) {
+        mpz_init_set(clone->val->int_val, master->val->int_val);
+    } else { //Float
+        mpfr_init_set(clone->val->fp_val, master->val->fp_val, MPFR_ROUNDING);
+    }
+    return clone;
 }
 
 struct expr_tree_sym* clone_tree_sym(struct expr_tree_sym *master) {
-
+    struct expr_tree_sym *clone = malloc(sizeof(struct expr_tree_sym));
+    clone->representation = master->representation;
+    clone->sign = master->sign;
+    return clone;
 }
 
 struct expr_tree_op* clone_tree_op(struct expr_tree_op *master) {
-
+    struct expr_tree_op *clone = malloc(sizeof(struct expr_tree_op));
+    clone->type = master->type;
+    clone->arg_count = master->arg_count;
+    clone->args = malloc(clone->arg_count * sizeof(struct expr_tree_link*));
+    for (size_t i = 0; i < clone->arg_count; i++) {
+        clone->args[i] = clone_link(master->args[i]);
+    }
+    return clone;
 }
