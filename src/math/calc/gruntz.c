@@ -12,6 +12,7 @@
 #include "type_util.h"
 #include "tree_util.h"
 #include "parse_util.h"
+#include "simplify.h"
 
 #ifdef GRUNTZ_DEBUG
 #include "translator_util.h"
@@ -27,6 +28,9 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
 
     //First thing we need to do is to rewrite the limit so it always tends to +infinity
     gruntz_rewrite_lim(link);
+
+    //Now let's try optimizing it a bit, not really required but since we have to do it later why not now too?
+    simplify(link);
 
 #ifdef GRUNTZ_DEBUG
     export_expr_tree_to_xml("gruntz_rewritten.xml", &fake_head);
