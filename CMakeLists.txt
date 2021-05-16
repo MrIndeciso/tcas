@@ -26,6 +26,7 @@ include_directories(
     src/math/basic
     src/math/adv
     src/math/calc
+    src/math/tools
     src/xml
     src/test
 )
@@ -61,6 +62,8 @@ set (SRCS
     src/util/debug_util.c
     src/util/tree_util.h
     src/util/tree_util.c
+    src/util/parse_util.h
+    src/util/parse_util.c
     src/math/math.h
     src/math/math.c
     src/math/type_util.h
@@ -81,6 +84,8 @@ set (SRCS
     src/math/adv/power.c
     src/math/calc/gruntz.h
     src/math/calc/gruntz.c
+    src/math/tools/simplify.h
+    src/math/tools/simplify.c
     src/tcas.c
     src/tcas.h
 )

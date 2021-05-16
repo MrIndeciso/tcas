@@ -11,6 +11,7 @@
 #include "mem_util.h"
 #include "type_util.h"
 #include "tree_util.h"
+#include "parse_util.h"
 
 #ifdef GRUNTZ_DEBUG
 #include "translator_util.h"
@@ -59,21 +60,7 @@ void gruntz_rewrite_lim(struct expr_tree_link *link) {
 
     } else { //Int
         if (mpz_cmp_ui(val->val->int_val, 0) == 0) { //Ah finally something good
-            struct expr_tree_link *new = malloc(sizeof(struct expr_tree_link));
-            new->type = OPERATOR;
-            new->ptr = malloc(sizeof(union expr_tree_ptr));
-            new->ptr->op = malloc(sizeof(struct expr_tree_op));
-            new->ptr->op->type = DIVIDE;
-            new->ptr->op->arg_count = 2;
-            new->ptr->op->args = malloc(2 * sizeof(struct expr_tree_link*));
-            new->ptr->op->args[0] = malloc(sizeof(struct expr_tree_link));
-            new->ptr->op->args[0]->type = VALUE;
-            new->ptr->op->args[0]->ptr = malloc(sizeof(union expr_tree_ptr));
-            new->ptr->op->args[0]->ptr->val = malloc(sizeof(struct expr_tree_val));
-            new->ptr->op->args[0]->ptr->val->type = INT;
-            new->ptr->op->args[0]->ptr->val->val = malloc(sizeof(union expr_tree_val_ref));
-            mpz_init_set_ui(new->ptr->op->args[0]->ptr->val->val->int_val, 1);
-            new->ptr->op->args[1] = clone_link(link->ptr->op->args[1]);
+            struct expr_tree_link *new = parse_expr("/ 1 y", link->ptr->op->args[1]);
 
             recursive_replace(expr, link->ptr->op->args[1], new);
         }
