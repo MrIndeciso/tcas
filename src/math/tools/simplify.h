@@ -3,6 +3,13 @@
 
 #include "expr_structs.h"
 
-void simplify(struct expr_tree_link *link);
+struct expr_tree_link *simplify(struct expr_tree_link *link);
+struct expr_tree_link *_simplify(struct expr_tree_link *link);
+
+struct expr_tree_link *analyze_explog(struct expr_tree_link *link);
+
+struct expr_tree_link *analyze_division(struct expr_tree_link *link);
+
+struct expr_tree_link *truncate_useless(struct expr_tree_link *link);
 
 #endif

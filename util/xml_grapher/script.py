@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 filename = sys.argv[1]
 
-graph = Digraph('expr', filename='expr', node_attr={'color': 'lightblue2', 'style': 'filled'})
+graph = Digraph('expr', filename=sys.argv[2], node_attr={'color': 'lightblue2', 'style': 'filled'})
 graph.attr(size='6,6')
 
 root = ET.parse(filename).getroot()
