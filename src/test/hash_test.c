@@ -13,7 +13,7 @@
 void test_hash_ops() {
     test_hash_1();
     test_hash_2();
-    test_hash_3();
+    //test_hash_3();
 }
 
 void test_hash_1() {

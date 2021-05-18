@@ -30,7 +30,7 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
 #endif
 
     //First thing we need to do is to rewrite the limit so it always tends to +infinity
-    gruntz_rewrite_lim(link);
+    gruntz_restate_lim(link);
 
 #ifdef GRUNTZ_DEBUG
     export_expr_tree_to_xml("gruntz_rewritten.xml", &fake_head);
@@ -54,6 +54,8 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
     close_xml(xml);
 #endif
 
+    //Now we gotta rewrite for w
+
     free_tree_link(link);
 
     new_link->type = VALUE;
@@ -62,7 +64,7 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
     return new_link;
 }
 
-void gruntz_rewrite_lim(struct expr_tree_link *link) {
+void gruntz_restate_lim(struct expr_tree_link *link) {
     assert(link->ptr->op->args[1]->type == SYMBOL);
     assert(link->ptr->op->args[2]->type == VALUE);
 
@@ -82,12 +84,12 @@ void gruntz_rewrite_lim(struct expr_tree_link *link) {
 
     } else { //Int
         if (mpz_cmp_ui(val->val->int_val, 0) == 0) { //Ah finally something good
-            struct expr_tree_link *new = parse_expr("/ 1 y", link->ptr->op->args[1]);
+            struct expr_tree_link *new = parse_expr("/ 1 a", link->ptr->op->args[1]);
             recursive_replace(expr, link->ptr->op->args[1], new);
             free_tree_link(new);
         } else {
             char *new_expr = malloc(64 * sizeof(char));
-            gmp_snprintf(new_expr, 64, "/ 1 - y %Zd", val->val->int_val);
+            gmp_snprintf(new_expr, 64, "/ 1 - a %Zd", val->val->int_val);
             struct expr_tree_link *new = parse_expr(new_expr, link->ptr->op->args[1]);
             free(new_expr);
             recursive_replace(expr, link->ptr->op->args[1], new);

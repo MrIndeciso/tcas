@@ -80,7 +80,7 @@ struct gruntz_mrv *_mrv_op(struct expr_tree_link *link) {
 }
 
 struct gruntz_mrv *_mrv_exp(struct expr_tree_link *link) {
-    struct expr_tree_link *recurse = parse_expr("lim y x +infinity", link->ptr->op->args[0]);
+    struct expr_tree_link *recurse = parse_expr("lim a x +infinity", link->ptr->op->args[0]);
 
 #ifdef MRV_DEBUG
     struct expr_tree_head fake_head = (struct expr_tree_head) {.head = recurse};

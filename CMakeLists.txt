@@ -111,6 +111,8 @@ set (TEST_SRCS
     src/test/calc_test.c
     src/test/hash_test.h
     src/test/hash_test.c
+    src/test/util_test.h
+    src/test/util_test.c
 )
 
 add_executable(tcas_cli ${SRCS} ${CLI_SRCS})

@@ -1,6 +1,5 @@
 #include <gmp.h>
 #include <mpfr.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #include "hash.h"
@@ -20,8 +19,9 @@ struct expr_hash hash(struct expr_tree_link *link) {
     result.hash += op_hash;
     result.hash <<= 16;
     result.hash += val_hash;
+#ifdef HASH_DEBUG
     printf("Hash: %llu\n", result.hash);
-    fflush(stdout);
+#endif
     return result;
 }
 
