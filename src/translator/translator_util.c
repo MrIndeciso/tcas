@@ -2,6 +2,7 @@
 #include <gmp.h>
 #include <stdlib.h>
 
+#include "type_util.h"
 #include "translator_util.h"
 #include "rpn_defs.h"
 #include "xml.h"
@@ -23,13 +24,17 @@ static void export_tree_link(struct xml *xml, struct expr_tree_link *link) {
         } else if (link->ptr->val->type == RATIONAL) {
             inline_tag(xml, "value", mpq_get_str(NULL, 10, link->ptr->val->val->rational_val), 0);
         } else {
-            mp_exp_t exp;
-            char *str = mpf_get_str(NULL, &exp, 10, 20, link->ptr->val->val->fp_val);
-            char *buffer = malloc(64);
-            snprintf(buffer, 64, "%c.%s**%d", buffer[0], buffer + 1, (int) exp);
-            inline_tag(xml, "value", buffer, 0);
-            free(str);
-            free(buffer);
+            mpfr_exp_t exp;
+            char *str = mpfr_get_str(NULL, &exp, 10, 20, link->ptr->val->val->fp_val, MPFR_ROUNDING);
+            if (str[0] == '@' || str[1] == '@') {
+                inline_tag(xml, "value", str, 0);
+            } else {
+                char *buffer = malloc(64);
+                snprintf(buffer, 64, "%c.%s * 10**%d", str[0], str + 1, (int) exp);
+                inline_tag(xml, "value", buffer, 0);
+                free(buffer);
+            }
+            mpfr_free_str(str);
         }
     } else if (link->type == SYMBOL) {
         char *buffer = malloc(2);
