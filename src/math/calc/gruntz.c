@@ -81,5 +81,4 @@ void gruntz_rewrite_lim(struct expr_tree_link *link) {
             free_tree_link(new);
         }
     }
-
 }

@@ -64,6 +64,8 @@ set (SRCS
     src/util/tree_util.c
     src/util/parse_util.h
     src/util/parse_util.c
+    src/util/hash.h
+    src/util/hash.c
     src/math/math.h
     src/math/math.c
     src/math/type_util.h
@@ -86,6 +88,8 @@ set (SRCS
     src/math/calc/gruntz.c
     src/math/tools/simplify.h
     src/math/tools/simplify.c
+    src/math/tools/gruntz_types.h
+    src/math/tools/gruntz_types.c
     src/tcas.c
     src/tcas.h
 )
