@@ -1,5 +1,6 @@
 #include <gmp.h>
 #include <mpfr.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "hash.h"
@@ -15,10 +16,12 @@ struct expr_hash hash(struct expr_tree_link *link) {
     _hash_link(link);
     struct expr_hash result = {.hash = 0};
     result.hash += sym_hash;
-    result.hash << 16;
+    result.hash <<= 16;
     result.hash += op_hash;
-    result.hash << 16;
+    result.hash <<= 16;
     result.hash += val_hash;
+    printf("Hash: %llu\n", result.hash);
+    fflush(stdout);
     return result;
 }
 
@@ -27,7 +30,7 @@ unsigned long djb2_str(char *str) {
     unsigned long hash = 5381;
     int c;
 
-    while (c = *str++)
+    while ((c = *str++))
         hash = ((hash << 5) + hash) + c;
 
     return hash;
@@ -44,14 +47,14 @@ void _hash_link(struct expr_tree_link *link) {
 }
 
 void _hash_sym(struct expr_tree_sym *sym) {
-    sym_hash << 2;
+    sym_hash <<= 2;
     sym_hash += (unsigned long) sym->sign;
     sym_hash += (unsigned long) (sym->representation & 0b00011111);
 }
 
 void _hash_val(struct expr_tree_val *val) {
     val_hash *= (unsigned long)(val->type + 1);
-    val_hash << 2;
+    val_hash <<= 2;
     char *str = malloc(32);
     if (val->type == INT) {
         gmp_snprintf(str, 32, "%.Zd", val->val->int_val);
@@ -70,4 +73,12 @@ void _hash_op(struct expr_tree_op *op) {
 
     for (size_t i = 0; i < op->arg_count; i++)
         _hash_link(op->args[i]);
+}
+
+int compare_hashes(struct expr_hash hash1, struct expr_hash hash2) {
+    return (int) hash1.hash - hash2.hash;
+}
+
+int compare_link_hash(struct expr_tree_link *link1, struct expr_tree_link *link2) {
+    return compare_hashes(hash(link1), hash(link2));
 }

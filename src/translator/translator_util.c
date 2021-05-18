@@ -5,9 +5,6 @@
 #include "type_util.h"
 #include "translator_util.h"
 #include "rpn_defs.h"
-#include "xml.h"
-
-static void export_tree_link(struct xml *xml, struct expr_tree_link *link);
 
 void export_expr_tree_to_xml(char *filename, struct expr_tree_head *head) {
     struct xml *xml = open_xml(filename);
@@ -17,7 +14,7 @@ void export_expr_tree_to_xml(char *filename, struct expr_tree_head *head) {
     close_xml(xml);
 }
 
-static void export_tree_link(struct xml *xml, struct expr_tree_link *link) {
+void export_tree_link(struct xml *xml, struct expr_tree_link *link) {
     if (link->type == VALUE) {
         if (link->ptr->val->type == INT) {
             inline_tag(xml, "value", mpz_get_str(NULL, 10, link->ptr->val->val->int_val), 0);

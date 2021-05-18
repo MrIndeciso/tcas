@@ -8,13 +8,16 @@
 #define GRUNTZ_DEBUG
 
 #include "gruntz.h"
+#include "gruntz_types.h"
 #include "mem_util.h"
+#include "mrv.h"
 #include "type_util.h"
 #include "tree_util.h"
 #include "parse_util.h"
 #include "simplify.h"
 
 #ifdef GRUNTZ_DEBUG
+#include "xml.h"
 #include "translator_util.h"
 #endif
 
@@ -39,6 +42,16 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
 #ifdef GRUNTZ_DEBUG
     fake_head.head = simplified;
     export_expr_tree_to_xml("gruntz_simplified.xml", &fake_head);
+#endif
+
+    //Now let's try to find the MRV
+    struct gruntz_mrv mrv = gruntz_find_mrv_set(simplified);
+
+#ifdef GRUNTZ_DEBUG
+    struct xml *xml = open_xml("gruntz_mrv.xml");
+    for (size_t i = 0; i < mrv.count; i++)
+        export_tree_link(xml, mrv.expr[i]->expr);
+    close_xml(xml);
 #endif
 
     free_tree_link(link);
@@ -81,4 +94,10 @@ void gruntz_rewrite_lim(struct expr_tree_link *link) {
             free_tree_link(new);
         }
     }
+}
+
+struct gruntz_mrv gruntz_find_mrv_set(struct expr_tree_link *link) {
+    struct gruntz_mrv mrv = {.count = 0, .expr = NULL};
+    recursive_mrv_finder(&mrv, link);
+    return mrv;
 }

@@ -54,6 +54,7 @@ set (SRCS
     src/types/tcas_enums.h
     src/types/tcas_structs.h
     src/types/tokenizer_structs.h
+    src/types/gruntz_types.h
     src/xml/xml.c
     src/xml/xml.h
     src/util/mem_util.h
@@ -86,10 +87,10 @@ set (SRCS
     src/math/adv/power.c
     src/math/calc/gruntz.h
     src/math/calc/gruntz.c
+    src/math/calc/mrv.h
+    src/math/calc/mrv.c
     src/math/tools/simplify.h
     src/math/tools/simplify.c
-    src/math/tools/gruntz_types.h
-    src/math/tools/gruntz_types.c
     src/tcas.c
     src/tcas.h
 )
@@ -108,6 +109,8 @@ set (TEST_SRCS
     src/test/adv_test.c
     src/test/calc_test.h
     src/test/calc_test.c
+    src/test/hash_test.h
+    src/test/hash_test.c
 )
 
 add_executable(tcas_cli ${SRCS} ${CLI_SRCS})

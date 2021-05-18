@@ -26,6 +26,9 @@ struct expr_tree_link* parse_expr(char *expr, struct expr_tree_link *subst) {
     struct graph_link *head = parse(count, tkn, MODE_PN);
     free(tkn);
     struct expr_tree_head *expr_head = translate_graph(head);
-    recursive_replace(expr_head->head, find, subst);
+
+    if (subst != NULL)
+        recursive_replace(expr_head->head, find, subst);
+
     return expr_head->head;
 }
