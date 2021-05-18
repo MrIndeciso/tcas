@@ -1,5 +1,6 @@
 #include <gmp.h>
 #include <mpfr.h>
+#include <stdlib.h>
 
 #include "hash.h"
 
@@ -65,7 +66,7 @@ void _hash_val(struct expr_tree_val *val) {
 
 void _hash_op(struct expr_tree_op *op) {
     op_hash *= (unsigned int) (op->type + 1);
-    op_hash += (unsigned int) op->arg_count);
+    op_hash += (unsigned int) op->arg_count;
 
     for (size_t i = 0; i < op->arg_count; i++)
         _hash_link(op->args[i]);
