@@ -75,15 +75,16 @@ void recursive_replace(
 ) {
     if (head->type == OPERATOR) { //Has children
         for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
-            recursive_replace(head->ptr->op->args[i], find, replace);
-        }
-
-        for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
             if (compare_links(head->ptr->op->args[i], find) == 0) {
                 free_tree_link(head->ptr->op->args[i]);
                 struct expr_tree_link *clone = clone_link(replace);
                 head->ptr->op->args[i] = clone;
+                return;
             }
+        }
+
+        for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
+            recursive_replace(head->ptr->op->args[i], find, replace);
         }
     }
 }

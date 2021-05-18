@@ -4,6 +4,15 @@
 #include "expr_structs.h"
 #include "gruntz_types.h"
 
-void recursive_mrv_finder(struct gruntz_mrv *set, struct expr_tree_link *link);
+struct gruntz_mrv *recursive_mrv_finder(struct expr_tree_link *link);
+
+struct gruntz_mrv *_mrv_max(struct gruntz_mrv *set1, struct gruntz_mrv *set2);
+
+struct gruntz_mrv *_mrv_generic(struct expr_tree_link *link);
+struct gruntz_mrv *_mrv_val(struct expr_tree_link *link);
+struct gruntz_mrv *_mrv_sym(struct expr_tree_link *link);
+struct gruntz_mrv *_mrv_op(struct expr_tree_link *link);
+
+struct gruntz_mrv *_mrv_exp(struct expr_tree_link *link);
 
 #endif

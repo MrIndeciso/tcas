@@ -45,12 +45,12 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
 #endif
 
     //Now let's try to find the MRV
-    struct gruntz_mrv mrv = gruntz_find_mrv_set(simplified);
+    struct gruntz_mrv *mrv = gruntz_find_mrv_set(simplified);
 
 #ifdef GRUNTZ_DEBUG
     struct xml *xml = open_xml("gruntz_mrv.xml");
-    for (size_t i = 0; i < mrv.count; i++)
-        export_tree_link(xml, mrv.expr[i]->expr);
+    for (size_t i = 0; i < mrv->count; i++)
+        export_tree_link(xml, mrv->expr[i]->expr);
     close_xml(xml);
 #endif
 
@@ -96,8 +96,6 @@ void gruntz_rewrite_lim(struct expr_tree_link *link) {
     }
 }
 
-struct gruntz_mrv gruntz_find_mrv_set(struct expr_tree_link *link) {
-    struct gruntz_mrv mrv = {.count = 0, .expr = NULL};
-    recursive_mrv_finder(&mrv, link);
-    return mrv;
+struct gruntz_mrv *gruntz_find_mrv_set(struct expr_tree_link *link) {
+    return recursive_mrv_finder(link->ptr->op->args[0]);
 }
