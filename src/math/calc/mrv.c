@@ -4,8 +4,10 @@
 #define MRV_DEBUG
 
 #include "gruntz.h"
+#include "hash.h"
 #include "mem_util.h"
 #include "mrv.h"
+#include "tree_util.h"
 #include "parse_util.h"
 
 #ifdef MRV_DEBUG
@@ -19,6 +21,21 @@ inline struct gruntz_mrv *recursive_mrv_finder(struct expr_tree_link *link) {
 struct gruntz_mrv *_mrv_max(struct gruntz_mrv *set1, struct gruntz_mrv *set2) {
     if (set1->count == 0) return set2;
     if (set2->count == 0) return set1;
+
+    //Let's add a check for some common cases
+    if (set1->count == 1 && set2->count == 1 && compare_links(set1->expr[0]->expr, set2->expr[0]->expr) == 0) {
+        return set1;
+    } else if (set1->count == 1
+               && set2->count == 1
+               && hash(set1->expr[0]->expr).hash == 107374247936
+               && hash(set2->expr[0]->expr).hash == 107374182400) { //set1 is e^x and set2 is x
+        return set1;
+    } else if (set1->count == 1
+               && set2->count == 1
+               && hash(set1->expr[0]->expr).hash == 107374247936
+               && hash(set2->expr[0]->expr).hash == 107374182400) { //set2 is e^x and set1 is x
+        return set2;
+    }
 
     return set2;
 }
@@ -81,7 +98,6 @@ struct gruntz_mrv *_mrv_op(struct expr_tree_link *link) {
 
 struct gruntz_mrv *_mrv_exp(struct expr_tree_link *link) {
     assert(link->ptr->op->type == EXP);
-    assert(link->ptr->op->args[0]->type == SYMBOL);
     //Short path for e^x
     if (link->ptr->op->args[0]->type == SYMBOL
             && link->ptr->op->args[0]->ptr->sym->sign == 1) {

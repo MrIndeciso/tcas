@@ -3,6 +3,8 @@
 #include <mpfr.h>
 #include <stdlib.h>
 
+#include "hash.h"
+#include "parse_util.h"
 #include "simplify.h"
 #include "tree_util.h"
 #include "mem_util.h"
@@ -13,7 +15,7 @@
 //3) times 1
 //4) div 1
 //5) plus 0
-//6) sub 0
+//6) 1 / exp
 
 struct expr_tree_link *simplify(struct expr_tree_link *link) {
     return truncate_useless(_simplify(_simplify(link)));
@@ -82,9 +84,16 @@ struct expr_tree_link *analyze_division(struct expr_tree_link *link) {
         link->ptr->op->arg_count = 0;
         free_tree_link(link);
         return new;
-    }/* else if (link->ptr->op->args[1]->ptr->op->type == TIMES) {
-
-    }*/ else {
+    } else if (link->ptr->op->args[1]->ptr->op->type == EXP) {
+        //Let's have to different behaviour based on what the expression is, just a short path for a common combo
+        if (hash(link->ptr->op->args[1]).hash == 107374247936) { //e^x
+            return parse_expr("* a exp -x", link->ptr->op->args[0]);
+        } else if (hash(link->ptr->op->args[1]).hash == 98784313344) { //e^-x
+            return parse_expr("* a exp x", link->ptr->op->args[0]);
+        } else { //Anything else
+            return parse_double_expr("* a exp - 0 b", link->ptr->op->args[0], link->ptr->op->args[1]);
+        }
+    } else {
         return link;
     }
 }
@@ -134,7 +143,7 @@ struct expr_tree_link *truncate_useless(struct expr_tree_link *link) {
         } else {
             return link;
         }
-    } else if (link->ptr->op->type == PLUS || link->ptr->op->type == MINUS) {
+    } else if (link->ptr->op->type == PLUS/* || link->ptr->op->type == MINUS*/) {
         if (link->ptr->op->args[0]->type == VALUE) {
             if (link->ptr->op->args[0]->ptr->val->type == INT) {
                 if (mpz_cmp_ui(link->ptr->op->args[0]->ptr->val->val->int_val, 0) == 0) { //Sum/subtract by 0
