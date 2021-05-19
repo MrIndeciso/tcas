@@ -54,7 +54,19 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
     close_xml(xml);
 #endif
 
-    //Now we gotta rewrite for w
+    //Let's check if the MRV contains x, in that case we need to rewrite the lim
+    for (size_t i = 0; i < mrv->count; i++) {
+        if (mrv->expr[i]->expr->type == SYMBOL) { //It has to be x
+            struct expr_tree_link *newsym = parse_expr("exp x", NULL);
+            recursive_sym_replace(simplified->ptr->op->args[0], mrv->expr[i]->expr, newsym);
+#ifdef GRUNTZ_DEBUG
+            fake_head.head = simplified;
+            export_expr_tree_to_xml("gruntz_replaced.xml", &fake_head);
+#endif
+            free_tree_link(newsym);
+            return gruntz_eval(simplified);
+        }
+    }
 
     free_tree_link(link);
 
@@ -79,9 +91,11 @@ void gruntz_restate_lim(struct expr_tree_link *link) {
             } else { //Need to swap signs
                 invert_symbol_signs(expr, sym);
             }
+        } else {
+            assert(0); //Not implemented
         }
     } else if (val->type == RATIONAL) { //Oh god please no
-
+        assert(0); //Not implemented
     } else { //Int
         if (mpz_cmp_ui(val->val->int_val, 0) == 0) { //Ah finally something good
             struct expr_tree_link *new = parse_expr("/ 1 a", link->ptr->op->args[1]);

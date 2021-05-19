@@ -27,7 +27,7 @@ struct expr_tree_link *_simplify(struct expr_tree_link *link) {
     }
 
     switch (link->ptr->op->type) {
-        case LOG:
+        case LN:
         case EXP:
             return analyze_explog(link);
             break;

@@ -79,12 +79,32 @@ void recursive_replace(
                 free_tree_link(head->ptr->op->args[i]);
                 struct expr_tree_link *clone = clone_link(replace);
                 head->ptr->op->args[i] = clone;
-                return;
+                //return;
             }
         }
 
         for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
             recursive_replace(head->ptr->op->args[i], find, replace);
+        }
+    }
+}
+
+void recursive_sym_replace(
+        struct expr_tree_link *head,
+        struct expr_tree_link *find,
+        struct expr_tree_link *replace
+) {
+    if (head->type == OPERATOR) { //Has children
+        for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
+            if (head->ptr->op->args[i]->type == OPERATOR) {
+                recursive_sym_replace(head->ptr->op->args[i], find, replace);
+            } else if (head->ptr->op->args[i]->type == SYMBOL) {
+                if (compare_links(head->ptr->op->args[i], find) == 0) {
+                    free_tree_link(head->ptr->op->args[i]);
+                    struct expr_tree_link *clone = clone_link(replace);
+                    head->ptr->op->args[i] = clone;
+                }
+            }
         }
     }
 }

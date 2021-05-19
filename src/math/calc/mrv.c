@@ -80,6 +80,25 @@ struct gruntz_mrv *_mrv_op(struct expr_tree_link *link) {
 }
 
 struct gruntz_mrv *_mrv_exp(struct expr_tree_link *link) {
+    assert(link->ptr->op->type == EXP);
+    assert(link->ptr->op->args[0]->type == SYMBOL);
+    //Short path for e^x
+    if (link->ptr->op->args[0]->type == SYMBOL
+            && link->ptr->op->args[0]->ptr->sym->sign == 1) {
+        struct gruntz_mrv *mrv = malloc(sizeof(struct gruntz_mrv));
+        mrv->count = 1;
+        mrv->expr = malloc(1 * sizeof(struct gruntz_expr*));
+        mrv->expr[0] = malloc(sizeof(struct gruntz_expr));
+        mrv->expr[0]->expr = link;
+        return _mrv_max(mrv, _mrv_generic(link->ptr->op->args[0]));
+    }
+    //Short path for e^-x
+    if (link->ptr->op->args[0]->type == SYMBOL
+            && link->ptr->op->args[0]->ptr->sym->sign == -1) {
+        return _mrv_generic(link->ptr->op->args[0]);
+    }
+
+
     struct expr_tree_link *recurse = parse_expr("lim a x +infinity", link->ptr->op->args[0]);
 
 #ifdef MRV_DEBUG
