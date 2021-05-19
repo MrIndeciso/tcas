@@ -31,6 +31,7 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
 
     //First thing we need to do is to rewrite the limit so it always tends to +infinity
     gruntz_restate_lim(link);
+    gruntz_set_lim_value(link);
 
 #ifdef GRUNTZ_DEBUG
     export_expr_tree_to_xml("gruntz_rewritten.xml", &fake_head);
@@ -57,8 +58,9 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
     //Let's check if the MRV contains x, in that case we need to rewrite the lim
     for (size_t i = 0; i < mrv->count; i++) {
         if (mrv->expr[i]->expr->type == SYMBOL) { //It has to be x
+            struct expr_tree_link *find = parse_expr("x", NULL);
             struct expr_tree_link *newsym = parse_expr("exp x", NULL);
-            recursive_sym_replace(simplified->ptr->op->args[0], mrv->expr[i]->expr, newsym);
+            recursive_sym_replace(simplified->ptr->op->args[0], find, newsym);
 #ifdef GRUNTZ_DEBUG
             fake_head.head = simplified;
             export_expr_tree_to_xml("gruntz_replaced.xml", &fake_head);
@@ -67,6 +69,9 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
             return gruntz_eval(simplified);
         }
     }
+
+    //We should be all set now, I hope
+    //Let's do some MRV rewrite magic
 
     free_tree_link(link);
 
@@ -110,6 +115,15 @@ void gruntz_restate_lim(struct expr_tree_link *link) {
             free_tree_link(new);
         }
     }
+}
+
+void gruntz_set_lim_value(struct expr_tree_link *link) {
+    struct expr_tree_val *val = link->ptr->op->args[2]->ptr->val;
+
+    if (val->type != FLOAT)
+        make_float(val);
+
+    mpfr_set_inf(val->val->fp_val, 1);
 }
 
 struct gruntz_mrv *gruntz_find_mrv_set(struct expr_tree_link *link) {

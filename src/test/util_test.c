@@ -24,6 +24,8 @@ void test_util_ops() {
     test_simplify_8();
     test_simplify_9();
     test_simplify_10();
+
+    test_sym_replace_1();
 }
 
 void test_parse_1() {
@@ -58,7 +60,6 @@ void test_simplify_1() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_2() {
@@ -70,7 +71,6 @@ void test_simplify_2() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_3() {
@@ -82,7 +82,6 @@ void test_simplify_3() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_4() {
@@ -94,7 +93,6 @@ void test_simplify_4() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_5() {
@@ -111,7 +109,6 @@ void test_simplify_5() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_7() {
@@ -123,7 +120,6 @@ void test_simplify_7() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_8() {
@@ -135,7 +131,6 @@ void test_simplify_8() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_9() {
@@ -147,7 +142,6 @@ void test_simplify_9() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
 }
 
 void test_simplify_10() {
@@ -159,5 +153,19 @@ void test_simplify_10() {
 
     free_tree_link(exp1);
     free_tree_link(exp2);
-    //free_tree_link(simplified);
+}
+
+void test_sym_replace_1() {
+    struct expr_tree_link *expr = parse_expr("/ sin x x", NULL);
+    struct expr_tree_link *result = parse_expr("/ sin exp x exp x", NULL);
+    struct expr_tree_link *newsym = parse_expr("exp x", NULL);
+    struct expr_tree_link *sym = parse_expr("x", NULL);
+    recursive_sym_replace(expr, sym, newsym);
+
+    result(compare_links(expr, result) == 0);
+
+    free_tree_link(expr);
+    free_tree_link(result);
+    free_tree_link(newsym);
+    free_tree_link(sym);
 }

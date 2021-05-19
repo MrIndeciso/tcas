@@ -23,19 +23,27 @@ struct gruntz_mrv *_mrv_max(struct gruntz_mrv *set1, struct gruntz_mrv *set2) {
     if (set2->count == 0) return set1;
 
     //Let's add a check for some common cases
-    if (set1->count == 1 && set2->count == 1 && compare_links(set1->expr[0]->expr, set2->expr[0]->expr) == 0) {
+    if (set1->count == 1 && set2->count == 1 && compare_links(set1->expr[0]->expr, set2->expr[0]->expr) == 0) { //same
         return set1;
-    } else if (set1->count == 1
-               && set2->count == 1
+    } else if (set1->count == 1 && set2->count == 1
                && hash(set1->expr[0]->expr).hash == 107374247936
                && hash(set2->expr[0]->expr).hash == 107374182400) { //set1 is e^x and set2 is x
         return set1;
-    } else if (set1->count == 1
-               && set2->count == 1
+    } else if (set1->count == 1 && set2->count == 1
                && hash(set1->expr[0]->expr).hash == 107374247936
                && hash(set2->expr[0]->expr).hash == 107374182400) { //set2 is e^x and set1 is x
         return set2;
+    } else if (set1->count == 1 && set2->count == 1
+               && hash(set1->expr[0]->expr).hash == 107374247936
+               && hash(set2->expr[0]->expr).hash == 98784313344) { // set1 is e^x and set2 is e^-x
+        return _mrv_join_sets(set1, set2);
+    } else if (set1->count == 1 && set2->count == 1
+               && hash(set2->expr[0]->expr).hash == 107374247936
+               && hash(set1->expr[0]->expr).hash == 98784313344) { // set2 is e^x and set1 is e^-x
+        return _mrv_join_sets(set1, set2);
     }
+
+    //assert(0); //TODO Finish implementation
 
     return set2;
 }
@@ -132,4 +140,21 @@ struct gruntz_mrv *_mrv_exp(struct expr_tree_link *link) {
     } else {
         return _mrv_generic(link->ptr->op->args[0]);
     }
+}
+
+struct gruntz_mrv *_mrv_join_sets(struct gruntz_mrv *set1, struct gruntz_mrv *set2) {
+    struct gruntz_mrv *new = malloc(sizeof(struct gruntz_mrv));
+    new->count = set1->count + set2->count;
+    new->expr = malloc(sizeof(struct gruntz_expr*));
+
+    for (size_t i = 0; i < set1->count; i++)
+        new->expr[i] = set1->expr[i];
+
+    for (size_t i = 0; i < set2->count; i++)
+        new->expr[set1->count + i] = set2->expr[i];
+
+    free(set1);
+    free(set2);
+
+    return new;
 }

@@ -17,4 +17,6 @@ void test_simplify_8();
 void test_simplify_9();
 void test_simplify_10();
 
+void test_sym_replace_1();
+
 #endif
