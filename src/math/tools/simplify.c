@@ -16,6 +16,7 @@
 //4) div 1
 //5) plus 0
 //6) 1 / exp
+//7) 1 / exp (a - b) -> (b - a)
 
 struct expr_tree_link *simplify(struct expr_tree_link *link) {
     return truncate_useless(_simplify(_simplify(link)));
@@ -90,8 +91,14 @@ struct expr_tree_link *analyze_division(struct expr_tree_link *link) {
             return parse_expr("* a exp -x", link->ptr->op->args[0]);
         } else if (hash(link->ptr->op->args[1]).hash == 98784313344) { //e^-x
             return parse_expr("* a exp x", link->ptr->op->args[0]);
+        } else if (link->ptr->op->args[1]->ptr->op->args[0]->type == OPERATOR
+                   && link->ptr->op->args[1]->ptr->op->args[0]->ptr->op->type == MINUS) { //e^(a-b) becomes e^(b-a)
+            struct expr_tree_link *temp = link->ptr->op->args[1]->ptr->op->args[0]->ptr->op->args[0];
+            link->ptr->op->args[1]->ptr->op->args[0]->ptr->op->args[0] = link->ptr->op->args[1]->ptr->op->args[0]->ptr->op->args[1];
+            link->ptr->op->args[1]->ptr->op->args[0]->ptr->op->args[1] = temp;
+            return parse_double_expr("* a exp b", link->ptr->op->args[0], link->ptr->op->args[1]->ptr->op->args[0]);
         } else { //Anything else
-            return parse_double_expr("* a exp - 0 b", link->ptr->op->args[0], link->ptr->op->args[1]);
+            return parse_double_expr("* a exp - 0 b", link->ptr->op->args[0], link->ptr->op->args[1]->ptr->op->args[0]);
         }
     } else {
         return link;

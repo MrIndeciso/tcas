@@ -20,6 +20,7 @@ void test_util_ops() {
     test_simplify_3();
     test_simplify_4();
     test_simplify_5();
+    test_simplify_6();
     test_simplify_7();
     test_simplify_8();
     test_simplify_9();
@@ -96,16 +97,32 @@ void test_simplify_4() {
 }
 
 void test_simplify_5() {
-    struct expr_tree_link *exp1 = parse_expr("2 / exp x", NULL);
+    struct expr_tree_link *exp1 = parse_expr("/ 2 exp x", NULL);
     struct expr_tree_link *exp2 = parse_expr("* 2 exp -x", NULL);
     struct expr_tree_link *simplified = simplify(exp1);
 
     result(compare_links(exp2, simplified) == 0);
 
-    /*struct expr_tree_head fake_head = (struct expr_tree_head) {.head = exp2};
+    struct expr_tree_head fake_head = (struct expr_tree_head) {.head = exp2};
     export_expr_tree_to_xml("exp2.xml", &fake_head);
     fake_head.head = simplified;
-    export_expr_tree_to_xml("final.xml", &fake_head);*/
+    export_expr_tree_to_xml("final.xml", &fake_head);
+
+    free_tree_link(exp1);
+    free_tree_link(exp2);
+}
+
+void test_simplify_6() {
+    struct expr_tree_link *exp1 = parse_expr("/ 3 exp - 8 4", NULL);
+    struct expr_tree_link *exp2 = parse_expr("* 3 exp - 4 8", NULL);
+    struct expr_tree_link *simplified = simplify(exp1);
+
+    result(compare_links(exp2, simplified) == 0);
+
+    struct expr_tree_head fake_head = (struct expr_tree_head) {.head = exp2};
+    export_expr_tree_to_xml("exp2.xml", &fake_head);
+    fake_head.head = simplified;
+    export_expr_tree_to_xml("final.xml", &fake_head);
 
     free_tree_link(exp1);
     free_tree_link(exp2);
