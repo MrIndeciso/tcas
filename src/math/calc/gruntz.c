@@ -72,6 +72,8 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
 
     //We should be all set now, I hope
     //Let's do some MRV rewrite magic
+    gruntz_rewrite_lim(simplified, mrv);
+
 
     free_tree_link(link);
 
@@ -129,3 +131,36 @@ void gruntz_set_lim_value(struct expr_tree_link *link) {
 struct gruntz_mrv *gruntz_find_mrv_set(struct expr_tree_link *link) {
     return recursive_mrv_finder(link->ptr->op->args[0]);
 }
+
+void gruntz_rewrite_lim(struct expr_tree_link *link, struct gruntz_mrv *mrv) {
+    assert(mrv->count > 0);
+
+    struct gruntz_mrv *new = mrv_rewrite(mrv);
+
+#ifdef GRUNTZ_DEBUG
+    struct xml *xml1 = open_xml("gruntz_rewrite_mrv_start.xml");
+    for (size_t i = 0; i < mrv->count; i++)
+        export_tree_link(xml1, mrv->expr[i]->expr);
+    close_xml(xml1);
+#endif
+
+#ifdef GRUNTZ_DEBUG
+    struct xml *xml2 = open_xml("gruntz_rewrite_mrv_rewritten.xml");
+    for (size_t i = 0; i < new->count; i++)
+        export_tree_link(xml2, new->expr[i]->expr);
+    close_xml(xml2);
+#endif
+
+    assert((mrv->count - new->count) == 0);
+
+    for (size_t i = 0; i < mrv->count; i++) {
+        recursive_replace_dont_free(link, mrv->expr[i]->expr, new->expr[i]->expr);
+    }
+
+#ifdef GRUNTZ_DEBUG
+    struct expr_tree_head fake_head = (struct expr_tree_head) {.head = link};
+    export_expr_tree_to_xml("gruntz_rewrite_final.xml", &fake_head);
+#endif
+
+}
+

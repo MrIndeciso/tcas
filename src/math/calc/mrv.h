@@ -17,4 +17,6 @@ struct gruntz_mrv *_mrv_exp(struct expr_tree_link *link);
 
 struct gruntz_mrv *_mrv_join_sets(struct gruntz_mrv *set1, struct gruntz_mrv *set2);
 
+struct gruntz_mrv *mrv_rewrite(struct gruntz_mrv *mrv);
+
 #endif

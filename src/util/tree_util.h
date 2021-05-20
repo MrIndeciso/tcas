@@ -19,6 +19,12 @@ void recursive_replace(
         struct expr_tree_link *replace
 );
 
+void recursive_replace_dont_free(
+        struct expr_tree_link *head,
+        struct expr_tree_link *find,
+        struct expr_tree_link *replace
+);
+
 void recursive_sym_replace(
         struct expr_tree_link *head,
         struct expr_tree_link *find,

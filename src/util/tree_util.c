@@ -89,6 +89,25 @@ void recursive_replace(
     }
 }
 
+void recursive_replace_dont_free(
+        struct expr_tree_link *head,
+        struct expr_tree_link *find,
+        struct expr_tree_link *replace
+) {
+    if (head->type == OPERATOR) { //Has children
+        for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
+            recursive_replace_dont_free(head->ptr->op->args[i], find, replace);
+        }
+
+        for (size_t i = 0; i < head->ptr->op->arg_count; i++) {
+            if (compare_links(head->ptr->op->args[i], find) == 0) {
+                struct expr_tree_link *clone = clone_link(replace);
+                head->ptr->op->args[i] = clone;
+            }
+        }
+    }
+}
+
 void recursive_sym_replace(
         struct expr_tree_link *head,
         struct expr_tree_link *find,
