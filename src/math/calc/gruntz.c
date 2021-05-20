@@ -14,6 +14,7 @@
 #include "type_util.h"
 #include "tree_util.h"
 #include "parse_util.h"
+#include "series.h"
 #include "simplify.h"
 
 #ifdef GRUNTZ_DEBUG
@@ -74,6 +75,8 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
     //Let's do some MRV rewrite magic
     gruntz_rewrite_lim(simplified, mrv);
 
+    //Now let's make the expression into a power series, but we just need the first term
+    struct expr_tree_link *leading = compute_leadterm(simplified->ptr->op->args[0]);
 
     free_tree_link(link);
 

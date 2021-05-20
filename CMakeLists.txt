@@ -89,6 +89,8 @@ set (SRCS
     src/math/calc/gruntz.c
     src/math/calc/mrv.h
     src/math/calc/mrv.c
+    src/math/calc/series.h
+    src/math/calc/series.c
     src/math/tools/simplify.h
     src/math/tools/simplify.c
     src/tcas.c
