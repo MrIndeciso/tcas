@@ -190,6 +190,20 @@ struct gruntz_mrv *mrv_rewrite(struct gruntz_mrv *mrv) {
         new->expr[1] = malloc(sizeof(struct gruntz_expr));
         new->expr[1]->expr = parse_expr("/ 1 w", NULL);
         return new;
+    } else if (mrv->count == 1 && hash(mrv->expr[0]->expr).hash == 98784313344) {
+        struct gruntz_mrv *new = malloc(sizeof(struct gruntz_mrv));
+        new->count = 1;
+        new->expr = malloc(new->count * sizeof(struct gruntz_expr*));
+        new->expr[0] = malloc(sizeof(struct gruntz_expr));
+        new->expr[0]->expr = parse_expr("/ 1 w", NULL);
+        return new;
+    } else if (mrv->count == 1 && hash(mrv->expr[0]->expr).hash == 107374247936) {
+        struct gruntz_mrv *new = malloc(sizeof(struct gruntz_mrv));
+        new->count = 1;
+        new->expr = malloc(new->count * sizeof(struct gruntz_expr*));
+        new->expr[0] = malloc(sizeof(struct gruntz_expr));
+        new->expr[0]->expr = parse_expr("w", NULL);
+        return new;
     }
 
     struct gruntz_expr *expr = mrv->expr[0];

@@ -17,6 +17,7 @@
 //5) plus 0
 //6) 1 / exp
 //7) 1 / exp (a - b) -> (b - a)
+//8) times a 1 / b
 
 struct expr_tree_link *simplify(struct expr_tree_link *link) {
     return truncate_useless(_simplify(_simplify(link)));
@@ -37,6 +38,9 @@ struct expr_tree_link *_simplify(struct expr_tree_link *link) {
         case DIVIDE:
             return analyze_division(link);
             break;
+        case TIMES:
+            return analyze_times(link);
+            break;
         default:
             return link;
             break;
@@ -54,6 +58,23 @@ struct expr_tree_link *analyze_explog(struct expr_tree_link *link) {
         link->ptr->op->args[0]->ptr->op->arg_count = 0;
         free_tree_link(link);
         return new;
+    } else {
+        return link;
+    }
+}
+
+struct expr_tree_link *analyze_times(struct expr_tree_link *link) {
+    if (link->ptr->op->args[0]->type != OPERATOR
+            && link->ptr->op->args[1]->type != OPERATOR) {
+        return link;
+    } else if (link->ptr->op->args[0]->type == OPERATOR
+               && link->ptr->op->args[0]->ptr->op->type == DIVIDE
+               && link->ptr->op->args[0]->ptr->op->args[0]->type == VALUE) {
+        return parse_double_expr("/ a b", link->ptr->op->args[1], link->ptr->op->args[0]->ptr->op->args[1]);
+    } else if (link->ptr->op->args[1]->type == OPERATOR
+               && link->ptr->op->args[1]->ptr->op->type == DIVIDE
+               && link->ptr->op->args[1]->ptr->op->args[0]->type == VALUE) {
+        return parse_double_expr("/ a b", link->ptr->op->args[0], link->ptr->op->args[1]->ptr->op->args[1]);
     } else {
         return link;
     }

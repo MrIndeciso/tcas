@@ -75,15 +75,20 @@ struct expr_tree_link* gruntz_eval(struct expr_tree_link *link) {
     //Let's do some MRV rewrite magic
     gruntz_rewrite_lim(simplified, mrv);
 
+    //Let's simplify it again
+    simplified = simplify(simplified);
+
+#ifdef GRUNTZ_DEBUG
+            fake_head.head = simplified;
+            export_expr_tree_to_xml("gruntz_replaced.xml", &fake_head);
+#endif
+
     //Now let's make the expression into a power series, but we just need the first term
-    struct expr_tree_link *leading = compute_leadterm(simplified->ptr->op->args[0]);
+    struct expr_tree_link *result = compute_gruntz_result(simplified->ptr->op->args[0]);
 
     free_tree_link(link);
 
-    new_link->type = VALUE;
-    new_link->ptr = malloc(sizeof(union expr_tree_ptr));
-
-    return new_link;
+    return result;
 }
 
 void gruntz_restate_lim(struct expr_tree_link *link) {
