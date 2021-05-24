@@ -9,12 +9,12 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{amsmath}
-
+\usepackage{amsthm}
 \usepackage{biblatex}
 \addbibresource{tcas.bib}
 
-\title{T.C.A.S.: TCAS Can Always Solve \\
-		\large A Numerical Analysis Method for Limit Evaluation}
+\title{\textbf{T.C.A.S.}: \textbf{T}CAS \textbf{C}an \textbf{A}lways \textbf{S}olve \\
+		\large Numerical Analysis: a Concrete Computational Approach to Limit Evaluation}
 \author{Roberto Alessandro Bertolini}
 
 \date{}
@@ -22,11 +22,18 @@
 \affil{Liceo Nervi Ferrari - Morbegno}
 \onehalfspacing
 
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+
 \begin{document}
 	\maketitle
 	
 	\begin{abstract}
-		
+		Evaluating limits by hand can become a trivial task with a bit of exercise, but a regular computer is generally incapable of proceeding intuitively and needs a reliable algorithm in order to be able to reach consistently the same result. 
+		While some purely heuristic or naive approaches might, at first glance, seem good enough, they tend to quickly fall apart in real conditions. TCAS is a portable universal C implementation of the Gruntz Algorithm \cite{gruntz}, which at the present day is the most efficient and reliable way of evaluating limits in the exp-log field of operations.
 	\end{abstract}
 
 	\tableofcontents
@@ -37,7 +44,21 @@
 	
 	\subsection{The Limit of a Function}
 	
+	The limit of the function $ f: \mathbf{R} \rightarrow \mathbf{R} $ is defined as the following:
+	
+	\begin{defn}
+		\[ 
+		\lim_{x \rightarrow x_{0}}{f(x) = l} 
+		 \]
+		 
+		 If and only if \( 
+		 \forall \epsilon > 0 \enspace \exists \enspace \delta(\epsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \epsilon
+		  \)
+	\end{defn}
+	
 	\subsection{Polish Notation}
+	
+	
 	
 	\subsection{The Shortcomings of the Naive Approach}
 	
@@ -49,7 +70,7 @@
 	
 	\subsection{Caveats and Limitations}
 	
-	\section{TCAS}
+	\section{T.C.A.S.}
 	
 	\subsection{Expression Parsing}
 	
