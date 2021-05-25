@@ -5,7 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
 \usepackage{setspace}
-\usepackage[margin=3cm]{geometry}
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{amsmath}
@@ -54,7 +54,7 @@
 		 \]
 		 
 		 If and only if \( 
-		 \forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, where x_{0}, \varepsilon \in \mathbf{R}
+		 \forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, \text{where} \: x_{0}, \varepsilon \in \mathbf{R}
 		  \)
 	\end{defn}
 	
@@ -81,7 +81,7 @@
 	\]
 	
 	It necessary evaluates to a single result.
-	This makes parsing the expression into an abstract syntax tree much easier, as the Parser doesn't have to make educated choices about its interpretation.
+	This makes parsing the expression into an abstract syntax tree much easier, as the parser doesn't have to make educated choices about its interpretation.
 	
 	\subsection{The Shortcomings of the Naive Approach}
 	
@@ -112,18 +112,45 @@
 	
 	\section{The Gruntz Algorithm}
 	
-	\subsection{The Most Rapidly Varying Subexpressions}
-	
-	The MRV set of an expression is defined as the following:
+	\subsection{Manipulating the Most Rapidly Varying Subexpressions}
 	
 	\begin{defn}
+		\(g(x)\) is said to be a subexpression of \(f(x)\) if the evaluation of \(f(x)\) causes the evaluation of \(g(x)\). This is represented with the following notation:
+		\[
+			\begin{aligned}
+				g(x) \triangleleft f(x)&\text{, if} \: g(x) \: \text{is a subexpression of} \: f(x) \\
+				g(x) \ntriangleleft f(x)&\text{, if} \: g(x) \: \text{is not a subexpression of} \: f(x)
+			\end{aligned}
+		\]
+	\end{defn}
+	
+	\begin{defn}
+		Two subexpressions \(g(x)\) and \(h(x)\) can be compared based on their comparability class, which describes how rapidly they vary.
+		\[
+			\begin{aligned}
+				f(x) \prec g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
+				f(x) \asymp g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
+			\end{aligned}
+		\]
+	\end{defn}
+	
+	\begin{defn}
+		The MRV set is the set that contains all the subexpressions of the highest comparability class.
 	    \[
 	    mrv(f(x)) = \begin{cases}
-	    	\{\} \quad if \enspace x \ntriangleleft f(x) \\
-	    	\{g(x) \mid g(x) \ntriangleleft f(x) \wedge (\nexists \enspace h(x) \ntriangleleft f(x) \mid h(x) \succ g(x)))\}
+	    	\{\} \quad \text{if} \enspace x \ntriangleleft f(x) \\
+	    	\{g(x) \mid g(x) \triangleleft f(x) \wedge (\nexists \enspace h(x) \triangleleft f(x) \mid h(x) \succ g(x)))\}
 	    \end{cases}
     	\]
 	\end{defn}
+	
+	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is indipendent of x. 
+	Once found, all the subexpressions contained in it must be rewritten as a function of \(w\), which itself has to respect the following expression: 
+	\[
+		\lim_{x \to \infty}{w(x)} = 0+
+	\]
+	The most common \(w\) is \(w(x) = e^{-x}\).
+	
 	
 	\subsection{Power Series Representation}
 	
@@ -139,6 +166,7 @@
 	
 	\subsection{Performance Considerations}
 	
+	\newpage
 	\printbibliography
 	
 	\newpage
