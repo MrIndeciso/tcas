@@ -16,7 +16,7 @@
 \addbibresource{tcas.bib}
 
 \title{\textbf{T.C.A.S.}: \textbf{T}CAS \textbf{C}an \textbf{A}lways \textbf{S}olve \\
-		\large Numerical Analysis: a Concrete Computational Approach to Limit Evaluation}
+	\large Numerical Analysis: a Concrete Computational Approach to Limit Evaluation}
 \author{Roberto Alessandro Bertolini}
 
 \date{}
@@ -34,10 +34,10 @@
 	\maketitle
 	
 	\begin{abstract}
-		Evaluating limits by hand can become a trivial task with a bit of exercise, but a regular computer is generally incapable of proceeding intuitively and needs a reliable algorithm in order to be able to reach consistently the same result. 
-		While some purely heuristic or naive approaches might, at first glance, seem good enough, they tend to quickly fall apart in real conditions. TCAS is a portable universal C implementation of the Gruntz Algorithm \cite{gruntz}, which at the present day is the most efficient and reliable way of evaluating limits in the exp-log field of operations.
+		Evaluating limits by hand can become a trivial task with a bit of exercise, but a normal computer is generally incapable of proceeding intuitively and needs a reliable algorithm in order to be able to reach consistently the same result. 
+		While some purely heuristic or naive approaches might, at first glance, seem good enough, they tend to quickly fall apart in real world conditions. TCAS is a portable universal C implementation of the Gruntz Algorithm \cite{gruntz}, which at the present day is the most efficient and reliable way of evaluating limits in the exp-log field of operations.
 	\end{abstract}
-
+	
 	\tableofcontents
 	
 	\newpage	
@@ -51,33 +51,33 @@
 	\begin{defn}
 		\[ 
 		\lim_{x \to x_{0}}{f(x) = l} 
-		 \]
-		 
-		 If and only if \( 
-		 \forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, \text{where} \: x_{0}, \varepsilon \in \mathbf{R}
-		  \)
+		\]
+		
+		If and only if \( 
+		\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, \text{where} \: x_{0}, \varepsilon \in \mathbf{R}
+		\)
 	\end{defn}
 	
 	\subsection{Polish Notation}
 	
 	Jan Lukasiewicz devised the so-called Polish notation \cite{wiki:polish} in 1924; it is a prefix notation, where the operator precedes its operands.
-	As long as the number of operands is defined as constant, there can't be an ambiguity in the order of evaluation, so this notation doesn't strictly require parenthesis.
+	As long as the number of operands is predefined, there can't be an ambiguity in the order of evaluation, so this notation doesn't strictly require parenthesis.
 	Consider the following expression written without parenthesis:
 	
 	\[
-	    8 \times 4 + 3 \times  2 - 6
+	8 \times 4 + 3 \times  2 - 6
 	\]
 	
 	Depending on where the parenthesis are placed, it can evaluate to different results:
 	
 	\[
-	    (8 \times 4 + 3) \times (2 - 6) = -140; \quad (8 \times (4 + 3) \times 2) - 6 = 106 
+	(8 \times 4 + 3) \times (2 - 6) = -140; \quad (8 \times (4 + 3) \times 2) - 6 = 106 
 	\]
 	
 	Now consider a similar expression written using polish notation:
 	
 	\[
-	    \times \times 8 + 4 \enspace 3 - 2 \enspace 6 = -224
+	\times \times 8 + 4 \enspace 3 - 2 \enspace 6 = -224
 	\]
 	
 	It necessary evaluates to a single result.
@@ -89,7 +89,7 @@
 	Consider the following function:
 	
 	\[
-	    f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1.3} \label{eq:toinfinity}
+	f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1.3} \label{eq:toinfinity}
 	\]
 	
 	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of x closer to zero the function tends to zero, yet if we compute the limit: \(\lim{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. We just can't see it in the graph because it becomes visible for \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
@@ -98,15 +98,15 @@
 	Consider the following functions:
 	
 	\[
-	    f(x) = e^{x} + e^{-x}
-	    \] 
-	    \[
-	    g(x) = e^{x} - e^{-x}
-    \]
-    
-    \[
-        \lim_{x \to \infty}{\frac{f(x)}{g(x)}} = \lim_{x \to \infty}{\frac{f''(x)}{g''(x)}} = \lim_{x \to \infty}{\frac{e^{x} + e^{-x}}{e^{x} - e^{-x}}}
-    \]
+	f(x) = e^{x} + e^{-x}
+	\] 
+	\[
+	g(x) = e^{x} - e^{-x}
+	\]
+	
+	\[
+	\lim_{x \to \infty}{\frac{f(x)}{g(x)}} = \lim_{x \to \infty}{\frac{f''(x)}{g''(x)}} = \lim_{x \to \infty}{\frac{e^{x} + e^{-x}}{e^{x} - e^{-x}}}
+	\]
 	
 	So recursively applying L'Hôpital's rule would not work in this case.
 	
@@ -117,44 +117,71 @@
 	\begin{defn}
 		\(g(x)\) is said to be a subexpression of \(f(x)\) if the evaluation of \(f(x)\) causes the evaluation of \(g(x)\). This is represented with the following notation:
 		\[
-			\begin{aligned}
-				g(x) \triangleleft f(x)&\text{, if} \: g(x) \: \text{is a subexpression of} \: f(x) \\
-				g(x) \ntriangleleft f(x)&\text{, if} \: g(x) \: \text{is not a subexpression of} \: f(x)
-			\end{aligned}
+		\begin{aligned}
+			g(x) \triangleleft f(x)&\text{, if} \: g(x) \: \text{is a subexpression of} \: f(x) \\
+			g(x) \ntriangleleft f(x)&\text{, if} \: g(x) \: \text{is not a subexpression of} \: f(x)
+		\end{aligned}
 		\]
 	\end{defn}
 	
 	\begin{defn}
 		Two subexpressions \(g(x)\) and \(h(x)\) can be compared based on their comparability class, which describes how rapidly they vary.
 		\[
-			\begin{aligned}
-				f(x) \prec g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
-				f(x) \asymp g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
-			\end{aligned}
+		\begin{aligned}
+			f(x) \prec g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
+			f(x) \asymp g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
+		\end{aligned}
 		\]
 	\end{defn}
 	
 	\begin{defn}
 		The MRV set is the set that contains all the subexpressions of the highest comparability class.
-	    \[
-	    mrv(f(x)) = \begin{cases}
-	    	\{\} \quad \text{if} \enspace x \ntriangleleft f(x) \\
-	    	\{g(x) \mid g(x) \triangleleft f(x) \wedge (\nexists \enspace h(x) \triangleleft f(x) \mid h(x) \succ g(x)))\}
-	    \end{cases}
-    	\]
+		\[
+		mrv(f(x)) = \begin{cases}
+			\{\} \quad \text{if} \enspace x \ntriangleleft f(x) \\
+			\{g(x) \mid g(x) \triangleleft f(x) \wedge (\nexists \enspace h(x) \triangleleft f(x) \mid h(x) \succ g(x)))\}
+		\end{cases}
+		\]
 	\end{defn}
 	
 	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is indipendent of x. 
 	Once found, all the subexpressions contained in it must be rewritten as a function of \(w\), which itself has to respect the following expression: 
 	\[
-		\lim_{x \to \infty}{w(x)} = 0+
+	\lim_{x \to \infty}{w(x)} = 0+
 	\]
 	The most common \(w\) is \(w(x) = e^{-x}\).
 	
-	
 	\subsection{Power Series Representation}
 	
+	\begin{defn}
+		The Maclaurin series of any function is defined as the following:
+		\[
+		\sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}}
+		\]
+	\end{defn}
+	
+	For the algorithm we need the first non-zero term of the Maclaurin series of the function after the \(w\) substitution, which will be in the form \(A(x)w^b\).
+	
+	The final result of the limit will be the following:
+	
+	\[
+	\lim_{x \to x_{0}}{f(x)} = \lim_{x \to 0}{w(x)} = \begin{cases}
+		0 &\text{if} \: b > 0 \\
+		+\infty &\text{if} \: b < 0\\
+		\lim_{x \to 0}{A(x)} &\text{if} \: b = 0
+	\end{cases}
+	\]
+	
 	\subsection{Caveats and Limitations}
+	
+	The Gruntz algorithm, while mathematically proved to be always valid in the exp-log field of operations, has some caveats that, if not handled correctly, might prevent it from reaching the correct result, or reaching a result at all. Firstly, before computing the MRV, the limit has to be rewritten so that it tends to \(+\infty\), applying some smart substitutions.
+	Computing the correct MRV set is a complex operation, which involves recursively evaluating limits, which are proven to be of lower complexities only if simplifications are applied all throughout the process. If the MRV is of a lower comparability class compared to \({x}\), the limit has to be rewritten so that the MRV increases its comparability class, usually applying the following definition:
+	
+	\begin{defn}
+		\[
+		\lim_{x \to +\infty}{f(x)}=+\infty \: \bigwedge \: \lim_{x \to +\infty}{g(x)}=+\infty \implies \lim_{x \to +\infty}{f(g(x))}=+\infty
+		\]
+	\end{defn}
 	
 	\section{T.C.A.S.}
 	
@@ -172,9 +199,9 @@
 	\newpage
 	\appendix
 	\begin{figure}
-	    \centering
-	    \includegraphics[width=0.7\textwidth]{img/limoff1.PNG}
-	    \caption{The graph of the function \eqref{eq:toinfinity}}\label{fig:limoff1}
+		\centering
+		\includegraphics[width=0.7\textwidth]{img/limoff1.PNG}
+		\caption{The graph of the function \eqref{eq:toinfinity}}\label{fig:limoff1}
 	\end{figure}
 	
 \end{document}
