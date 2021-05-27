@@ -69,8 +69,8 @@
 	\maketitle
 	
 	\begin{abstract}
-		Evaluating limits by hand can become a trivial task with a bit of exercise, but a normal computer is generally incapable of proceeding intuitively and needs a reliable algorithm in order to be able to reach consistently the same result. 
-		While some purely heuristic or naive approaches might, at first glance, seem good enough, they tend to quickly fall apart in real world conditions. TCAS is a portable universal C implementation of the Gruntz Algorithm \cite{gruntz}, which at the present day is the most efficient and reliable way of evaluating limits in the exp-log field of operations.
+		Evaluating limits by hand can become a trivial task with a bit of exercise, but a regular computer can't proceed intuitively and needs a comprehensive algorithm in order to be able evaluate correctly an expression. 
+		While some purely heuristic or naive approaches might, at first glance, seem good enough, they tend to quickly fall apart in real world conditions. TCAS is an open source portable universal C implementation of the Gruntz Algorithm \cite{gruntz}, which at the present day is the most reliable way of evaluating limits in the exp-log field of operations.
 	\end{abstract}
 	
 	\tableofcontents
@@ -80,6 +80,8 @@
 	\section{Introduction}
 	
 	\subsection{The Limit of a Function}
+	
+	Limits are commonly used to describe the behaviour of a function at the border of its domain or at isolated singularities.
 	
 	The limit of the function $ f: \mathbf{R} \rightarrow \mathbf{R} $ is defined as the following:
 	
@@ -92,6 +94,8 @@
 		\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, \text{where} \: x_{0}, \varepsilon \in \mathbf{R}
 		\)
 	\end{defn*}
+
+	Note that this definition doesn't require the function \(f\) to be defined at \(x = x_{0}\), nor it implies that \(\lim_{x \to x_{0}}{f(x)} = f(x_{0})\) if it is defined at \(x = x_{0}\).
 	
 	\subsection{Polish Notation} \label{sec:pn}
 	
@@ -127,7 +131,7 @@
 	f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1} \label{eq:toinfinity}
 	\]
 	
-	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of \(x\) closer to zero the function tends to zero, yet evaluating the limit: \(\lim{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. It is not apparent in the graph because it becomes visible for \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
+	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of \(x\) closer to zero the function tends to zero, yet evaluating the limit: \(\lim_{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. It is not apparent in the graph because the function starts growing at \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
 	
 	Another solution might be recursively applying L'Hôpital's rule \cite{wiki:hopital} until a result is reached.
 	Considering the following functions:
@@ -143,7 +147,7 @@
 	\lim_{x \to \infty}{\frac{f''(x)}{g''(x)}} = \lim_{x \to \infty}{\frac{e^{x} + e^{-x}}{e^{x} - e^{-x}}} = \lim_{x \to \infty}{\frac{f(x)}{g(x)}}; \quad \lim_{x \to \infty}{\frac{f'(x)}{g'(x)}} = \lim_{x \to \infty}{\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}}
 	\]
 	
-	The ratio between the second derivatives is exactly equal to the ratio between the original functions; the ratio between the first derivatives is still an indeterminate form.
+	The ratio between the second derivatives is exactly equal to the ratio between the original functions; the ratio between the first derivatives is still an indeterminate form \cite{wiki:ind}.
 	So recursively applying L'Hôpital's rule doesn't always work.
 	
 	\section{The Gruntz Algorithm}
@@ -180,7 +184,7 @@
 		\]
 	\end{defn*} \label{defn:mrv}
 	
-	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is indipendent of \(x\). 
+	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is determined to be indipendent of \(x\). 
 	Once found, all the subexpressions contained in it must be rewritten as a function of \(w\), which itself should be in the following form: 
 	\[
 	\lim_{x \to \infty}{w(x)} = 0+
@@ -225,8 +229,8 @@
 	
 	The first thing that TCAS does is parsing the input string. The space-separated chain of operators and operands needs to be interpreted as a concrete syntax tree \cite{wiki:parsetree}\cite{wiki:abtree}, where every operator is a branch node and every symbol or value is a leaf node; this happens in multiple steps.\\
 	Firstly, the input string is tokenized, so it is split into an array of tokens based on a common delimiter, which is the space character; this happens in linear time \(O(n)\). \\
-	This array of tokens goes through the Polish Notation [\ref{sec:pn}] interpreter, which in linear time \(O(n)\) builds a concrete syntax tree, branching when the token is recognized to be an operator and terminating with a leaf for anything else. \\
-	This tree is incomplete though, as symbols and values are still in their string representation and have yet to be parsed; this happens in the translator, which, again in linear time \(O(n)\), loops once over the concrete syntax tree and replaces every node with an \textit{expr\_tree\_link}, \cref{fig:expr_structs}, \cref{code:expr_structs}; see \cref{fig:parser} for a representation of the whole process.
+	This array of tokens goes through the Polish Notation \{\ref{sec:pn}\} interpreter, which in linear time \(O(n)\) builds a concrete syntax tree, branching when the token is recognized to be an operator and terminating with a leaf for anything else. \\
+	This tree is incomplete though, as symbols and values are still in their string representation and have yet to be parsed; this happens in the translator, which, again in linear time \(O(n)\), loops once over the concrete syntax tree and replaces every node with an \textit{expr\_tree\_link}, \cref{fig:expr_structs}, \cref{code:expr_structs}; see \cref{fig:parser} for a flowchart representation of the whole process; see \cref{fig:parsed} for an example.
 	
 	\subsection{Finding the MRV}
 	
@@ -252,7 +256,7 @@
 		\]
 	\end{algo*}
 
-	The method \textit{\_mrv\_max} makes use of the definition in \eqref{defn:comparability}, with some common options coded in for performance optimization purposes; \textit{\_mrv\_generic} is an internal reference to \textit{mrv}; \textit{\_mrv\_exp} is a special function that handles the MRV  of exponential functions: for the generic form \(e^{g}\), if \(\lim_{x \to +\infty}{g} = \pm\) then the MRV is \textit{\_mrv\_max(\{\(e^{g}\)\}, \_mrv\_generic(g))}, else \(g \succ e^{g}\) so the MRV is \(\_mrv\_generic(g)\).
+	The method \textit{\_mrv\_max} makes use of the definition in \eqref{defn:comparability}, with some common options coded in for performance optimization purposes; \textit{\_mrv\_generic} is an internal reference to \textit{mrv}; \textit{\_mrv\_exp} is a special function that handles the MRV  of exponential functions: for the generic form \(e^{g}\), if \(\lim_{x \to +\infty}{g} = \pm\infty\) then the MRV is \textit{\_mrv\_max(\{\(e^{g}\)\}, \_mrv\_generic(g))}, else \(g \succ e^{g}\) so the MRV is \(\_mrv\_generic(g)\).
 	
 	\subsection{Evaluating the Result}
 	
@@ -266,8 +270,8 @@
 	C was chosen as the programming language for multiple reasons: it is portable, it is universal, it is fast and it is easy to use.
 	The most commonly used implementation of the Gruntz algorithm is in SymPy \cite{10.7717/peerj-cs.103}, a Python library for symbolic mathematics. \\
 	There are almost no similarities between C and Python \cite{book:python}, with the former being a statically-typed \cite{wiki:typesystem} compiled language and the latter being a dynamically-typed \cite{wiki:typesystem} interpreted one. 
-	Multiple tests were run on both implementations, with the results showing an interesting pattern: \cref{fig:performance_graph}. After "warming up" SymPy, so that it loads all the dynamically-linked libraries and extensions, which was done by making it evaluate the simple limit \(\lim_{x \to 0}{\frac{\sin(x)}{x}}\), the running time seems to scale linearly between the two systems in the first three tests. The difference is most probably due to the fact that SymPy runs in an interpreted language, so every instruction has to be parsed, evaluated and executed, while TCAS is compiled to machine code is directly and just executed. \\
-	Test-4 shows an advantage that SymPy has over TCAS: its ability to cache frequent operations; this feature, which is mostly trivial to implement, isn't ready yet, so on longer, repeated operations SymPy is able to reuse the old result and skip all the processing. This feature has some side-effects that must be considered: an increased memory usage, a small but perceivable performance reduction if the result has never been cached before, an increased complexity in memory management; if ever implemented, it should remain an opt-out feature for the cases when it might not be beneficial, \textit{e.g.} on microcontrollers for PID \cite{wiki:pid} feedback mechanisms.
+	Multiple tests were run on both implementations, with the results showing an interesting pattern: \cref{fig:performance_graph}. After "warming up" SymPy, so that it loads all the dynamically-linked libraries and extensions, which was done by making it evaluate the simple limit \(\lim_{x \to 0}{\frac{\sin(x)}{x}}\), the running time seems to scale linearly between the two systems in the first three tests. The difference is most probably due to the fact that SymPy runs in an interpreted language, so every instruction has to be parsed, evaluated and executed, while TCAS is compiled to machine code and just executed. \\
+	Test-4 shows an advantage that SymPy has over TCAS: its ability to cache frequent operations; this feature, which is mostly trivial to implement, isn't ready yet, so on longer, repeated operations SymPy is able to reuse the old result and skip all the processing. This feature has some side-effects that must be considered: an increased memory usage, a small but perceivable performance reduction if the result has never been cached before, an increased complexity in memory management; when implemented, it should remain an opt-out feature for the cases when it might not be beneficial, \textit{e.g.} on microcontrollers for PID \cite{wiki:pid} feedback mechanisms.
 	Additional considerations could be made by \textit{ptracing} \cite{wiki:ptrace} both executables.
 	
 	
@@ -301,6 +305,12 @@
 		\centering
 		\includegraphics[width=0.7\textwidth]{chart/general_flowchart.PNG}
 		\caption{A short flowchart of how TCAS works} \label{fig:tcas} 
+	\end{figure}
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\textwidth]{img/parsed.PNG}
+		\caption{The function \(\lim_{x \to \infty}{\frac{\ln{(\ln{x} + \ln{\ln{x}}) - \ln{\ln{x}}}}{\ln{(\ln{x} + \ln{\ln{\ln{x}}})}}\times \ln{x}}\) as parsed into a concrete syntax tree. Its Polish Notation representation is "\(lim \times / - \ln + \ln x \ln \ln x \ln \ln x \ln + \ln x \ln \ln \ln x \ln x x +\infty\)".} \label{fig:parsed}
 	\end{figure}
 
     \begin{figure}
