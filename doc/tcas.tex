@@ -97,7 +97,7 @@
 	
 	Jan Lukasiewicz devised the so-called Polish Notation \cite{wiki:polish} in 1924; it is a prefix notation, where the operator precedes its operands.
 	As long as the number of operands is predefined, there can't be an ambiguity in the order of evaluation, so this notation doesn't strictly require parenthesis.
-	Consider the following expression written without parenthesis:
+	Considering the following expression, written without parenthesis:
 	
 	\[
 	8 \times 4 + 3 \times  2 - 6
@@ -109,28 +109,28 @@
 	(8 \times 4 + 3) \times (2 - 6) = -140; \quad (8 \times (4 + 3) \times 2) - 6 = 106 
 	\]
 	
-	Now consider a similar expression written using polish notation:
+	Now considering a similar expression written using Polish Notation:
 	
 	\[
 	\times \times 8 + 4 \enspace 3 - 2 \enspace 6 = -224
 	\]
 	
 	It necessary evaluates to a single result.
-	This makes parsing the expression into an abstract syntax tree \cite{wiki:abtree} much easier, as the parser doesn't have to make educated choices about its interpretation.
+	This makes parsing the expression into an abstract syntax tree \cite{wiki:abtree} much easier, as the parser doesn't have to make educated choices about its interpretation. As a consequence of this, Polish Notation parsers work in linear time \(O(n)\), while the most common "classic notation" parsers work in quadratic time \(O(n^{2})\).
 	
 	\subsection{The Shortcomings of the Naive Approach}
 	
-	Evaluating a limit might seem easy for a computer, as it should be able to continuously approximate the result with a smaller $\varepsilon$ until the rounding error is acceptable enough, but can this always work?
-	Consider the following function:
+	Evaluating a limit might seem easy for a computer, as it should be able to continuously approximate the result with a smaller $\varepsilon$ until the rounding error is acceptable enough, but, unfortunately, this doesn't always work.
+	Considering the following function:
 	
 	\[
 	f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1} \label{eq:toinfinity}
 	\]
 	
-	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of x closer to zero the function tends to zero, yet if we compute the limit: \(\lim{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. We just can't see it in the graph because it becomes visible for \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
+	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of \(x\) closer to zero the function tends to zero, yet evaluating the limit: \(\lim{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. It is not apparent in the graph because it becomes visible for \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
 	
-	What if we try instead to recursively apply L'Hôpital's rule \cite{wiki:hopital} until we reach a clear result?
-	Consider the following functions:
+	Another solution might be recursively applying L'Hôpital's rule \cite{wiki:hopital} until a result is reached.
+	Considering the following functions:
 	
 	\[
 	f(x) = e^{x} + e^{-x}
@@ -140,10 +140,11 @@
 	\]
 	
 	\[
-	\lim_{x \to \infty}{\frac{f(x)}{g(x)}} = \lim_{x \to \infty}{\frac{f''(x)}{g''(x)}} = \lim_{x \to \infty}{\frac{e^{x} + e^{-x}}{e^{x} - e^{-x}}}
+	\lim_{x \to \infty}{\frac{f''(x)}{g''(x)}} = \lim_{x \to \infty}{\frac{e^{x} + e^{-x}}{e^{x} - e^{-x}}} = \lim_{x \to \infty}{\frac{f(x)}{g(x)}}; \quad \lim_{x \to \infty}{\frac{f'(x)}{g'(x)}} = \lim_{x \to \infty}{\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}}
 	\]
 	
-	So recursively applying L'Hôpital's rule would not work in this case.
+	The ratio between the second derivatives is exactly equal to the ratio between the original functions; the ratio between the first derivatives is still an indeterminate form.
+	So recursively applying L'Hôpital's rule doesn't always work.
 	
 	\section{The Gruntz Algorithm}
 	
@@ -165,8 +166,8 @@
 		\begin{aligned}
 			f(x) \prec g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
 			f(x) \asymp g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
-		\end{aligned} \tag{2}
-		\] \label{defn:comparability}
+		\end{aligned} \tag{2} \label{defn:comparability}
+		\] 
 	\end{defn*} 
 	
 	\begin{defn*}
@@ -179,32 +180,32 @@
 		\]
 	\end{defn*} \label{defn:mrv}
 	
-	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is indipendent of x. 
-	Once found, all the subexpressions contained in it must be rewritten as a function of \(w\), which itself has to respect the following expression: 
+	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is indipendent of \(x\). 
+	Once found, all the subexpressions contained in it must be rewritten as a function of \(w\), which itself should be in the following form: 
 	\[
 	\lim_{x \to \infty}{w(x)} = 0+
 	\]
 	The most common \(w\) is \(w(x) = e^{-x}\).
 	
-	\subsection{Power Series Representation}
+	\subsection{Power Series Representation and Result}
 	
 	\begin{defn*}
 		The Maclaurin series of any function is defined as the following:
 		\[
-		\sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}}
-		\]
+		\sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}} \tag{3} \label{eq:maclaurin}
+		\] 
 	\end{defn*}
 	
-	For the algorithm we need the first non-zero term of the Maclaurin series of the function after the \(w\) substitution, which will be in the form \(A(x)w^b\).
+	For the algorithm the first non-zero term of the Maclaurin series of the function after the \(w\) substitution is needed, which will be in the form \(A(x)w^b\).
 	
-	The final result of the limit will be the following:
+	The final result of the limit will then be the following:
 	
 	\[
 	\lim_{x \to x_{0}}{f(x)} = \lim_{x \to 0}{w(x)} = \begin{cases}
 		0 &\text{if} \: b > 0 \\
 		+\infty &\text{if} \: b < 0\\
 		\lim_{x \to 0}{A(x)} &\text{if} \: b = 0
-	\end{cases}
+	\end{cases} \tag{4} \label{eq:result}
 	\]
 	
 	\subsection{Caveats and Limitations}
@@ -222,10 +223,10 @@
 	
 	\subsection{Parsing the Expression}
 	
-	The first thing that TCAS does is parsing the input string. The space-separated chain of operators and operands needs to be interpreted as a concrete syntax tree \cite{wiki:parsetree}\cite{wiki:abtree}, where every operator is a branch node and every symbol or value is a leaf node; this happens in multiple step.\\
-	Firstly, the input string is tokenized, so it is split into an array of tokens based on a common delimiter which is the space character; this happens in linear time \(O(n)\). \\
+	The first thing that TCAS does is parsing the input string. The space-separated chain of operators and operands needs to be interpreted as a concrete syntax tree \cite{wiki:parsetree}\cite{wiki:abtree}, where every operator is a branch node and every symbol or value is a leaf node; this happens in multiple steps.\\
+	Firstly, the input string is tokenized, so it is split into an array of tokens based on a common delimiter, which is the space character; this happens in linear time \(O(n)\). \\
 	This array of tokens goes through the Polish Notation [\ref{sec:pn}] interpreter, which in linear time \(O(n)\) builds a concrete syntax tree, branching when the token is recognized to be an operator and terminating with a leaf for anything else. \\
-	This tree is incomplete though, as symbols and values are still in their string representation and have yet to be parsed; this happens in the translator, which, again in linear time \(O(n)\) loops once over the concrete syntax tree and replaces every node with an \textit{expr\_tree\_link}, \cref{fig:expr_structs}, \cref{code:expr_structs}; see \cref{fig:parser} for a representation of the whole process.
+	This tree is incomplete though, as symbols and values are still in their string representation and have yet to be parsed; this happens in the translator, which, again in linear time \(O(n)\), loops once over the concrete syntax tree and replaces every node with an \textit{expr\_tree\_link}, \cref{fig:expr_structs}, \cref{code:expr_structs}; see \cref{fig:parser} for a representation of the whole process.
 	
 	\subsection{Finding the MRV}
 	
@@ -255,6 +256,9 @@
 	
 	\subsection{Evaluating the Result}
 	
+	Once the expression has been rewritten as a function of \(w\), the leading term of the power series is computed, in the form of \eqref{eq:maclaurin}, with \(x\) considered as a constant. The interesting part is the derivative of the function, that is determined through a recursive method that makes use of the differentiation rules \cite{wiki:diffrules}.
+	The leading term is then evaluated according to \eqref{eq:result}, as shown in \cref{code:ps_structs} and \cref{code:ps_result}.
+	If the exponent falls in the third case of \eqref{eq:result}, a recursive call to \textit{gruntz\_eval} is made. It has been mathematically proven that the coefficient, of which the limit gets evaluated, is of lower complexity, so the Gruntz Algorithm will always terminate.
 	
 	
 	\subsection{Performance Considerations}
