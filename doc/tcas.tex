@@ -55,9 +55,15 @@
 
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}
+\newtheorem*{thm*}{Theorem}
 
 \theoremstyle{definition}
 \newtheorem{defn}[thm]{Definition}
+\newtheorem*{defn*}{Definition}
+
+\theoremstyle{algorithm}
+\newtheorem{algo}{Algorithm}
+\newtheorem*{algo*}{Algorithm}
 
 \begin{document}
 	\maketitle
@@ -77,7 +83,7 @@
 	
 	The limit of the function $ f: \mathbf{R} \rightarrow \mathbf{R} $ is defined as the following:
 	
-	\begin{defn}
+	\begin{defn*}
 		\[ 
 		\lim_{x \to x_{0}}{f(x) = l} 
 		\]
@@ -85,7 +91,7 @@
 		If and only if \( 
 		\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, \text{where} \: x_{0}, \varepsilon \in \mathbf{R}
 		\)
-	\end{defn}
+	\end{defn*}
 	
 	\subsection{Polish Notation} \label{sec:pn}
 	
@@ -110,7 +116,7 @@
 	\]
 	
 	It necessary evaluates to a single result.
-	This makes parsing the expression into an abstract syntax tree much easier, as the parser doesn't have to make educated choices about its interpretation.
+	This makes parsing the expression into an abstract syntax tree \cite{wiki:abtree} much easier, as the parser doesn't have to make educated choices about its interpretation.
 	
 	\subsection{The Shortcomings of the Naive Approach}
 	
@@ -118,7 +124,7 @@
 	Consider the following function:
 	
 	\[
-	f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1.3} \label{eq:toinfinity}
+	f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1} \label{eq:toinfinity}
 	\]
 	
 	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of x closer to zero the function tends to zero, yet if we compute the limit: \(\lim{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. We just can't see it in the graph because it becomes visible for \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
@@ -143,7 +149,7 @@
 	
 	\subsection{Manipulating the Most Rapidly Varying Subexpressions}
 	
-	\begin{defn}
+	\begin{defn*}
 		\(g(x)\) is said to be a subexpression of \(f(x)\) if the evaluation of \(f(x)\) causes the evaluation of \(g(x)\). This is represented with the following notation:
 		\[
 		\begin{aligned}
@@ -151,19 +157,19 @@
 			g(x) \ntriangleleft f(x)&\text{, if} \: g(x) \: \text{is not a subexpression of} \: f(x)
 		\end{aligned}
 		\]
-	\end{defn}
+	\end{defn*}
 	
-	\begin{defn}
+	\begin{defn*}
 		Two subexpressions \(g(x)\) and \(h(x)\) can be compared based on their comparability class, which describes how rapidly they vary.
 		\[
 		\begin{aligned}
 			f(x) \prec g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
 			f(x) \asymp g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
-		\end{aligned}
+		\end{aligned} \tag{2}
 		\]
-	\end{defn}
+	\end{defn*} \label{defn:comparability}
 	
-	\begin{defn}
+	\begin{defn*}
 		The MRV set is the set that contains all the subexpressions of the highest comparability class.
 		\[
 		mrv(f(x)) = \begin{cases}
@@ -171,7 +177,7 @@
 			\{g(x) \mid g(x) \triangleleft f(x) \wedge (\nexists \enspace h(x) \triangleleft f(x) \mid h(x) \succ g(x)))\}
 		\end{cases}
 		\]
-	\end{defn}
+	\end{defn*} \label{defn:mrv}
 	
 	The first step of the Gruntz algorithm is recursively computing the MRV set of the limit that needs evaluating. If empty, the limit is indipendent of x. 
 	Once found, all the subexpressions contained in it must be rewritten as a function of \(w\), which itself has to respect the following expression: 
@@ -182,12 +188,12 @@
 	
 	\subsection{Power Series Representation}
 	
-	\begin{defn}
+	\begin{defn*}
 		The Maclaurin series of any function is defined as the following:
 		\[
 		\sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}}
 		\]
-	\end{defn}
+	\end{defn*}
 	
 	For the algorithm we need the first non-zero term of the Maclaurin series of the function after the \(w\) substitution, which will be in the form \(A(x)w^b\).
 	
@@ -203,14 +209,14 @@
 	
 	\subsection{Caveats and Limitations}
 	
-	The Gruntz algorithm, while mathematically proved to be always valid in the exp-log field of operations, has some caveats that, if not handled correctly, might prevent it from reaching the correct result, or reaching a result at all. Firstly, before computing the MRV, the limit has to be rewritten so that it tends to \(+\infty\), applying some smart substitutions.
+	The Gruntz algorithm, while mathematically proven to be always valid in the exp-log field of operations, has some caveats that, if not handled correctly, might prevent it from reaching the correct result, or reaching a result at all. Firstly, before computing the MRV, the limit has to be rewritten so that it tends to \(+\infty\), applying some smart substitutions.
 	Computing the correct MRV set is a complex operation, which involves recursively evaluating limits, which are proven to be of lower complexities only if simplifications are applied all throughout the process. If the MRV is of a lower comparability class compared to \({x}\), the limit has to be rewritten so that the MRV increases its comparability class, usually applying the following definition:
 	
-	\begin{defn}
+	\begin{defn*}
 		\[
 		\lim_{x \to +\infty}{f(x)}=+\infty \: \bigwedge \: \lim_{x \to +\infty}{g(x)}=+\infty \implies \lim_{x \to +\infty}{f(g(x))}=+\infty
 		\]
-	\end{defn}
+	\end{defn*}
 	
 	\section{T.C.A.S.}
 	
@@ -222,6 +228,31 @@
 	This tree is incomplete though, as symbols and values are still in their string representation and have yet to be parsed; this happens in the translator, which, again in linear time \(O(n)\) loops once over the concrete syntax tree and replaces every node with an \textit{expr\_tree\_link}, \cref{fig:expr_structs}, \cref{code:expr_structs}; see \cref{fig:parser} for a representation of the whole process.
 	
 	\subsection{Finding the MRV}
+	
+	Finding the MRV is a complex operation which involves multiple steps. 
+	The root node, which should always have branches, goes through \textit{\_mrv\_op}, \cref{code:mrv_op}. Dominikiz Gruntz provided a pseudo-code representation of what \textit{\_mrv\_op} should do, which has been slightly altered in order to conform to how it has been implemented:
+	
+	\begin{algo*}
+		Computing the \textit{mrv} set of \(f\) \\
+		\[
+		\begin{aligned}
+			\text{mrv}\:&(f : \text{exp-log function in} \: x) \\
+			&\begin{aligned}
+				&\text{if} &x \ntriangleleft f & \rightarrow RETURN(\:\{\}\:) \\
+				&\text{elif} &f = x & \rightarrow RETURN(\:\{x\}\:) \\
+				&\text{elif} &f = g \times h & \rightarrow RETURN(\:\{\text{max}(\text{mrv}(g), \text{mrv}(h))\}\:) \\
+				&\text{elif} &f = g + h & \rightarrow RETURN(\:\{\text{max}(\text{mrv}(g), \text{mrv}(h))\}\:) \\
+				&\text{elif} &f = g^{c} & \rightarrow RETURN(\:\{\text{mrv}(g)\}\:) \\
+				&\text{elif} &f = \ln{c} & \rightarrow RETURN(\:\{\text{mrv}(g)\}\:) \\
+				&\text{elif} &f = g^{c} & \rightarrow RETURN(\:\{\text{mrv\_exp}(g)\}\:) \\
+				&\text{fi}
+			\end{aligned}
+		\end{aligned}
+		\]
+	\end{algo*}
+
+	
+	
 	
 	\subsection{Evaluating the Result}
 	
@@ -243,7 +274,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.9\textwidth]{img/limoff1.PNG}
-		\caption{The graph of the function \eqref{eq:toinfinity}}\label{fig:limoff1}
+		\caption{The graph of \eqref{eq:toinfinity}}\label{fig:limoff1}
 	\end{figure}
 
 	\begin{figure}
@@ -255,7 +286,7 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.7\textwidth]{chart/parser.PNG}
-		\caption{A syntactic flowchart of how the Parser works} \label{fig:parser}
+		\caption{A syntactic flowchart of how the parser works} \label{fig:parser}
 	\end{figure}
 
     \begin{figure}

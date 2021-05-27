@@ -58,3 +58,54 @@
 	\end{lstlisting}
 	\caption{The code that defines the concrete syntax tree} \label{code:expr_structs}
 \end{figure}
+
+\begin{figure}
+	\centering
+	\begin{lstlisting}[style=CStyle]
+		struct gruntz_mrv {
+			size_t count;
+			struct gruntz_expr **expr;
+		};
+		
+		struct gruntz_expr {
+			struct expr_tree_link *expr;
+		};
+	\end{lstlisting}
+	\caption{MRV structs} \label{code:mrv_structs}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{lstlisting}[style=CStyle]
+		struct gruntz_mrv *_mrv_op(struct expr_tree_link *link) {
+			switch (link->ptr->op->type) {
+				case PLUS:
+				case MINUS:
+				case TIMES:
+				case DIVIDE:
+					return _mrv_max(_mrv_generic(link->ptr->op->args[0]), _mrv_generic(link->ptr->op->args[1]));
+					break;
+				case SQRT:
+				case SIN:
+				case COS:
+				case TAN:
+				case LN:
+				case LOG10:
+				case LOG2:
+					return _mrv_generic(link->ptr->op->args[0]);
+					break;
+				case ROOT:
+				case POWER:
+					assert(link->ptr->op->args[1]->type == VALUE);
+					return _mrv_generic(link->ptr->op->args[0]);
+					break;
+				case EXP:
+					return _mrv_exp(link);
+					break;
+				default:
+					assert(0);
+			}
+		}
+	\end{lstlisting}
+	\caption{\textit{\_mrv\_op}, refer to \cref{code:expr_structs} and \cref{code:mrv_structs} for how the data types are implemented} \label{code:mrv_op}
+\end{figure}
