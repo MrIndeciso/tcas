@@ -166,8 +166,8 @@
 			f(x) \prec g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
 			f(x) \asymp g(x) \: \text{if and only if} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
 		\end{aligned} \tag{2}
-		\]
-	\end{defn*} \label{defn:comparability}
+		\] \label{defn:comparability}
+	\end{defn*} 
 	
 	\begin{defn*}
 		The MRV set is the set that contains all the subexpressions of the highest comparability class.
@@ -230,31 +230,32 @@
 	\subsection{Finding the MRV}
 	
 	Finding the MRV is a complex operation which involves multiple steps. 
-	The root node, which should always have branches, goes through \textit{\_mrv\_op}, \cref{code:mrv_op}. Dominikiz Gruntz provided a pseudo-code representation of what \textit{\_mrv\_op} should do, which has been slightly altered in order to conform to how it has been implemented:
+	The root node, which should always have branches, goes through \textit{\_mrv\_op}, \cref{code:mrv_op}. Dominikiz Gruntz provided a pseudo-code representation of what \textit{\_mrv\_op} should do, which has been slightly altered here so that the method names correspond to their implementation:
 	
 	\begin{algo*}
-		Computing the \textit{mrv} set of \(f\) \\
+		Computing the MRV set of \(f\) \\
 		\[
 		\begin{aligned}
 			\text{mrv}\:&(f : \text{exp-log function in} \: x) \\
 			&\begin{aligned}
 				&\text{if} &x \ntriangleleft f & \rightarrow RETURN(\:\{\}\:) \\
 				&\text{elif} &f = x & \rightarrow RETURN(\:\{x\}\:) \\
-				&\text{elif} &f = g \times h & \rightarrow RETURN(\:\{\text{max}(\text{mrv}(g), \text{mrv}(h))\}\:) \\
-				&\text{elif} &f = g + h & \rightarrow RETURN(\:\{\text{max}(\text{mrv}(g), \text{mrv}(h))\}\:) \\
-				&\text{elif} &f = g^{c} & \rightarrow RETURN(\:\{\text{mrv}(g)\}\:) \\
-				&\text{elif} &f = \ln{c} & \rightarrow RETURN(\:\{\text{mrv}(g)\}\:) \\
-				&\text{elif} &f = g^{c} & \rightarrow RETURN(\:\{\text{mrv\_exp}(g)\}\:) \\
+				&\text{elif} &f = g \times h & \rightarrow RETURN(\:\{\text{\_mrv\_max}(\text{\_mrv\_generic}(g), \text{\_mrv\_generic}(h))\}\:) \\
+				&\text{elif} &f = g + h & \rightarrow RETURN(\:\{\text{\_mrv\_max}(\text{\_mrv\_generic}(g), \text{\_mrv\_generic}(h))\}\:) \\
+				&\text{elif} &f = g^{c} \wedge c \in \mathbf{R} & \rightarrow RETURN(\:\{\text{\_mrv\_generic}(g)\}\:) \\
+				&\text{elif} &f = \ln{c} & \rightarrow RETURN(\:\{\text{\_mrv\_generic}(g)\}\:) \\
+				&\text{elif} &f = g^{c} & \rightarrow RETURN(\:\{\text{\_mrv\_exp}(g)\}\:) \\
 				&\text{fi}
 			\end{aligned}
 		\end{aligned}
 		\]
 	\end{algo*}
 
-	
-	
+	The method \textit{\_mrv\_max} makes use of the definition in \eqref{defn:comparability}, with some common options coded in for performance optimization purposes; \textit{\_mrv\_generic} is an internal reference to \textit{mrv}; \textit{\_mrv\_exp} is a special function that handles the MRV  of exponential functions: for the generic form \(e^{g}\), if \(\lim_{x \to +\infty}{g} = \pm\) then the MRV is \textit{\_mrv\_max(\{\(e^{g}\)\}, \_mrv\_generic(g))}, else \(g \succ e^{g}\) so the MRV is \(\_mrv\_generic(g)\).
 	
 	\subsection{Evaluating the Result}
+	
+	
 	
 	\subsection{Performance Considerations}
 	
@@ -267,6 +268,9 @@
 	
 	
 	\newpage
+	\nocite{book:kr}
+	\nocite{pdf:gnump}
+	\nocite{pdf:mpfr}
 	\printbibliography
 	
 	\newpage

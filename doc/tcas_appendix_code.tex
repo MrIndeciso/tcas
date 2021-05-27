@@ -62,6 +62,40 @@
 \begin{figure}
 	\centering
 	\begin{lstlisting}[style=CStyle]
+		struct ps_leadterm {
+			int term_num;
+			struct expr_tree_link *coeff;
+			struct expr_tree_val *exp;
+		};
+	\end{lstlisting}
+	\caption{How the first term of the power series is represented} \label{code:ps_structs}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{lstlisting}[style=CStyle]
+		struct expr_tree_link *compute_gruntz_result(struct expr_tree_link *link) {
+			struct ps_leadterm *term = _recursive_compute_lt(link);
+			
+			while (term->exp->type != INT) { //Something is wrong here, next term
+				term = _recursive_lt_next(term, link);
+			}
+		
+			if (mpz_cmp_si(term->exp->val->int_val, 0) > 0) { //Exp > 0
+				return parse_expr("+infinity", NULL);
+			} else if (mpz_cmp_si(term->exp->val->int_val, 0) == 0) { //Exp == 0
+				return gruntz_eval(term->coeff);
+			} else { //Exp < 0
+				return parse_expr("0", NULL);
+			}
+		}
+	\end{lstlisting}
+	\caption{How the result is evaluated} \label{code:ps_result}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{lstlisting}[style=CStyle]
 		struct gruntz_mrv {
 			size_t count;
 			struct gruntz_expr **expr;
@@ -71,7 +105,7 @@
 			struct expr_tree_link *expr;
 		};
 	\end{lstlisting}
-	\caption{MRV structs} \label{code:mrv_structs}
+	\caption{How the MRV structs are defined} \label{code:mrv_structs}
 \end{figure}
 
 \begin{figure}
