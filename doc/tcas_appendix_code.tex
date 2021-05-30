@@ -77,15 +77,15 @@
 		struct expr_tree_link *compute_gruntz_result(struct expr_tree_link *link) {
 			struct ps_leadterm *term = _recursive_compute_lt(link);
 			
-			while (term->exp->type != INT) { //Something is wrong here, next term
+			while (term->exp->type != INT) {
 				term = _recursive_lt_next(term, link);
 			}
 		
-			if (mpz_cmp_si(term->exp->val->int_val, 0) > 0) { //Exp > 0
+			if (mpz_cmp_si(term->exp->val->int_val, 0) > 0) {
 				return parse_expr("+infinity", NULL);
-			} else if (mpz_cmp_si(term->exp->val->int_val, 0) == 0) { //Exp == 0
+			} else if (mpz_cmp_si(term->exp->val->int_val, 0) == 0) {
 				return gruntz_eval(term->coeff);
-			} else { //Exp < 0
+			} else {
 				return parse_expr("0", NULL);
 			}
 		}
@@ -118,7 +118,6 @@
 				case TIMES:
 				case DIVIDE:
 					return _mrv_max(_mrv_generic(link->ptr->op->args[0]), _mrv_generic(link->ptr->op->args[1]));
-					break;
 				case SQRT:
 				case SIN:
 				case COS:
@@ -127,15 +126,12 @@
 				case LOG10:
 				case LOG2:
 					return _mrv_generic(link->ptr->op->args[0]);
-					break;
 				case ROOT:
 				case POWER:
 					assert(link->ptr->op->args[1]->type == VALUE);
 					return _mrv_generic(link->ptr->op->args[0]);
-					break;
 				case EXP:
 					return _mrv_exp(link);
-					break;
 				default:
 					assert(0);
 			}

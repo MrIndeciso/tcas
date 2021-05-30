@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
 \usepackage{setspace}
+\usepackage{appendix}
 \usepackage[margin=1.4in]{geometry}
 \usepackage{graphicx}
 \usepackage{subcaption}
@@ -50,7 +51,7 @@
 
 \date{}
 
-\affil{Liceo Nervi Ferrari - Morbegno}
+\affil{Liceo "P. Nervi - G. Ferrari" - Morbegno}
 \onehalfspacing
 
 \theoremstyle{plain}
@@ -69,7 +70,7 @@
 	\maketitle
 	
 	\begin{abstract}
-		Evaluating limits by hand can become a trivial task with a bit of exercise, but a regular computer can't proceed intuitively and needs a comprehensive algorithm in order to be able evaluate correctly an expression. 
+		Evaluating limits by hand can become a trivial task with a bit of exercise, but a regular computer cannot proceed intuitively and needs a comprehensive algorithm in order to be able evaluate correctly an expression. 
 		While some purely heuristic or naive approaches might, at first glance, seem good enough, they tend to quickly fall apart in real world conditions. TCAS is an open source portable universal C implementation of the Gruntz Algorithm \cite{gruntz}, which at the present day is the most reliable way of evaluating limits in the exp-log field of operations.
 	\end{abstract}
 	
@@ -94,13 +95,13 @@
 		\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \mid x - x_{0} \mid < \delta \implies \mid f(x) - l \mid < \varepsilon, \text{where} \: x_{0}, \varepsilon \in \mathbf{R}
 		\)
 	\end{defn*}
-
-	Note that this definition doesn't require the function \(f\) to be defined at \(x = x_{0}\), nor it implies that \(\lim_{x \to x_{0}}{f(x)} = f(x_{0})\) if it is defined at \(x = x_{0}\).
+	
+	Note that this definition does not require the function \(f\) to be defined at \(x = x_{0}\), nor it implies that \(\lim_{x \to x_{0}}{f(x)} = f(x_{0})\) if it is defined at \(x = x_{0}\).
 	
 	\subsection{Polish Notation} \label{sec:pn}
 	
 	Jan Lukasiewicz devised the so-called Polish Notation \cite{wiki:polish} in 1924; it is a prefix notation, where the operator precedes its operands.
-	As long as the number of operands is predefined, there can't be an ambiguity in the order of evaluation, so this notation doesn't strictly require parenthesis.
+	As long as the number of operands of every operator is constant, \textit{e.g.} 2 for \(+, -, \times\) and 1 for \(\ln, \text{sqrt}\), there cannot be an ambiguity in the order of evaluation, so this notation does not strictly require parenthesis.
 	Considering the following expression, written without parenthesis:
 	
 	\[
@@ -120,18 +121,21 @@
 	\]
 	
 	It necessary evaluates to a single result.
-	This makes parsing the expression into an abstract syntax tree \cite{wiki:abtree} much easier, as the parser doesn't have to make educated choices about its interpretation. As a consequence of this, Polish Notation parsers work in linear time \(O(n)\), while the most common "classic notation" parsers work in quadratic time \(O(n^{2})\).
+	This makes parsing the expression into an abstract syntax tree \cite{wiki:abtree} much easier, as the parser does not have to make educated choices about its interpretation. As a consequence of this, Polish Notation parsers work in linear time \(O(n)\), while the most common "classic notation" parsers work in quadratic time \(O(n^{2})\).
+	Refer to \cref{fig:pn_examples} for some examples.
+	
+	
 	
 	\subsection{The Shortcomings of the Naive Approach}
 	
-	Evaluating a limit might seem easy for a computer, as it should be able to continuously approximate the result with a smaller $\varepsilon$ until the rounding error is acceptable enough, but, unfortunately, this doesn't always work.
+	Evaluating a limit might seem easy for a computer, as it should be able to continuously approximate the result with a smaller $\varepsilon$ until the rounding error is acceptable enough, but, unfortunately, this does not always work.
 	Considering the following function:
 	
 	\[
 	f : y = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}} \tag{1} \label{eq:toinfinity}
 	\]
 	
-	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of \(x\) closer to zero the function tends to zero, yet evaluating the limit: \(\lim_{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. It is not apparent in the graph because the function starts growing at \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
+	Its graph is the following: \cref{fig:limoff1}, where it seems that for values of \(x\) closer to zero the function tends to zero, yet evaluating the limit: \(\lim_{x \to 0^{+}}{f(x) = +\infty}\), so the function should have a vertical asymptote in zero. It does not appear in the graph because the function starts growing at \(x \approx 4.29 \times 10 ^{-1656521}\). A computer trying to approximate the result would have stopped long before this value, returning zero.
 	
 	Another solution might be recursively applying L'Hôpital's rule \cite{wiki:hopital} until a result is reached.
 	Considering the following functions:
@@ -148,7 +152,7 @@
 	\]
 	
 	The ratio between the second derivatives is exactly equal to the ratio between the original functions; the ratio between the first derivatives is still an indeterminate form \cite{wiki:ind}.
-	So recursively applying L'Hôpital's rule doesn't always work.
+	So recursively applying L'Hôpital's rule does not always work.
 	
 	\section{The Gruntz Algorithm}
 	
@@ -215,7 +219,7 @@
 	\subsection{Caveats and Limitations}
 	
 	The Gruntz algorithm, while mathematically proven to be always valid in the exp-log field of operations, has some caveats that, if not handled correctly, might prevent it from reaching the correct result, or reaching a result at all. Firstly, before computing the MRV, the limit has to be rewritten so that it tends to \(+\infty\), applying some smart substitutions.
-	Computing the correct MRV set is a complex operation, which involves recursively evaluating limits, which are proven to be of lower complexities only if simplifications are applied all throughout the process. If the MRV is of a lower comparability class compared to \({x}\), the limit has to be rewritten so that the MRV increases its comparability class, usually applying the following definition:
+	Computing the correct MRV set is a complex operation, which involves recursively evaluating limits, which are proven to be of lower complexities only if simplifications are applied all throughout the process. If the MRV is not of a higher comparability class than \({x}\), the limit has to be rewritten so that the MRV increases its comparability class, usually applying the following definition:
 	
 	\begin{defn*}
 		\[
@@ -238,24 +242,24 @@
 	The root node, which should always have branches, goes through \textit{\_mrv\_op}, \cref{code:mrv_op}. Dominikiz Gruntz provided a pseudo-code representation of what \textit{\_mrv\_op} should do, which has been slightly altered here so that the method names correspond to their implementation:
 	
 	\begin{algo*}
-		Computing the MRV set of \(f\) \\
+		Computing the MRV set of \(f\)
 		\[
 		\begin{aligned}
 			\text{mrv}\:&(f : \text{exp-log function in} \: x) \\
 			&\begin{aligned}
-				&\text{if} &x \ntriangleleft f & \rightarrow RETURN(\:\{\}\:) \\
-				&\text{elif} &f = x & \rightarrow RETURN(\:\{x\}\:) \\
-				&\text{elif} &f = g \times h & \rightarrow RETURN(\:\{\text{\_mrv\_max}(\text{\_mrv\_generic}(g), \text{\_mrv\_generic}(h))\}\:) \\
-				&\text{elif} &f = g + h & \rightarrow RETURN(\:\{\text{\_mrv\_max}(\text{\_mrv\_generic}(g), \text{\_mrv\_generic}(h))\}\:) \\
-				&\text{elif} &f = g^{c} \wedge c \in \mathbf{R} & \rightarrow RETURN(\:\{\text{\_mrv\_generic}(g)\}\:) \\
-				&\text{elif} &f = \ln{c} & \rightarrow RETURN(\:\{\text{\_mrv\_generic}(g)\}\:) \\
-				&\text{elif} &f = g^{c} & \rightarrow RETURN(\:\{\text{\_mrv\_exp}(g)\}\:) \\
+				&\text{if} &&x \ntriangleleft f && \rightarrow RETURN(\:\{\}\:) \\
+				&\text{elif} &&f = x && \rightarrow RETURN(\:\{x\}\:) \\
+				&\text{elif} &&f = g \times h && \rightarrow RETURN(\:\{\text{\_mrv\_max}(\text{\_mrv\_generic}(g), \text{\_mrv\_generic}(h))\}\:) \\
+				&\text{elif} &&f = g + h && \rightarrow RETURN(\:\{\text{\_mrv\_max}(\text{\_mrv\_generic}(g), \text{\_mrv\_generic}(h))\}\:) \\
+				&\text{elif} &&f = g^{c} \wedge c \in \mathbf{R} && \rightarrow RETURN(\:\{\text{\_mrv\_generic}(g)\}\:) \\
+				&\text{elif} &&f = \ln{c} && \rightarrow RETURN(\:\{\text{\_mrv\_generic}(g)\}\:) \\
+				&\text{elif} &&f = g^{c} && \rightarrow RETURN(\:\{\text{\_mrv\_exp}(g)\}\:) \\
 				&\text{fi}
 			\end{aligned}
 		\end{aligned}
 		\]
 	\end{algo*}
-
+	
 	The method \textit{\_mrv\_max} makes use of the definition in \eqref{defn:comparability}, with some common options coded in for performance optimization purposes; \textit{\_mrv\_generic} is an internal reference to \textit{mrv}; \textit{\_mrv\_exp} is a special function that handles the MRV  of exponential functions: for the generic form \(e^{g}\), if \(\lim_{x \to +\infty}{g} = \pm\infty\) then the MRV is \textit{\_mrv\_max(\{\(e^{g}\)\}, \_mrv\_generic(g))}, else \(g \succ e^{g}\) so the MRV is \(\_mrv\_generic(g)\).
 	
 	\subsection{Evaluating the Result}
@@ -271,7 +275,7 @@
 	The most commonly used implementation of the Gruntz algorithm is in SymPy \cite{10.7717/peerj-cs.103}, a Python library for symbolic mathematics. \\
 	There are almost no similarities between C and Python \cite{book:python}, with the former being a statically-typed \cite{wiki:typesystem} compiled language and the latter being a dynamically-typed \cite{wiki:typesystem} interpreted one. 
 	Multiple tests were run on both implementations, with the results showing an interesting pattern: \cref{fig:performance_graph}. After "warming up" SymPy, so that it loads all the dynamically-linked libraries and extensions, which was done by making it evaluate the simple limit \(\lim_{x \to 0}{\frac{\sin(x)}{x}}\), the running time seems to scale linearly between the two systems in the first three tests. The difference is most probably due to the fact that SymPy runs in an interpreted language, so every instruction has to be parsed, evaluated and executed, while TCAS is compiled to machine code and just executed. \\
-	Test-4 shows an advantage that SymPy has over TCAS: its ability to cache frequent operations; this feature, which is mostly trivial to implement, isn't ready yet, so on longer, repeated operations SymPy is able to reuse the old result and skip all the processing. This feature has some side-effects that must be considered: an increased memory usage, a small but perceivable performance reduction if the result has never been cached before, an increased complexity in memory management; when implemented, it should remain an opt-out feature for the cases when it might not be beneficial, \textit{e.g.} on microcontrollers for PID \cite{wiki:pid} feedback mechanisms.
+	Test-4 shows an advantage that SymPy has over TCAS: its ability to cache frequent operations; this feature, which is mostly trivial to implement, is not ready yet, so on longer, repeated operations SymPy is able to reuse the old result and skip all the processing. This feature has some side-effects that must be considered: an increased memory usage, a small but perceivable performance reduction if the result has never been cached before, an increased complexity in memory management; when implemented, it should remain an opt-out feature for the cases when it might not be beneficial, \textit{e.g.} on microcontrollers for PID \cite{wiki:pid} feedback mechanisms.
 	Additional considerations could be made by \textit{ptracing} \cite{wiki:ptrace} both executables.
 	
 	
@@ -280,45 +284,56 @@
 	\nocite{pdf:gnump}
 	\nocite{pdf:mpfr}
 	\printbibliography
-	
-	\newpage
-	\appendix
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.9\textwidth]{img/limoff1.PNG}
-		\caption{The graph of \eqref{eq:toinfinity}}\label{fig:limoff1}
-	\end{figure}
-
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.9\textwidth]{chart/expr_structs.PNG}
-		\caption{The entity representation of a generic node, with color-coded combinations} \label{fig:expr_structs}
-	\end{figure}
-
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7\textwidth]{chart/parser.PNG}
-		\caption{A short flowchart of how the parser works} \label{fig:parser}
-	\end{figure}
-
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7\textwidth]{chart/general_flowchart.PNG}
-		\caption{A short flowchart of how TCAS works} \label{fig:tcas} 
-	\end{figure}
-
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.7\textwidth]{img/parsed.PNG}
-		\caption{The function \(\lim_{x \to \infty}{\frac{\ln{(\ln{x} + \ln{\ln{x}}) - \ln{\ln{x}}}}{\ln{(\ln{x} + \ln{\ln{\ln{x}}})}}\times \ln{x}}\) as parsed into a concrete syntax tree. Its Polish Notation representation is "\(lim \times / - \ln + \ln x \ln \ln x \ln \ln x \ln + \ln x \ln \ln \ln x \ln x x +\infty\)".} \label{fig:parsed}
-	\end{figure}
-
-    \begin{figure}
-		\centering
-		\includegraphics[width=0.7\textwidth]{img/performance_graph.PNG}
-		\caption{The graph is a performance comparison between TCAS and SymPy in four different tests.\\SymPy was "warmed up" prior to the test.\\Test-1 evaluated 200 times the same limit.\\Test-2 evaluated the same 3 limits for 100 times.\\Test-3 evaluated a very complex nested limit.\\Test-4 re-ran Test-1 for 10 times} \label{fig:performance_graph}  
-	\end{figure}
-
-	\include{tcas_appendix_code}
+	\clearpage
+	\begin{appendices}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{img/limoff1.PNG}
+			\caption{The graph of \eqref{eq:toinfinity}}\label{fig:limoff1}
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{chart/expr_structs.PNG}
+			\caption{The entity representation of a generic node, with color-coded combinations} \label{fig:expr_structs}
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{chart/parser.PNG}
+			\caption{A short flowchart of how the parser works} \label{fig:parser}
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{chart/general_flowchart.PNG}
+			\caption{A short flowchart of how TCAS works} \label{fig:tcas} 
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{img/parsed.PNG}
+			\caption{The function \(\lim_{x \to \infty}{\frac{\ln{(\ln{x} + \ln{\ln{x}}) - \ln{\ln{x}}}}{\ln{(\ln{x} + \ln{\ln{\ln{x}}})}}\times \ln{x}}\) as parsed into a concrete syntax tree. Its Polish Notation representation is "\(lim \times / - \ln + \ln x \ln \ln x \ln \ln x \ln + \ln x \ln \ln \ln x \ln x x +\infty\)".} \label{fig:parsed}
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{img/performance_graph.PNG}
+			\caption{The graph is a performance comparison between TCAS and SymPy in four different tests.\\SymPy was "warmed up" prior to the test.\\Test-1 evaluated 200 times the same limit.\\Test-2 evaluated the same 3 limits for 100 times.\\Test-3 evaluated a very complex nested limit.\\Test-4 re-ran Test-1 for 10 times} \label{fig:performance_graph}  
+		\end{figure}
+		
+		\begin{figure}
+			\centering
+			\begin{itemize}
+				\item \(2^{3} + \sqrt{2} \rightarrow \text{+ \^{} 2 3 sqrt 2}\) \\
+				\item \(\lim_{x \to 0}{\frac{\sin{x}}{x}} \rightarrow \text{lim \textbackslash \: sin x x x 0}\) \\
+				\item \(\{[(8 + 2) \times 3] + 8)\} \times 4 \rightarrow \text{$\times$ 4 + 8 $\times$ 3 + 2 8}\) \\
+			\end{itemize}
+			\caption{Some examples of how Polish Notation works.}
+			\label{fig:pn_examples}
+		\end{figure}
+		
+		\include{tcas_appendix_code}
+	\end{appendices}
 	
 \end{document}
