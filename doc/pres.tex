@@ -12,8 +12,9 @@
 \date{Giugno 2021}
 \subtitle{Un risolutore di limiti efficiente e compatto}
 
-\usetheme{Madrid}
+\usetheme{Warsaw}
 \usecolortheme{default}
+\usefonttheme{serif}
 
 \begin{document}
 	
@@ -46,6 +47,41 @@
 	\subsection{La risoluzione per approssimazione}
 	\begin{frame}
 		\frametitle{La risoluzione per approssimazione}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				Consideriamo \(
+					f(x) = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}}
+				\)
+				
+				\vspace{5mm}
+				\onslide<2-7>{Cerchiamo \(\lim_{x \to 0^{+}}{f(x)}\)}
+				
+				\onslide<8->{Cerchiamo \(\lim_{x \to 0^{+}}{f(x)} = 0\)}
+				
+				\vspace{5mm}
+				\onslide<8->{
+					Eppure \(\lim_{x \to 0^{+}}{f(x)} = +\infty\)
+				}
+			
+				\vspace{5mm}
+				\onslide<9>{
+					La funzione ha un minimo in \(x \approx 4.29 \times 10 ^{-1656521}\)
+				}
+			
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\begin{figure}
+					\begin{overprint}
+						\onslide<2>\includegraphics[width=\textwidth]{pres_img/f1.png}
+						\onslide<3>\includegraphics[width=\textwidth]{pres_img/f2.png}
+						\onslide<4>\includegraphics[width=\textwidth]{pres_img/f3.png}
+						\onslide<5>\includegraphics[width=\textwidth]{pres_img/f4.png}
+						\onslide<6>\includegraphics[width=\textwidth]{pres_img/f5.png}
+						\onslide<7->\includegraphics[width=\textwidth]{pres_img/f6.png}
+					\end{overprint}
+				\end{figure}
+			\end{column}
+		\end{columns}
 	\end{frame}
 	
 	\subsection{L'approccio matematico}
