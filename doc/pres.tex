@@ -10,11 +10,11 @@
 \author[Roberto Bertolini]{Roberto Alessandro Bertolini}
 \institute[Liceo Nervi Ferrari]{Liceo "P. Nervi - G. Ferrari" - Morbegno}
 \date{Giugno 2021}
-\subtitle{Un risolutore di limiti efficiente e compatto}
+\subtitle{Un risolutore di limiti compatto ed efficiente}
 
 \usetheme{Warsaw}
 \usecolortheme{default}
-\usefonttheme{serif}
+%&\usefonttheme{serif}
 
 \begin{document}
 	
@@ -32,7 +32,7 @@
 	\subsection{La definizione di limite}
 	\begin{frame}
 		\frametitle{La definizione di limite}
-		\begin{block}{Definizione di limite di una funzione}
+		\begin{block}{Definizione generale di limite di una funzione}
 			\[ 
 			\lim_{x \to x_{0}}{f(x) = l} 
 			\]
@@ -41,7 +41,11 @@
 			\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \: \mid x - x_{0} \mid \: <\delta \implies \mid f(x) - l \mid < \varepsilon
 			\)
 		\end{block}
-		
+		\begin{exampleblock}{Esempio}
+			\[
+				\lim_{x \to 3}{x^2} = 9; \quad \lim_{x \to +\infty}{\frac{1}{x}} = 0
+			\]
+		\end{exampleblock}
 	\end{frame}
 	
 	\subsection{La risoluzione per approssimazione}
@@ -55,7 +59,6 @@
 				
 				\vspace{5mm}
 				\onslide<2-7>{Cerchiamo \(\lim_{x \to 0^{+}}{f(x)}\)}
-				
 				\onslide<8->{Cerchiamo \(\lim_{x \to 0^{+}}{f(x)} = 0\)}
 				
 				\vspace{5mm}
@@ -94,6 +97,11 @@
 			\end{aligned}
 			\]
 		\end{block}
+	\end{frame}
+
+	\subsection{La notazione polacca}
+	\begin{frame}
+		\frametitle{La notazione polacca}
 	\end{frame}
 	
 	\section{TCAS}
