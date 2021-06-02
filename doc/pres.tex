@@ -1,0 +1,72 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\title{T.C.A.S.}
+\author[Roberto Bertolini]{Roberto Alessandro Bertolini}
+\institute[Liceo Nervi Ferrari]{Liceo "P. Nervi - G. Ferrari" - Morbegno}
+\date{Giugno 2021}
+\subtitle{Un risolutore di limiti efficiente e compatto}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\begin{document}
+	
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Indice}
+		\tableofcontents
+	\end{frame}
+	
+	\section{Introduzione}
+	
+	\subsection{La definizione di limite}
+	\begin{frame}
+		\frametitle{La definizione di limite}
+		\begin{block}{Definizione di limite di una funzione}
+			\[ 
+			\lim_{x \to x_{0}}{f(x) = l} 
+			\]
+			
+			Se \( 
+			\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \: \mid x - x_{0} \mid \: <\delta \implies \mid f(x) - l \mid < \varepsilon
+			\)
+		\end{block}
+		
+	\end{frame}
+	
+	\subsection{La risoluzione per approssimazione}
+	\begin{frame}
+		\frametitle{La risoluzione per approssimazione}
+	\end{frame}
+	
+	\subsection{L'approccio matematico}
+	\begin{frame}
+		\frametitle{L'approccio matematico}
+		\begin{block}{La regola di De L'Hôpital}
+			\[
+			\begin{aligned}
+				\text{Se} &\lim_{x \to x_{0}}{f(x)} = \lim_{x \to x_{0}}{g(x)} = 0 \\ \text{oppure} &\lim_{x \to x_{0}}{\lvert f(x) \rvert} = \lim_{x \to x_{0}}{\lvert g(x) \rvert} = \infty \\ \text{ed esiste} &\lim_{x \to x_{0}}{\frac{f'(x)}{g'(x)}} = l \in \mathbf{R} \\ \text{allora} &\lim_{x \to x_{0}}{\frac{f(x)}{g(x)}} = l
+			\end{aligned}
+			\]
+		\end{block}
+	\end{frame}
+	
+	\section{TCAS}
+	
+	\subsection{Il parsing dell'espressione}
+	\begin{frame}
+		\frametitle{Il parsing dell'espressione}
+	\end{frame}
+	
+	
+	
+\end{document}
