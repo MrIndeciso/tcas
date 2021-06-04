@@ -1,10 +1,11 @@
-\documentclass{beamer}
+\documentclass[aspectratio=149]{beamer}
 
 \usepackage[utf8]{inputenc}
 \usepackage{setspace}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{xcolor}
 
 \title{T.C.A.S.}
 \author[Roberto Bertolini]{Roberto Alessandro Bertolini}
@@ -15,6 +16,8 @@
 \usetheme{Warsaw}
 \usecolortheme{default}
 %&\usefonttheme{serif}
+
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
 \begin{document}
 	
@@ -41,7 +44,7 @@
 			\forall \varepsilon > 0 \enspace \exists \enspace \delta(\varepsilon) \mid \forall x \in D_{f}, 0 < \: \mid x - x_{0} \mid \: <\delta \implies \mid f(x) - l \mid < \varepsilon
 			\)
 		\end{block}
-		\begin{exampleblock}{Esempio}
+		\onslide<2>\begin{exampleblock}{Esempio}
 			\[
 				\lim_{x \to 3}{x^2} = 9; \quad \lim_{x \to +\infty}{\frac{1}{x}} = 0
 			\]
@@ -55,11 +58,11 @@
 			\begin{column}{0.5\textwidth}
 				Consideriamo \(
 					f(x) = \frac{1}{x^{\ln{\ln{\ln{\ln{\frac{1}{x}}}}}-1}}
-				\)
+				\)\\
 				
 				\vspace{5mm}
 				\onslide<2-7>{Cerchiamo \(\lim_{x \to 0^{+}}{f(x)}\)}
-				\onslide<8->{Cerchiamo \(\lim_{x \to 0^{+}}{f(x)} = 0\)}
+				\onslide<8->{\\Cerchiamo \(\lim_{x \to 0^{+}}{f(x)} = 0\)}
 				
 				\vspace{5mm}
 				\onslide<8->{
@@ -99,9 +102,40 @@
 		\end{block}
 	\end{frame}
 
+	\begin{frame}
+		\frametitle{I problemi dell'approccio matematico}
+		\begin{block}{La regola di De L'Hôpital}
+			\[
+			\lim_{x \to x_{0}}{\frac{f(x)}{g(x)}} = \lim_{x \to x_{0}}{\frac{f'(x)}{g'(x)}}
+			\]
+		\end{block}
+		\begin{alertblock}{Esempio}
+			\[
+			f(x) = e^{x} + e^{-x}
+			\] 
+			\[
+			g(x) = e^{x} - e^{-x}
+			\]	
+			\[
+			\lim_{x \to \infty}{\frac{f''(x)}{g''(x)}} = \lim_{x \to \infty}{\frac{e^{x} + e^{-x}}{e^{x} - e^{-x}}} = \lim_{x \to \infty}{\frac{f(x)}{g(x)}}; \quad \lim_{x \to \infty}{\frac{f'(x)}{g'(x)}} = \lim_{x \to \infty}{\frac{e^{x} - e^{-x}}{e^{x} + e^{-x}}}
+			\]
+		\end{alertblock}
+	\end{frame}
+
 	\subsection{La notazione polacca}
 	\begin{frame}
 		\frametitle{La notazione polacca}
+		\begin{block}{Notazione Polacca}
+			È una notazione prefissa in cui gli operatori sono a sinistra degli argomenti. Non richiede parentesi perché non presenta ambiguità nell'interpretazione, se degli operatori è nota l'arietà.
+		\end{block}
+		\onslide<2->\begin{exampleblock}{Esempio}
+			\onslide<2->{\[
+				3 \times (4 - 5) \rightarrow \times \: 3 - 4 \: 5
+			\]}
+			\onslide<3->{\[
+				\lim_{\textcolor{red}{x} \to \textcolor{blue}{0}}{\frac{\textcolor{orange}{e^{x} - 1}}{x}} \rightarrow \text{lim} \: / \textcolor{orange}{- \text{exp} \: x \: 1} \: x \: \textcolor{red}{x} \: \textcolor{blue}{0}
+			\]}
+		\end{exampleblock}
 	\end{frame}
 	
 	\section{TCAS}
@@ -109,8 +143,116 @@
 	\subsection{Il parsing dell'espressione}
 	\begin{frame}
 		\frametitle{Il parsing dell'espressione}
+		\only<1>{\[
+			\lim_{x \to 0}{\frac{\sin{x}}{x}}
+		\]}
+		\visible<2-3>{
+			\begin{center}
+				lim \slash \: sin x x x 0
+			\end{center}
+		}
+		\onslide<3->{
+			\begin{center}$\downarrow$\end{center}
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{pres_img/token.png}
+			\end{figure}
+		}
 	\end{frame}
 	
+	\begin{frame}
+		\begin{figure}
+			\includegraphics[width=0.8\textwidth]{pres_img/token.png}
+		\end{figure}
+		\onslide<2>{
+			\begin{center}$\downarrow$\end{center}
+			\begin{figure}
+				\includegraphics[width=0.3\textwidth]{pres_img/start.png}
+				\caption{\(\lim_{x \to 0}{\frac{\sin{x}}{x}}\)}
+			\end{figure}
+		}
+	\end{frame}
+
+	\subsection{Riformulazione del limite}
 	
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/start.png}
+					\caption{\(\lim_{x \to 0}{\frac{\sin{x}}{x}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/riformulato.png}
+					\caption{\(\lim_{x \to +\infty}{\frac{\sin{\frac{1}{x}}}{\frac{1}{x}}}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Prima semplificazione}
+	
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/riformulato.png}
+					\caption{\(\lim_{x \to +\infty}{\frac{\sin{\frac{1}{x}}}{\frac{1}{x}}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/prima_semplif.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{\frac{1}{x}} \cdot x}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Determinazione dell'MRV}
+	
+	\begin{frame}
+		\frametitle{Definizioni}
+		\begin{block}{Sottoespressione di una funzione}
+			\[
+			\begin{aligned}
+				g(x) \triangleleft f(x)&\text{, se} \: g(x) \: \text{è una sottoespressione di} \: f(x) \\
+				g(x) \ntriangleleft f(x)&\text{, se} \: g(x) \: \text{non è una sottoespressione di} \: f(x)
+			\end{aligned}
+			\]
+		\end{block}
+		\begin{block}{Classe di Comparabilità}
+			\[
+			\begin{aligned}
+				f(x) \prec g(x) \: \text{se e solo se} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
+				f(x) \asymp g(x) \: \text{se e solo se} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
+			\end{aligned} \tag{2} \label{defn:comparability}
+			\] 
+		\end{block}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Definizione di MRV}
+		\begin{block}{MRV}
+			È l'insieme di sottoespressioni della funzione con la più alta classe di comparabilità.
+			\[
+			mrv(f(x)) = \begin{cases}
+				\{\} \quad \text{if} \enspace x \ntriangleleft f(x) \\
+				\{g(x) \mid g(x) \triangleleft f(x) \wedge (\nexists \enspace h(x) \triangleleft f(x) \mid h(x) \succ g(x)))\}
+			\end{cases}
+			\]
+		\end{block}
+	\end{frame}
 	
 \end{document}
