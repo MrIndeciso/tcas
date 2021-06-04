@@ -13,7 +13,7 @@
 \date{Giugno 2021}
 \subtitle{Un risolutore di limiti compatto ed efficiente}
 
-\usetheme{Warsaw}
+\usetheme{Darmstadt}
 \usecolortheme{default}
 %&\usefonttheme{serif}
 
@@ -223,7 +223,7 @@
 	\subsection{Determinazione dell'MRV}
 	
 	\begin{frame}
-		\frametitle{Definizioni}
+		\frametitle{Definizione di MRV}
 		\begin{block}{Sottoespressione di una funzione}
 			\[
 			\begin{aligned}
@@ -253,6 +253,160 @@
 			\end{cases}
 			\]
 		\end{block}
+	\end{frame}
+
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/prima_semplif.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{\frac{1}{x}} \cdot x}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.2\textwidth]{pres_img/mrv_1.png}
+					\caption{\(x\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Riscrittura del limite}
+	
+	\begin{frame}
+		\frametitle{Incrementare la classe di comparabilità}
+		\begin{block}{Limite di un limite}
+			\[
+			\lim_{x \to +\infty}{f(x)}=+\infty \:, \: \lim_{x \to +\infty}{g(x)}=+\infty \implies \lim_{x \to +\infty}{f(g(x))}=+\infty
+			\]
+		\end{block}
+		\begin{exampleblock}{Esempio}
+			\[
+				\lim_{x \to +\infty}{\sin{\frac{1}{x}} \cdot x} = \lim_{x \to +\infty}{\sin{e^{-x}} \cdot e^{x}}
+			\]
+		\end{exampleblock}
+	\end{frame}
+
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/prima_semplif.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{\frac{1}{x}} \cdot x}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/replaced.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{\frac{1}{e^{x}}} \cdot e^{x}}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Seconda semplificazione}
+	
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/replaced.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{\frac{1}{e^{x}}} \cdot e^{x}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/simplified2.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{e^{-x}} \cdot e^{x}}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Determinazione del nuovo MRV}
+	
+	\begin{frame}
+		\begin{exampleblock}{Sostituzione}
+			Posto \(w = e^{-x}\)
+		\end{exampleblock}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/simplified2.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{e^{-x}} \cdot e^{x}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
+					\caption{\(\lim_{w \to 0}{\sin{w} \cdot \frac{1}{w}}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Terza semplificazione}
+	
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
+					\caption{\(\lim_{w \to 0}{\sin{w} \cdot \frac{1}{w}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/replaced2.png}
+					\caption{\(\lim_{w \to 0}{\frac{\sin{w}}{w}}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Espressione come serie di potenze}
+	
+	\begin{frame}
+		\frametitle{Serie di Maclaurin}
+		\begin{block}{Serie di Maclaurin}
+			\[
+			\sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}}
+			\] 
+		\end{block}
+		\onslide<2>\begin{exampleblock}{Esempio}
+			\[
+				e^{x} = \sum_{n=0}^{\infty} \frac{x^{n}}{n!} = 1 + x + \frac{x^2}{2} + ...
+			\]
+			\[
+				\sin{x} = \sum_{n=0}^{\infty} \frac{(-1)^{n}}{(2n + 1)!} \cdot x^{2n+1} = x - \frac{x^3}{6} + \frac{x^5}{120} + ...
+			\]
+		\end{exampleblock}
 	\end{frame}
 	
 \end{document}
