@@ -11,11 +11,33 @@
 \author[Roberto Bertolini]{Roberto Alessandro Bertolini}
 \institute[Liceo Nervi Ferrari]{Liceo "P. Nervi - G. Ferrari" - Morbegno}
 \date{Giugno 2021}
-\subtitle{Un risolutore di limiti compatto ed efficiente}
+%\subtitle{Un risolutore di limiti compatto ed efficiente}
 
-\usetheme{Darmstadt}
+\usetheme{Berlin}
+\setbeamertemplate{mini frames}{} 
 \usecolortheme{default}
 %&\usefonttheme{serif}
+
+
+\makeatletter
+\setbeamertemplate{headline}{%
+	\begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+	\end{beamercolorbox}
+	\begin{beamercolorbox}{section in head/foot}
+		\vskip2pt\insertsectionnavigationhorizontal{\paperwidth}{}{}\vskip2pt
+	\end{beamercolorbox}%
+	\ifbeamer@theme@subsection%
+	%\begin{beamercolorbox}[colsep=1.5pt]{middle separation line head}
+	%\end{beamercolorbox}
+	%\begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+	%	leftskip=.3cm,rightskip=.3cm plus1fil]{subsection in head/foot}
+	%	\usebeamerfont{subsection in head/foot}\insertsubsectionhead
+	%\end{beamercolorbox}%
+	\fi%
+	\begin{beamercolorbox}[colsep=1.5pt]{lower separation line head}
+	\end{beamercolorbox}
+}
+\makeatother
 
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
@@ -25,10 +47,10 @@
 		\titlepage
 	\end{frame}
 	
-	\begin{frame}
-		\frametitle{Indice}
-		\tableofcontents
-	\end{frame}
+	%\begin{frame}
+	%	\frametitle{Indice}
+	%	\tableofcontents
+	%\end{frame}
 	
 	\section{Introduzione}
 	
@@ -407,6 +429,67 @@
 				\sin{x} = \sum_{n=0}^{\infty} \frac{(-1)^{n}}{(2n + 1)!} \cdot x^{2n+1} = x - \frac{x^3}{6} + \frac{x^5}{120} + ...
 			\]
 		\end{exampleblock}
+	\end{frame}
+
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
+					\caption{\(\lim_{w \to 0}{\sin{w} \cdot \frac{1}{w}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.4\textwidth]{pres_img/series.png}
+					\caption{\(\textcolor{green}{1} \cdot w^{\textcolor{red}{0}}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Determinare il risultato}
+	
+	\begin{frame}
+		\frametitle{Determinare il risultato}
+		\begin{block}{Analisi della serie}
+			Dato il primo termine della serie nella forma \(A(x)w^b\):
+			\[
+			\lim_{x \to 0}{w(x)} = \begin{cases}
+				0 &\text{if} \: b > 0 \\
+				+\infty &\text{if} \: b < 0\\
+				\lim_{x \to 0}{A(x)} &\text{if} \: b = 0
+			\end{cases}
+			\]
+		\end{block}
+	\end{frame}
+
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.4\textwidth]{pres_img/series.png}
+					\caption{\(\textcolor{green}{1} \cdot w^{\textcolor{red}{0}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{center}
+					\[
+						\lim_{x \to 0}{\frac{\sin{x}}{x}} = \lim_{x \to +\infty}{1} = 1
+					\]
+				\end{center}
+			\end{column}
+		\end{columns}
 	\end{frame}
 	
 \end{document}
