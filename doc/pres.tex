@@ -11,7 +11,7 @@
 \author[Roberto Bertolini]{Roberto Alessandro Bertolini}
 \institute[Liceo Nervi Ferrari]{Liceo "P. Nervi - G. Ferrari" - Morbegno}
 \date{Giugno 2021}
-%\subtitle{Un risolutore di limiti compatto ed efficiente}
+\subtitle{TCAS Can Always Solve}
 
 \usetheme{Berlin}
 \setbeamertemplate{mini frames}{} 
@@ -131,7 +131,7 @@
 			\lim_{x \to x_{0}}{\frac{f(x)}{g(x)}} = \lim_{x \to x_{0}}{\frac{f'(x)}{g'(x)}}
 			\]
 		\end{block}
-		\begin{alertblock}{Esempio}
+		\onslide<2>\begin{alertblock}{Esempio}
 			\[
 			f(x) = e^{x} + e^{-x}
 			\] 
@@ -259,7 +259,7 @@
 			\begin{aligned}
 				f(x) \prec g(x) \: \text{se e solo se} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} = 0 \\ 
 				f(x) \asymp g(x) \: \text{se e solo se} \enspace &\lim_{x \to \infty}{\frac{\ln{\mid f(x)\mid}}{\ln{\mid g(x)\mid}}} \neq 0 \in \mathbf{R}
-			\end{aligned} \tag{2} \label{defn:comparability}
+			\end{aligned}
 			\] 
 		\end{block}
 	\end{frame}
@@ -382,7 +382,7 @@
 			\onslide<2>\begin{column}{0.45\textwidth}
 				\begin{figure}
 					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
-					\caption{\(\lim_{w \to 0}{\sin{w} \cdot \frac{1}{w}}\)}
+					\caption{\(\lim_{x \to +\infty}{\sin{w} \cdot \frac{1}{w}}\)}
 				\end{figure}
 			\end{column}
 		\end{columns}
@@ -395,7 +395,7 @@
 			\begin{column}{0.45\textwidth}
 				\begin{figure}
 					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
-					\caption{\(\lim_{w \to 0}{\sin{w} \cdot \frac{1}{w}}\)}
+					\caption{\(\lim_{x \to +\infty}{\sin{w} \cdot \frac{1}{w}}\)}
 				\end{figure}
 			\end{column}
 			\begin{column}{0.1\textwidth}
@@ -406,7 +406,7 @@
 			\onslide<2>\begin{column}{0.45\textwidth}
 				\begin{figure}
 					\includegraphics[width=0.8\textwidth]{pres_img/replaced2.png}
-					\caption{\(\lim_{w \to 0}{\frac{\sin{w}}{w}}\)}
+					\caption{\(\lim_{x \to +\infty}{\frac{\sin{w}}{w}}\)}
 				\end{figure}
 			\end{column}
 		\end{columns}
@@ -436,7 +436,7 @@
 			\begin{column}{0.45\textwidth}
 				\begin{figure}
 					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
-					\caption{\(\lim_{w \to 0}{\sin{w} \cdot \frac{1}{w}}\)}
+					\caption{\(\lim_{x \to +\infty}{\sin{w} \cdot \frac{1}{w}}\)}
 				\end{figure}
 			\end{column}
 			\begin{column}{0.1\textwidth}
@@ -488,6 +488,44 @@
 						\lim_{x \to 0}{\frac{\sin{x}}{x}} = \lim_{x \to +\infty}{1} = 1
 					\]
 				\end{center}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	\subsection{Pattern semplificabili}
+	\begin{frame}
+		\frametitle{Pattern semplificabili}
+		\begin{itemize}
+			\pause \item \(e^{\ln{a}} \rightarrow a, \ln{e^{a}} \rightarrow a\)
+			\pause \item \(\frac{a}{\frac{b}{c}} \rightarrow \frac{a \cdot c}{b}\)
+			\pause \item \(a \cdot 1 \rightarrow a, \frac{a}{1} \rightarrow a, a + 0 \rightarrow a\)
+			\pause \item \(\frac{1}{e^{x}} \rightarrow e^{-a}\)
+			\pause \item \(\frac{1}{e^{a - b}} \rightarrow e^{b - a}\)
+		\end{itemize}
+	\end{frame}
+	
+	\subsection{L'origine del nome}
+	\begin{frame}
+		\frametitle{Il significato di TCAS}
+		\begin{figure}
+			\includegraphics[width=1.0\textwidth]{pres_img/tcas.png}
+		\end{figure}
+	\end{frame}
+
+	\subsection{Conclusioni}
+	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{itemize}
+					\item 
+				\end{itemize}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{itemize}
+					\item 
+				\end{itemize}
 			\end{column}
 		\end{columns}
 	\end{frame}
