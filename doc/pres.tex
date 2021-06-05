@@ -245,8 +245,8 @@
 	\subsection{Determinazione dell'MRV}
 	
 	\begin{frame}
-		\frametitle{Definizione di MRV}
 		\begin{block}{Sottoespressione di una funzione}
+			Una funzione \(g(x)\) è detta sottoespressione di un'altra \(f(x)\) se deve essere valutata per determinare il valore di \(f(x)\)
 			\[
 			\begin{aligned}
 				g(x) \triangleleft f(x)&\text{, se} \: g(x) \: \text{è una sottoespressione di} \: f(x) \\
@@ -364,6 +364,28 @@
 	\subsection{Determinazione del nuovo MRV}
 	
 	\begin{frame}
+		\begin{columns}
+			\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.8\textwidth]{pres_img/simplified2.png}
+					\caption{\(\lim_{x \to +\infty}{\sin{e^{-x}} \cdot e^{x}}\)}
+				\end{figure}
+			\end{column}
+			\begin{column}{0.1\textwidth}
+				\begin{center}
+					$\rightarrow$
+				\end{center}
+			\end{column}
+			\onslide<2>\begin{column}{0.45\textwidth}
+				\begin{figure}
+					\includegraphics[width=0.5\textwidth]{pres_img/mrv_2.png}
+					\caption{\(e^{-x}, e^{x}\)}
+				\end{figure}
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}
 		\begin{exampleblock}{Sostituzione}
 			Posto \(w = e^{-x}\)
 		\end{exampleblock}
@@ -418,7 +440,7 @@
 		\frametitle{Serie di Maclaurin}
 		\begin{block}{Serie di Maclaurin}
 			\[
-			\sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}}
+			f(x) = \sum_{n=0}^{\infty}{\frac{f^{(n)}(0)}{n!} x^{n}}
 			\] 
 		\end{block}
 		\onslide<2>\begin{exampleblock}{Esempio}
@@ -435,8 +457,8 @@
 		\begin{columns}
 			\begin{column}{0.45\textwidth}
 				\begin{figure}
-					\includegraphics[width=0.8\textwidth]{pres_img/rewritten.png}
-					\caption{\(\lim_{x \to +\infty}{\sin{w} \cdot \frac{1}{w}}\)}
+					\includegraphics[width=0.8\textwidth]{pres_img/replaced2.png}
+					\caption{\(\lim_{x \to +\infty}{\frac{\sin{w}}{w}}\)}
 				\end{figure}
 			\end{column}
 			\begin{column}{0.1\textwidth}
@@ -460,10 +482,10 @@
 		\begin{block}{Analisi della serie}
 			Dato il primo termine della serie nella forma \(A(x)w^b\):
 			\[
-			\lim_{x \to 0}{w(x)} = \begin{cases}
+			\lim_{x \to x_{0}}{f(x)} = \begin{cases}
 				0 &\text{if} \: b > 0 \\
 				+\infty &\text{if} \: b < 0\\
-				\lim_{x \to 0}{A(x)} &\text{if} \: b = 0
+				\lim_{x \to +\infty}{A(x)} &\text{if} \: b = 0
 			\end{cases}
 			\]
 		\end{block}
@@ -510,24 +532,6 @@
 		\begin{figure}
 			\includegraphics[width=1.0\textwidth]{pres_img/tcas.png}
 		\end{figure}
-	\end{frame}
-
-	\subsection{Conclusioni}
-	\begin{frame}
-		\begin{columns}
-			\begin{column}{0.45\textwidth}
-				\begin{itemize}
-					\item 
-				\end{itemize}
-			\end{column}
-			\begin{column}{0.1\textwidth}
-			\end{column}
-			\onslide<2>\begin{column}{0.45\textwidth}
-				\begin{itemize}
-					\item 
-				\end{itemize}
-			\end{column}
-		\end{columns}
 	\end{frame}
 	
 \end{document}
