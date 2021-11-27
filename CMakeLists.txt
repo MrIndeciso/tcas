@@ -85,12 +85,16 @@ set (SRCS
     src/math/adv/trig.c
     src/math/adv/power.h
     src/math/adv/power.c
+    src/math/calc/derive.h
+    src/math/calc/derive.c
     src/math/calc/gruntz.h
     src/math/calc/gruntz.c
     src/math/calc/mrv.h
     src/math/calc/mrv.c
     src/math/calc/series.h
     src/math/calc/series.c
+    src/math/calc/taylor.h
+    src/math/calc/taylor.c
     src/math/tools/simplify.h
     src/math/tools/simplify.c
     src/tcas.c
@@ -115,6 +119,10 @@ set (TEST_SRCS
     src/test/hash_test.c
     src/test/util_test.h
     src/test/util_test.c
+    src/test/taylor_test.h
+    src/test/taylor_test.c
+    src/test/derive_test.h
+    src/test/derive_test.c
 )
 
 add_executable(tcas_cli ${SRCS} ${CLI_SRCS})

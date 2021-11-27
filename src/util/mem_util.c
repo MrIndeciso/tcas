@@ -56,6 +56,8 @@ void free_tree_val(struct expr_tree_val *val) {
 }
 
 void free_tree_link(struct expr_tree_link *link) {
+    if (link == NULL) return;
+
     if (link->type == OPERATOR) {
         for (size_t i = 0; i < link->ptr->op->arg_count; i++)
             free_tree_link(link->ptr->op->args[i]);

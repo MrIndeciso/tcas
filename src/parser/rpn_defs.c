@@ -4,6 +4,7 @@
 
 int op_arg_count(enum OPERATOR_TYPE type) {
     switch(type) {
+        case TAYLOR:
         case LIM:
             return 3;
         case PLUS:
@@ -12,6 +13,8 @@ int op_arg_count(enum OPERATOR_TYPE type) {
         case DIVIDE:
         case POWER:
         case LOG:
+        case DERIVE:
+        case MACLAURIN:
             return 2;
         default:
             return 1;
@@ -56,6 +59,12 @@ enum OPERATOR_TYPE op_from_token(char *token) {
         return LN;
     } else if (strcmp(token, "lim") == 0) {
         return LIM;
+    } else if (strcmp(token, "taylor") == 0) {
+        return TAYLOR;
+    } else if (strcmp(token, "maclaurin") == 0) {
+        return MACLAURIN;
+    } else if (strcmp(token, "derive") == 0) {
+        return DERIVE;
     } else if (strcmp(token, "exp") == 0) {
         return EXP;
     } else {
@@ -64,5 +73,7 @@ enum OPERATOR_TYPE op_from_token(char *token) {
 }
 
 char *op_value_from_type[] = {
-    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "arcsin", "arccos", "arctan", "^", "root", "log10", "log2", "log", "ln", "lim", "exp", "unknown"
+    "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "arcsin", "arccos",
+    "arctan", "^", "root", "log10", "log2", "log", "ln", "lim", "derive",
+    "taylor", "maclaurin", "exp", "unknown"
 };

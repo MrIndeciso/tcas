@@ -30,6 +30,9 @@ enum OPERATOR_TYPE {
     LOG,
     LN,
     LIM,
+    DERIVE,
+    TAYLOR,
+    MACLAURIN,
     EXP,
     UNKNOWN
 };
