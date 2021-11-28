@@ -57,6 +57,20 @@ struct expr_tree_link *_derive_op(struct expr_tree_link *link) {
             struct expr_tree_link *dsecond = derive(second);
             return parse_varargs("+ * a b * c d", 4, first, dsecond, dfirst, second);
         }
+        case DIVIDE:
+        {
+            struct expr_tree_link *first = link->ptr->op->args[0];
+            struct expr_tree_link *second = link->ptr->op->args[1];
+            struct expr_tree_link *dfirst = derive(first);
+            struct expr_tree_link *dsecond = derive(second);
+            return parse_varargs("/ - * a b * c d ^ b 2", 4, dfirst, second, first, dsecond);
+        }
+        case SQRT:
+        {
+            struct expr_tree_link *first = link->ptr->op->args[0];
+            struct expr_tree_link *dfirst = derive(first);
+            return parse_varargs("/ * -1 a * 2 sqrt b", 2, dfirst, first);
+        }
         default:
             return link;
     }

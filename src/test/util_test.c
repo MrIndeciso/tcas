@@ -27,6 +27,7 @@ void test_util_ops() {
     test_simplify_10();
     test_simplify_11();
     test_simplify_12();
+    test_simplify_13();
 
     test_sym_replace_1();
 }
@@ -188,6 +189,17 @@ void test_simplify_11() {
 void test_simplify_12() {
     struct expr_tree_link *exp1 = parse_expr("* sin w / 1 w", NULL);
     struct expr_tree_link *exp2 = parse_expr("/ sin w w", NULL);
+    struct expr_tree_link *simplified = simplify(clone_link(exp1));
+
+    result(compare_links(exp2, simplified) == 0);
+
+    free_tree_link(exp1);
+    free_tree_link(exp2);
+}
+
+void test_simplify_13() {
+    struct expr_tree_link *exp1 = parse_expr("+ * x 1 * 1 x", NULL);
+    struct expr_tree_link *exp2 = parse_expr("+ x x", NULL);
     struct expr_tree_link *simplified = simplify(clone_link(exp1));
 
     result(compare_links(exp2, simplified) == 0);
