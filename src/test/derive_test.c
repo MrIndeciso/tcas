@@ -19,6 +19,10 @@ void test_derive_ops() {
     test_derive_5();
     test_derive_6();
     test_derive_7();
+    test_derive_8();
+    test_derive_9();
+    test_derive_10();
+    test_derive_11();
 }
 
 void test_derive_1() {
@@ -104,6 +108,54 @@ void test_derive_6() {
 void test_derive_7() {
     struct expr_tree_link *test = parse_expr("sqrt x", NULL);
     struct expr_tree_link *result = parse_expr("/ * -1 1 * 2 sqrt x", NULL);
+    struct expr_tree_link *derivative = derive(test);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
+    free_tree_link(derivative);
+}
+
+void test_derive_8() {
+    struct expr_tree_link *test = parse_expr("sin x", NULL);
+    struct expr_tree_link *result = parse_expr("* cos x 1", NULL);
+    struct expr_tree_link *derivative = derive(test);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
+    free_tree_link(derivative);
+}
+
+void test_derive_9() {
+    struct expr_tree_link *test = parse_expr("cos x", NULL);
+    struct expr_tree_link *result = parse_expr("* - 0 sin x 1", NULL);
+    struct expr_tree_link *derivative = derive(test);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
+    free_tree_link(derivative);
+}
+
+void test_derive_10() {
+    struct expr_tree_link *test = parse_expr("exp sin x", NULL);
+    struct expr_tree_link *result = parse_expr("* exp sin x * cos x 1", NULL);
+    struct expr_tree_link *derivative = derive(test);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
+    free_tree_link(derivative);
+}
+
+void test_derive_11() {
+    struct expr_tree_link *test = parse_expr("exp cos sin x", NULL);
+    struct expr_tree_link *result = parse_expr("* exp cos sin x * - 0 sin sin x * cos x 1", NULL);
     struct expr_tree_link *derivative = derive(test);
 
     result(compare_link_hash(result, derivative) == 0);
