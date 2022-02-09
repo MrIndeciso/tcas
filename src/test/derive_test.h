@@ -14,5 +14,8 @@ void test_derive_8();
 void test_derive_9();
 void test_derive_10();
 void test_derive_11();
+void test_derive_12();
+void test_derive_13();
+
 
 #endif

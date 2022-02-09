@@ -67,6 +67,8 @@ enum OPERATOR_TYPE op_from_token(char *token) {
         return DERIVE;
     } else if (strcmp(token, "exp") == 0) {
         return EXP;
+    } else if (strcmp(token, "!") == 0) {
+        return FACTORIAL;
     } else {
         return UNKNOWN;
     }
@@ -75,5 +77,5 @@ enum OPERATOR_TYPE op_from_token(char *token) {
 char *op_value_from_type[] = {
     "+", "-", "*", "/", "sqrt", "sin", "cos", "tan", "arcsin", "arccos",
     "arctan", "^", "root", "log10", "log2", "log", "ln", "lim", "derive",
-    "taylor", "maclaurin", "exp", "unknown"
+    "taylor", "maclaurin", "exp", "!", "unknown"
 };

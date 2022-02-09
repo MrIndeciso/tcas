@@ -7,6 +7,7 @@
 #include "type_util.h"
 #include "tree_util.h"
 #include "parse_util.h"
+#include "simplify.h"
 #include "rpn_defs.h"
 
 
@@ -18,6 +19,16 @@ struct expr_tree_link *derive(struct expr_tree_link *link) {
     } else {
         return _derive_op(link);
     }
+}
+
+struct expr_tree_link *derive_n_times(struct expr_tree_link *link, int count)
+{
+    assert(count >= 0);
+    struct expr_tree_link *ref = link;
+    for (int i = 0; i < count; i++) {
+        ref = simplify(derive(ref));
+    }
+    return ref;
 }
 
 struct expr_tree_link  *_derive_sym(struct expr_tree_link *link) {

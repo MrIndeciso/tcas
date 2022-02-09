@@ -1,13 +1,9 @@
 # Created by and for Qt Creator This file was created for editing the project sources only.
 # You may attempt to use it for building too, by modifying this file here.
-
 cmake_minimum_required(VERSION 3.5)
 project(tcas)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -65,10 +61,14 @@ set (SRCS
     src/util/tree_util.c
     src/util/parse_util.h
     src/util/parse_util.c
+    src/util/taylor_util.c
+    src/util/taylor_util.h
     src/util/hash.h
     src/util/hash.c
     src/math/math.h
     src/math/math.c
+    src/math/math_constants.c
+    src/math/math_constants.h
     src/math/type_util.h
     src/math/type_util.c
     src/math/basic/plus.h
@@ -99,7 +99,7 @@ set (SRCS
     src/math/tools/simplify.c
     src/tcas.c
     src/tcas.h
-)
+        src/math/adv/factorial.c src/math/adv/factorial.h)
 
 set (CLI_SRCS
     src/tcas_cli.c

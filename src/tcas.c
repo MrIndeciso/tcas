@@ -5,10 +5,16 @@
 #include "parser.h"
 #include "translator.h"
 #include "math.h"
+#include "math_constants.h"
 #include "debug_util.h"
 #include "util.h"
 #include "mem_util.h"
 #include "translator_util.h"
+
+void init_tcas()
+{
+    init_constants();
+}
 
 struct expr_tree_val* evaluate_simple_expr(size_t len, char *expr, struct TCAS_SETTINGS settings) {
     size_t count;
@@ -36,4 +42,9 @@ struct expr_tree_val* evaluate_simple_expr(size_t len, char *expr, struct TCAS_S
     free(res);
 
     return val;
+}
+
+void free_tcas()
+{
+    free_constants();
 }

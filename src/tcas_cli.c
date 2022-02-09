@@ -10,6 +10,8 @@ static struct TCAS_SETTINGS settings = (struct TCAS_SETTINGS){.type = MODE_PN};
 
 int main() {
 
+    init_tcas();
+
     //char *test = "lim / * - ln + ln x ln ln x ln ln x ln x ln + ln x ln ln ln x x +infinity";
     //char *test = "lim / * - ln + ln exp x ln ln exp x ln ln exp x ln exp x ln + ln exp x ln ln ln exp x x +infinity";
     //char *test = "lim / * - ln + x ln x ln x x ln + x ln ln x x +infinity";
@@ -23,6 +25,8 @@ int main() {
     print_val(res);
 
     free_tree_val(res);
+
+    free_tcas();
 
     return 0;
 }

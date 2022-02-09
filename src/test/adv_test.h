@@ -12,4 +12,7 @@ void test_log_5();
 void test_pow_1();
 void test_pow_2();
 
+void test_factorial_1();
+void test_factorial_2();
+
 #endif

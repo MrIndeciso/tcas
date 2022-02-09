@@ -9,6 +9,7 @@
 #include "times.h"
 #include "divide.h"
 #include "log.h"
+#include "factorial.h"
 #include "trig.h"
 #include "power.h"
 #include "gruntz.h"
@@ -74,6 +75,9 @@ struct expr_tree_link* math_eval_op(struct expr_tree_link *link) {
             break;
         case EXP:
             result = math_exp(link->ptr->op->args[0]->ptr->val);
+            break;
+        case FACTORIAL:
+            result = math_factorial(link->ptr->op->args[0]->ptr->val);
             break;
         default:
             assert(0);

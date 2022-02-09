@@ -34,6 +34,7 @@ enum OPERATOR_TYPE {
     TAYLOR,
     MACLAURIN,
     EXP,
+    FACTORIAL,
     UNKNOWN
 };
 

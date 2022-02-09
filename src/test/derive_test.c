@@ -23,6 +23,8 @@ void test_derive_ops() {
     test_derive_9();
     test_derive_10();
     test_derive_11();
+    test_derive_12();
+    test_derive_13();
 }
 
 void test_derive_1() {
@@ -157,6 +159,30 @@ void test_derive_11() {
     struct expr_tree_link *test = parse_expr("exp cos sin x", NULL);
     struct expr_tree_link *result = parse_expr("* exp cos sin x * - 0 sin sin x * cos x 1", NULL);
     struct expr_tree_link *derivative = derive(test);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
+    free_tree_link(derivative);
+}
+
+void test_derive_12() {
+    struct expr_tree_link *test = parse_expr("exp x", NULL);
+    struct expr_tree_link *result = parse_expr("exp x", NULL);
+    struct expr_tree_link *derivative = derive_n_times(test, 5);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
+    free_tree_link(derivative);
+}
+
+void test_derive_13() {
+    struct expr_tree_link *test = parse_expr("* x x", NULL);
+    struct expr_tree_link *result = parse_expr("+ 1 1", NULL);
+    struct expr_tree_link *derivative = derive_n_times(test, 2);
 
     result(compare_link_hash(result, derivative) == 0);
 
