@@ -38,15 +38,15 @@ struct expr_tree_link *taylor_factorial(int grade)
 
 int is_coeff_null(struct expr_tree_link *coeff)
 {
-    return is_node_one(coeff);
+    return is_node_zero(coeff);
 }
 
 struct expr_tree_link *raise_to_power(struct expr_tree_link *arg, int power)
 {
     // TODO fix this
     assert(power < 10);
-    char input[] = "** a 1";
-    input[7] = power + '0';
+    char input[] = "** a 0";
+    input[6] = power + '0';
     struct expr_tree_link *result = parse_expr(input, arg);
     return result;
 }

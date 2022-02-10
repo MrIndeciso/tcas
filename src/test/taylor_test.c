@@ -17,9 +17,9 @@ void test_taylor_ops()
 
 void test_taylor_1()
 {
-    struct expr_tree_link *input = parse_expr("sin x", NULL);
+    struct expr_tree_link *input = parse_expr("exp x", NULL);
     struct taylor_expr *result = compute_maclaurin_series(input);
-    struct expr_tree_link *expected = parse_expr("x", NULL);
+    struct expr_tree_link *expected = parse_expr("1", NULL);
 
     result(compare_link_hash(result->members[0], expected) == 0);
 

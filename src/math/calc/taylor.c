@@ -69,7 +69,7 @@ struct taylor_expr *expand_series(struct taylor_expr *series)
 
 #ifdef TAYLOR_DEBUG
     fake_head.head = n_derivative;
-    export_expr_tree_to_xml("expand_series_n_derv_eval.xml", &fake_head);
+    export_expr_tree_to_xml("expand_series_n_deriv_eval.xml", &fake_head);
 #endif
 
     struct expr_tree_link *numerator = math_eval_op(clone_link(n_derivative));
