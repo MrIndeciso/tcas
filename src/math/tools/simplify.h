@@ -12,6 +12,8 @@ struct expr_tree_link *analyze_division(struct expr_tree_link *link);
 
 struct expr_tree_link *analyze_times(struct expr_tree_link *link);
 
+struct expr_tree_link *analyze_power(struct expr_tree_link *link);
+
 struct expr_tree_link *truncate_useless(struct expr_tree_link *link);
 
 #endif

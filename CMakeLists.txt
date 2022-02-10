@@ -63,6 +63,8 @@ set (SRCS
     src/util/parse_util.c
     src/util/taylor_util.c
     src/util/taylor_util.h
+    src/util/val_util.c
+    src/util/val_util.h
     src/util/hash.h
     src/util/hash.c
     src/math/math.h
@@ -85,6 +87,8 @@ set (SRCS
     src/math/adv/trig.c
     src/math/adv/power.h
     src/math/adv/power.c
+    src/math/adv/factorial.c
+    src/math/adv/factorial.h
     src/math/calc/derive.h
     src/math/calc/derive.c
     src/math/calc/gruntz.h
@@ -99,7 +103,7 @@ set (SRCS
     src/math/tools/simplify.c
     src/tcas.c
     src/tcas.h
-        src/math/adv/factorial.c src/math/adv/factorial.h)
+    )
 
 set (CLI_SRCS
     src/tcas_cli.c

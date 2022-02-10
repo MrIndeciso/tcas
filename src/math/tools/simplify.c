@@ -8,6 +8,8 @@
 #include "simplify.h"
 #include "tree_util.h"
 #include "mem_util.h"
+#include "math_constants.h"
+#include "val_util.h"
 
 //Patterns we try to optimize for:
 //1) ln - exp / exp - ln
@@ -18,6 +20,8 @@
 //6) 1 / exp
 //7) 1 / exp (a - b) -> (b - a)
 //8) times a 1 / b
+//9) pow x 1
+//10) pow x 0
 
 struct expr_tree_link *simplify(struct expr_tree_link *link) {
     return truncate_useless(_simplify(_simplify(link)));
@@ -40,6 +44,9 @@ struct expr_tree_link *_simplify(struct expr_tree_link *link) {
             break;
         case TIMES:
             return analyze_times(link);
+            break;
+        case POWER:
+            return analyze_power(link);
             break;
         default:
             return link;
@@ -121,6 +128,17 @@ struct expr_tree_link *analyze_division(struct expr_tree_link *link) {
         } else { //Anything else
             return parse_double_expr("* a exp - 0 b", link->ptr->op->args[0], link->ptr->op->args[1]->ptr->op->args[0]);
         }
+    } else {
+        return link;
+    }
+}
+
+struct expr_tree_link *analyze_power(struct expr_tree_link *link)
+{
+    if (is_node_zero(link->ptr->op->args[1])) {
+        return parse_expr("1", NULL);
+    } else if (is_node_one(link->ptr->op->args[1])) {
+        return link->ptr->op->args[0];
     } else {
         return link;
     }

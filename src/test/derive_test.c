@@ -25,6 +25,7 @@ void test_derive_ops() {
     test_derive_11();
     test_derive_12();
     test_derive_13();
+    test_derive_14();
 }
 
 void test_derive_1() {
@@ -189,4 +190,15 @@ void test_derive_13() {
     free_tree_link(test);
     free_tree_link(result);
     free_tree_link(derivative);
+}
+
+void test_derive_14() {
+    struct expr_tree_link *test = parse_expr("sin x", NULL);
+    struct expr_tree_link *result = parse_expr("sin x", NULL);
+    struct expr_tree_link *derivative = derive_n_times(test, 0);
+
+    result(compare_link_hash(result, derivative) == 0);
+
+    free_tree_link(test);
+    free_tree_link(result);
 }

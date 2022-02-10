@@ -24,7 +24,7 @@ struct expr_tree_link *derive(struct expr_tree_link *link) {
 struct expr_tree_link *derive_n_times(struct expr_tree_link *link, int count)
 {
     assert(count >= 0);
-    struct expr_tree_link *ref = link;
+    struct expr_tree_link *ref = clone_link(link);
     for (int i = 0; i < count; i++) {
         ref = simplify(derive(ref));
     }
