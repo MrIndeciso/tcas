@@ -4,5 +4,6 @@
 void test_taylor_ops();
 
 void test_taylor_1();
+void test_taylor_2();
 
 #endif

@@ -39,7 +39,7 @@ struct taylor_expr *compute_maclaurin_series(struct expr_tree_link *link)
     series->is_maclaurin = 1;
     series->count = 0;
     series->members = malloc(sizeof(struct expr_tree_link*));
-    series->center = zero;
+    series->center = clone_tree_val(zero);
     series->orig = link;
 
     return expand_series(series);
@@ -79,10 +79,9 @@ struct taylor_expr *expand_series(struct taylor_expr *series)
     export_expr_tree_to_xml("expand_series_numerator.xml", &fake_head);
 #endif
 
-    series->grade++;
+    series->grade = n_grade;
 
     if (is_coeff_null(numerator)) {
-        printf("Null coeff");
         return expand_series(series);
     } else {
         struct expr_tree_link *denominator = taylor_factorial(n_grade);
@@ -97,7 +96,7 @@ struct taylor_expr *expand_series(struct taylor_expr *series)
 #endif
 
         if (series->is_maclaurin) {
-            struct expr_tree_link *power = raise_to_power(sym_x, n_grade);
+            struct expr_tree_link *power = raise_to_power(clone_link(sym_x), n_grade);
             struct expr_tree_link *term = parse_double_expr("* a b", coeff, power);
             series->members[series->count] = term;
         } else {
